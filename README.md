@@ -14,21 +14,21 @@ No fair is complete without a theme right? With all of us shut away in our homes
 Mayuko will host weekly work sessions between **May 1, 2020** and **May 29, 2020** on [Twitch](https://twitch.tv/hellomayuko) where we'll work on projects, and get help via [Discord](https://discordapp.com/invite/bpHFFWx) from one another.
 
 ## Entry Submission
-You have until **May 29th** to submit your projects.
+You have until **Friday May 29th** to submit your projects.
 
 ### To submit a project
 1. [Fork this repo](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
 2. Add a directory under the `projects/` directory named after your git user.
 ```
--> projects/
-  -> ScottKwang/
-    -> ...
-    -> project files here
-    -> ...
-  -> helloMayuko/
-    -> ...
--> LICENSE
--> README.md
+projects/
+  ScottKwang/
+    ...
+    project files here
+    ...
+  helloMayuko/
+    ...
+LICENSE
+README.md
 ```
 3. [Create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
 
