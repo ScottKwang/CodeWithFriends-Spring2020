@@ -1,5 +1,5 @@
 # Make Ur Kreations Online (M.U.K.O.) - May 2020
-Welcome to **MUKO May 2020**! This quarantine period is a great time to learn something new or to tackle that project that has been on your mind forever. So lets take advantage of all of this new found time and make something out of it!
+Welcome to **MUKO May 2020**! Whether you're home from school or working from home, we all have a lot more free time on our hands in this time of social distancing. This is a great chance to learn something new, or to tackle that project that has been on your mind forever. Let's take advantage of all of this new found time and make some cool stuff!
 
 ## Theme
 No maker fair is complete without a theme right? With all of us locked away in our homes, what better theme than **Quarantine Improvement**? Build something, anything, whether that be software, hardware or learning to make toilet paper, build something that will improve your quarantine life.
