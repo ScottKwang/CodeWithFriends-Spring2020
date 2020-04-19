@@ -32,9 +32,6 @@ README.md
 ```
 3. [Create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
 
-### So what do I do if my project isn't code?!?!?
-That's a great question. Document what you're doing via git! Add some markdown files to log your progress, or upload pictures/videos that give us an idea of what you're building and how it's going!
-
 ## Examples
 - Deej hates it when a song he doesn't to listen to starts to play while he's in the shower. He decides to make a waterproof bluetooth **next** button that he can hang from his shower head.
 - Scott wants to track his ongoing projects but doesn't want to buy a subscription to use Asana or JIRA. He decides to build a task tracker!
