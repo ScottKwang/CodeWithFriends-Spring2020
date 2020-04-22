@@ -1,0 +1,34 @@
+---
+---
+
+$headingColour: #000000;
+$bodyColour: #000000;
+$linkColour: #db816c !default;
+$hoverColour: #9e5c4d !default;
+$focusColour: #e7b65a !default;
+
+// Typography
+$bodytype: (
+  font-family: "Lato, sans-serif",
+  regular: 300,
+  bold: 700,
+  italic: italic,
+  cap-height: 0.75,
+);
+
+$headingtype: (
+  font-family: '"Dosis", serif',
+  regular: 400,
+  bold: 700,
+  cap-height: 0.75,
+);
+
+$monospacetype: (
+  font-family: "Menlo, monospace",
+  regular: 400,
+  cap-height: 0.68,
+);
+
+@import url("https://fonts.googleapis.com/css?family=Dosis:400,700");
+@import url("https://fonts.googleapis.com/css?family=Lato:300,700");
+@import "alembic";
