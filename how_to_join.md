@@ -4,12 +4,13 @@ excerpt: "How to Enter Code With Friends"
 permalink: /how_to_join/
 ---
 
-Fill out [this form](https://geni.us/CWF_Spring2020_Signup) to sign up for the event.
+Fill out [this form](https://geni.us/CWF_Spring2020_Signup) to sign up for the event. You may sign up at any time before the end of May.
+
 You have until **Friday May 29th** to submit your projects.
 
 ### Examples
 
-Here are some examples of projects that you could work on during the event!
+Here are some examples of projects that you could work on:
 
 - Deej hates it when a song he doesn't to listen to starts to play while he's in the shower. He decides to make a waterproof bluetooth **next** button that he can hang from his shower head.
 - Scott wants to track his ongoing projects but doesn't want to buy a subscription to use Asana or JIRA. He decides to build a task tracker!

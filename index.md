@@ -22,15 +22,15 @@ With all of us shut away in our homes, what better theme than **Quarantine Impro
 
 ## Dates
 
-##### Friday, May 1, 2PM PST
+##### Friday, May 1, [2PM PST](https://www.thetimezoneconverter.com/?t=2PM&tz=San%20Francisco&)
 
 Kickoff Livestream with Mayuko and Scott on [Twitch](https://twitch.tv/hellomayuko) and [Youtube](https://youtube.com/hellomayuko)
 
-##### Every Friday and Sunday, 1-4PM PST
+##### Every Friday and Sunday, [1-4PM PST](https://www.thetimezoneconverter.com/?t=1PM&tz=San%20Francisco&)
 
 Biweekly Coworking Sessions, hosted by Mayuko on [Twitch](https://twitch.tv/hellomayuko)
 
-##### Friday, May 29, 11:59PM PST
+##### Friday, May 29, [11:59PM PST](https://www.thetimezoneconverter.com/?t=11%3A59pm&tz=San%20Francisco&)
 
 Submit projects to this repo (instructions [here](###To-submit-a-project))
 
@@ -38,6 +38,6 @@ Submit projects to this repo (instructions [here](###To-submit-a-project))
 
 Award voting: TBD
 
-##### Monday, June 1, 2PM PST
+##### Monday, June 1, [2PM PST](https://www.thetimezoneconverter.com/?t=2PM&tz=San%20Francisco&)
 
 Award Presentation Livestream on [Twitch](https://twitch.tv/hellomayuko) and [Youtube](https://youtube.com/hellomayuko)
