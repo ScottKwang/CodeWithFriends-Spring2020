@@ -17,7 +17,7 @@ Here are some examples of projects that you could work on:
 
 ### To submit a project
 
-1. [Fork this repo](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
+1. [Fork this repo](https://github.com/ScottKwang/CodeWithFriends-Spring2020) - [How the fork?](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
 2. Add a directory under the `projects/` directory named after your git user.
 
 ```
