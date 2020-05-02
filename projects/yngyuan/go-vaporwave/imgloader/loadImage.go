@@ -3,18 +3,11 @@ package imgloader
 import (
 	"fmt"
 	"image"
-	"image/jpeg"
 	_ "image/jpeg"
 	"os"
 )
 
-type Imgloader interface {
-
-}
-
-const address = "projects/yngyuan/go-vaporwave/images/"
-
-func loadImage(filename string) error {
+func LoadImage(filename string) (img image.Image, err error) {
 	f, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -27,22 +20,5 @@ func loadImage(filename string) error {
 	}
 	fmt.Printf("input format: %s", fmtName)
 
-	// Somewhere in the same package
-	output, err := os.Create("projects/yngyuan/go-vaporwave/images/outimage.jpg")
-	if err != nil {
-		panic(err)
-	}
-	defer output.Close()
-
-	// Specify the quality, between 0-100
-	// Higher is better
-	opt := jpeg.Options{
-		Quality: 90,
-	}
-	err = jpeg.Encode(output, img, &opt)
-	if err != nil {
-		panic(err)
-	}
-
-	return nil
+	return img, nil
 }
