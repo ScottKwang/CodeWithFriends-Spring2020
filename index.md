@@ -28,7 +28,7 @@ Biweekly Coworking Sessions, hosted by Mayuko on [Twitch](https://twitch.tv/hell
 
 ##### Friday, May 29, [11:59PM PST](https://www.thetimezoneconverter.com/?t=11%3A59pm&tz=San%20Francisco&)
 
-Submit projects to this repo (instructions [here](###To-submit-a-project))
+Submit projects to this repo (instructions [here](https://scottkwang.github.io/CodeWithFriends-Spring2020/how_to_join/))
 
 ##### Saturday, May 30 - Sunday, May 31
 
