@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -23,10 +22,3 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-=======
-# Welcome to the Code With Friends, Spring 2020 Github Page!
-
-![Screenshot](https://raw.githubusercontent.com/ScottKwang/CodeWithFriends-Spring2020/master/assets/images/banner_new.png)
-
-Check out our [github page](https://scottkwang.github.io/CodeWithFriends-Spring2020/) to learn more!
->>>>>>> 53dfa4de832b5145cc203e0075784afda7427438
