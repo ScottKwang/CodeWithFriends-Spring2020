@@ -20,11 +20,7 @@ Now let's take advantage of all of this new found time and make some cool stuff!
 
 With all of us shut away in our homes, what better theme than **Quarantine Improvement**? Build something, anything, multiple things that will improve your quarantine life. Maybe you've been spending too much time milling around and need a pomodoro timer to keep you on track, or maybe you need a way to keep track of your online spending due to cabin fever. See examples in [How To Enter](https://scottkwang.github.io/CodeWithFriends-Spring2020/how_to_join/).
 
-## Dates
-
-##### Friday, May 1, [2PM PST](https://www.thetimezoneconverter.com/?t=2PM&tz=San%20Francisco&)
-
-Kickoff Livestream with Mayuko and Scott on [Twitch](https://twitch.tv/hellomayuko) and [Youtube](https://youtube.com/hellomayuko)
+## Upcoming Events
 
 ##### Every Friday and Sunday, [1-4PM PST](https://www.thetimezoneconverter.com/?t=1PM&tz=San%20Francisco&)
 
@@ -40,4 +36,8 @@ Award voting: TBD
 
 ##### Monday, June 1, [2PM PST](https://www.thetimezoneconverter.com/?t=2PM&tz=San%20Francisco&)
 
-Award Presentation Livestream on [Twitch](https://twitch.tv/hellomayuko) and [Youtube](https://youtube.com/hellomayuko)
+Award Presentation Livestream on [Youtube](https://youtube.com/hellomayuko)
+
+## Past Events
+
+[Kickoff Livestream](https://youtu.be/4p40zGs9vTo?t=769) with Mayuko and Scott
