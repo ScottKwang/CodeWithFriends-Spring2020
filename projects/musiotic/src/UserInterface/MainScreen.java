@@ -17,6 +17,10 @@ public class MainScreen extends BorderPane {
         AnchorPane.setRightAnchor(buttons, 30.0);
         var name = new Label("Musiotic");
         name.setPadding(new Insets(10, 10, 10, 10));
+
+        getStylesheets().add("projects/musiotic/assets/MainScreen.css");
+
+
         setTop(name);
         setCenter(center);
     }

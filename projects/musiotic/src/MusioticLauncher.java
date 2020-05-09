@@ -1,7 +1,11 @@
 import UserInterface.MainScreen;
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import jm.music.data.Note;
 import jm.music.data.Part;
 import jm.music.data.Phrase;
@@ -21,7 +25,11 @@ public class MusioticLauncher extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         Scene mainScene = new Scene(new MainScreen(), 1280, 720);
+        mainScene.setCursor(Cursor.DEFAULT);
         stage.setScene(mainScene);
+        //stage.initStyle(StageStyle.DECORATED);
+        //stage.setFullScreen(true);
+
         stage.setTitle("Musiotic");
         stage.show();
     }
