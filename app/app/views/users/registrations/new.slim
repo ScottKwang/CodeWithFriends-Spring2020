@@ -1,0 +1,17 @@
+.container
+  .card.p-3
+    h2= t("signup")
+    = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
+      .form-inputs
+      .form-group
+        = f.label :email
+        = f.text_field :email, required: true, autofocus: true, class:'form-control'
+      .form-group
+        = f.label :password
+        = f.text_field :password, required: true, type: 'password', class:'form-control'
+      .form-group
+        = f.label :password_confirmation
+        = f.text_field :password_confirmation, required: true, type: 'password', class:'form-control'
+      .form-actions
+        = f.submit t('signup'), class: 'btn btn-primary'
+    = render "users/shared/links"
