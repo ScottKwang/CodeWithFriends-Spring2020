@@ -46,6 +46,3 @@ This project was tested on the following configuration:
 ## Reference 
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
 [Masked Face Recognition Dataset and Application](https://arxiv.org/pdf/2003.09093.pdf)
-
-A great tutorial on model training with great explanation that I've found helpful during this project (complete with code and image database of generated facemasks to increase the image pool for the training). To speed up the development of the project I've used the provided script for the training and modified the detection function as needed for my use.
-[COVID-19: Face Mask Detector](https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/)
