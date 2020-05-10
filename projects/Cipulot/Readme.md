@@ -19,7 +19,7 @@ And a condition based motion sensor data gathering:
 
 ## Tech used
 For the facial detection a custom model was built and was tested with different implementations.
-The first tests were based on an haar cascade in OpenCV (you can see the result in the above gifs) but I quickly realized that this implementation was too much resource hungry and slow (you can thes it if you want with this [script](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/OpenCV_only_old.py) and the "old" model). Therefore I've trained another model with Tensorflow, this time with a set of both real and computer generated positive images. This has proven to be effective in reducing the narrowness in detection that a "one type only" approach can introduce. The final implementation uses a combination of OpenCV, imutils and Tensorflow to get the job done.
+The first tests were based on an haar cascade in OpenCV (you can see the result in the above gifs) but I quickly realized that this implementation was too much resource hungry and slow (you can thes it if you want with this [script](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/OpenCV_only_old.py) and the "old" model). Therefore I've trained another model with Tensorflow, this time with a set of both real and computer generated positive images (source is below and a couple of hundreds taken by myself both via Google Images and in my local area). This has proven to be effective in reducing the narrowness in detection that a "one type only" approach can introduce. The final implementation uses a combination of OpenCV, imutils and Tensorflow to get the job done.
 
 The input interface is based on the [Leap Motion](https://www.ultraleap.com/datasheets/Leap_Motion_Controller_Datasheet.pdf) gesture sensor with ad-hoc compiled files in order to make it work with Python3 (since it's only Python2 compatible out of the box).
 
@@ -47,7 +47,5 @@ This project was tested on the following configuration:
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
 [Masked Face Recognition Dataset and Application](https://arxiv.org/pdf/2003.09093.pdf)
 
-A great tutorial on model training with great explanation that I've found helpful during this project (complete with code and image database of generated facemasks to increase the image pool for the training:
+A great tutorial on model training with great explanation that I've found helpful during this project (complete with code and image database of generated facemasks to increase the image pool for the training). To speed up the development of the project I've used the provided script for the training and modified the detection function as needed for my use.
 [COVID-19: Face Mask Detector](https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/)
-
-The images that I've used for the model training are from both the above mentioned sources.
