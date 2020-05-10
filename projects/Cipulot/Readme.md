@@ -19,7 +19,7 @@ And a condition based motion sensor data gathering:
 
 ## Tech used
 For the facial detection a custom model was built and was tested with different implementations.
-The fisrt tests were based on an haar cascade in OpenCV (you can see the result in the above gifs) but I quickly realized that this implementation was too much resource hungry and slow (you can thes it if you want with this [script](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/OpenCV_only_old.py) and the "old" model). Therefore I've trained another model with Tensorflow and this time a set of both real and computer generated positive images was used. This has proven to be effective in reducing the narrowness of the real only/pc generated only approach. The final implementation uses a combination of OpenCV, imutils and Tensorflow to get the job done.
+The first tests were based on an haar cascade in OpenCV (you can see the result in the above gifs) but I quickly realized that this implementation was too much resource hungry and slow (you can thes it if you want with this [script](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/OpenCV_only_old.py) and the "old" model). Therefore I've trained another model with Tensorflow, this time with a set of both real and computer generated positive images. This has proven to be effective in reducing the narrowness in detection that a "one type only" approach can introduce. The final implementation uses a combination of OpenCV, imutils and Tensorflow to get the job done.
 
 The input interface is based on the [Leap Motion](https://www.ultraleap.com/datasheets/Leap_Motion_Controller_Datasheet.pdf) gesture sensor with ad-hoc compiled files in order to make it work with Python3 (since it's only Python2 compatible out of the box).
 
@@ -33,12 +33,12 @@ In order to make the Leap Motion Python library to work with Python3 (64bit for 
 
 ## Specifications
 This project was tested on the following configuration:
-* i7-1065G7
+* i7-1065G7 (stock)
 * 16 GB Ram
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
-* Sometimes the Leap Motion sensor cannot be accessed by the Python interface and a management service restart must be performed to fix it (this applies even if "normal" Leap Motion enabled apps are working just fine). Probabily due to a lack of checks function in the ported library.
+* Sometimes the Leap Motion sensor cannot be accessed by the Python interface and a management service restart must be performed to fix it (this applies even if "normal" Leap Motion enabled apps are working just fine). This might be caused, probabily, by a lack of checks functions in the ported library.
 
 ## Possible fixes and workarounds
 * Leap Motion access: patchable with a function that restarts automatically the service if the connection fails too many times in a row.
