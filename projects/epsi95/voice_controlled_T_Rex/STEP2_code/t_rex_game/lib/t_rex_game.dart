@@ -1,3 +1,4 @@
+import 'package:flame/components/text_component.dart';
 import 'package:flame/game.dart';
 import 'dart:ui';
 import 'package:flame/flame.dart';
@@ -9,6 +10,9 @@ import 'dart:math';
 import 'package:flame/flare_animation.dart';
 import 'components/cloud.dart';
 import 'components/tree.dart';
+import 'package:flame/text_config.dart';
+import 'package:flutter/material.dart';
+import 'package:flame/position.dart';
 
 class TRexGame extends Game with TapDetector {
   Size screenSize;
@@ -27,6 +31,11 @@ class TRexGame extends Game with TapDetector {
   bool jumpDown = false;
   double mulFactor;
   bool tapped = false;
+  TextConfig config;
+  int highScore = 2000;
+  int currentScore = 0;
+  bool isCollisionHappened = false;
+  double relaxation;
 
   TRexGame() {
     bgSprite = Sprite("bg/ground.png");
@@ -35,6 +44,8 @@ class TRexGame extends Game with TapDetector {
 
   void initialize() async {
     resize(await Flame.util.initialDimensions());
+    config = TextConfig(fontSize: tileSize, fontFamily: 'pizzadudedotdk');
+    relaxation = tileSize * 0.6;
     dinoX = tileSize;
     dinoY = screenSize.height - tileSize * 4;
     referenceY = dinoY;
@@ -75,6 +86,14 @@ class TRexGame extends Game with TapDetector {
     }
   }
 
+  void resetGame() {
+    trees.clear();
+    clouds.clear();
+    grasses.clear();
+    currentScore = 0;
+    tRex.updateAnimation("t-rex-run");
+  }
+
   @override
   void resize(Size size) {
     screenSize = size;
@@ -83,109 +102,165 @@ class TRexGame extends Game with TapDetector {
 
   @override
   void update(double t) {
-    gameSpeed += 0.001;
-    // handling grass
-    if (grasses.length > 0) {
-      // step-1: update the grass position
-      grasses.forEach((element) {
-        element.update(t, gameSpeed);
-      });
-      // check if the last grass the more than 1/3 left to the screen width
-      // then spawn new one
-      if (grasses.last.grassRect.right < screenSize.width * (2 / 3)) {
+    // check for collision detection
+    trees.forEach((element) {
+      if ((element.treeRect.left > dinoX + relaxation &&
+              element.treeRect.left < dinoX + 2 * tileSize - relaxation) ||
+          (element.treeRect.right > dinoX + relaxation &&
+              element.treeRect.left < dinoX + 2 * tileSize - relaxation)) {
+        if (dinoY + 2 * tileSize > screenSize.height - 3.5 * tileSize) {
+          //collision happened
+          print("collision happened");
+          isCollisionHappened = true;
+        } else {
+          print("no collision");
+          print(dinoY);
+          print(screenSize.height - 3.5 * tileSize);
+        }
+      }
+    });
+    if (!isCollisionHappened) {
+      currentScore += 1;
+      gameSpeed += 0.001;
+      // handling grass
+      if (grasses.length > 0) {
+        // step-1: update the grass position
+        grasses.forEach((element) {
+          element.update(t, gameSpeed);
+        });
+        // check if the last grass the more than 1/3 left to the screen width
+        // then spawn new one
+        if (grasses.last.grassRect.right < screenSize.width * (2 / 3)) {
+          spawnGrass();
+        }
+        // delete grass if it left the screen
+        grasses.removeWhere((element) {
+          if (element.grassRect.right < 0) {
+            //print("t-rex-game.dart: removing grass, releasing memory");
+            return true;
+          } else {
+            return false;
+          }
+        });
+      } else {
         spawnGrass();
       }
-      // delete grass if it left the screen
-      grasses.removeWhere((element) {
-        if (element.grassRect.right < 0) {
-          //print("t-rex-game.dart: removing grass, releasing memory");
-          return true;
-        } else {
-          return false;
-        }
-      });
-    } else {
-      spawnGrass();
-    }
 
-    // handling cloud
-    if (clouds.length > 0) {
-      // step-1: update the cloud position
-      clouds.forEach((element) {
-        element.update(t);
-      });
-      // check if the last grass the more than 1/3 left to the screen width
-      // then spawn new one
-      if (clouds.last.cloudRect.right < screenSize.width * (2 / 3)) {
+      // handling cloud
+      if (clouds.length > 0) {
+        // step-1: update the cloud position
+        clouds.forEach((element) {
+          element.update(t);
+        });
+        // check if the last grass the more than 1/3 left to the screen width
+        // then spawn new one
+        if (clouds.last.cloudRect.right < screenSize.width * (2 / 3)) {
+          spawnCloud();
+        }
+        // delete cloud if it left the screen
+        clouds.removeWhere((element) {
+          if (element.cloudRect.right < 0) {
+            //print("t-rex-game.dart: removing grass, releasing memory");
+            return true;
+          } else {
+            return false;
+          }
+        });
+      } else {
         spawnCloud();
       }
-      // delete cloud if it left the screen
-      clouds.removeWhere((element) {
-        if (element.cloudRect.right < 0) {
-          //print("t-rex-game.dart: removing grass, releasing memory");
-          return true;
-        } else {
-          return false;
-        }
-      });
-    } else {
-      spawnCloud();
-    }
 
-    // handling trees
-    if (trees.length > 0) {
-      // step-1: update the cloud position
-      trees.forEach((element) {
-        element.update(t, gameSpeed);
-      });
-      // check if the last grass the more than 1/3 left to the screen width
-      // then spawn new one
-      if (trees.last.treeRect.right < screenSize.width * (1 / 2)) {
+      // handling trees
+      if (trees.length > 0) {
+        // step-1: update the cloud position
+        trees.forEach((element) {
+          element.update(t, gameSpeed);
+        });
+        // check if the last grass the more than 1/3 left to the screen width
+        // then spawn new one
+        if (trees.last.treeRect.right < screenSize.width * (1 / 2)) {
+          spawnTree();
+        }
+        // delete cloud if it left the screen
+        trees.removeWhere((element) {
+          if (element.treeRect.right < 0) {
+            //print("t-rex-game.dart: removing grass, releasing memory");
+            return true;
+          } else {
+            return false;
+          }
+        });
+      } else {
         spawnTree();
       }
-      // delete cloud if it left the screen
-      trees.removeWhere((element) {
-        if (element.treeRect.right < 0) {
-          //print("t-rex-game.dart: removing grass, releasing memory");
-          return true;
-        } else {
-          return false;
-        }
-      });
-    } else {
-      spawnTree();
-    }
 
-    // handling dino
-    if (animationLoaded) {
-      tRex.update((gameSpeed / 2) * t);
-    }
-    if (jumpUp) {
-      if (dinoY < referenceY - 3 * tileSize) {
-        // get the dino down
-        jumpUp = false;
-        jumpDown = true;
-        mulFactor = 0.2;
-        tRex.updateAnimation("jump-down");
-      } else {
-        // push the dino up
-        dinoY -= mulFactor;
-        if (mulFactor > tileSize * 0.2) {
-          mulFactor *= 0.7;
+      // handling dino
+      if (animationLoaded) {
+        tRex.update((gameSpeed / 2) * t);
+      }
+      if (jumpUp) {
+        if (dinoY < referenceY - 3 * tileSize) {
+          // get the dino down
+          jumpUp = false;
+          jumpDown = true;
+          mulFactor = 0.2;
+          tRex.updateAnimation("jump-down");
+        } else {
+          // push the dino up
+          dinoY -= mulFactor;
+          if (mulFactor > tileSize * 0.2) {
+            mulFactor *= 0.7;
+          }
         }
       }
-    }
-    if (jumpDown) {
-      if (dinoY > referenceY) {
-        dinoY = referenceY;
-        jumpDown = false;
-        mulFactor = tileSize * 0.2;
-        tRex.updateAnimation("t-rex-run");
-        tapped = false;
+      if (jumpDown) {
+        if (dinoY > referenceY) {
+          dinoY = referenceY;
+          jumpDown = false;
+          mulFactor = tileSize * 0.2;
+          tRex.updateAnimation("t-rex-run");
+          tapped = false;
+        } else {
+          // push the dino down
+          dinoY += mulFactor;
+          mulFactor *= 1.2;
+        }
+      }
+    } else {
+      // handle collision scenario
+      // handling dino
+      if (animationLoaded) {
+        tRex.update((gameSpeed / 2) * t);
+      }
+      if (jumpUp) {
+        if (dinoY < referenceY - 3 * tileSize) {
+          // get the dino down
+          jumpUp = false;
+          jumpDown = true;
+          mulFactor = 0.2;
+          tRex.updateAnimation("jump-down");
+        } else {
+          // push the dino up
+          dinoY -= mulFactor;
+          if (mulFactor > tileSize * 0.2) {
+            mulFactor *= 0.7;
+          }
+        }
+      }
+      if (jumpDown) {
+        if (dinoY > referenceY) {
+          dinoY = referenceY;
+          jumpDown = false;
+          mulFactor = tileSize * 0.2;
+          tRex.updateAnimation("sad-face");
+          tapped = false;
+        } else {
+          // push the dino down
+          dinoY += mulFactor;
+          mulFactor *= 1.2;
+        }
       } else {
-        // push the dino down
-        dinoY += mulFactor;
-        mulFactor *= 1.2;
+        tRex.updateAnimation("sad-face");
       }
     }
   }
@@ -222,14 +297,36 @@ class TRexGame extends Game with TapDetector {
     if (animationLoaded) {
       tRex.render(canvas, x: dinoX, y: dinoY);
     }
+
+    // showing score
+    config.render(
+        canvas,
+        "HI ${highScore.toString().padLeft(5, "0")}  ${currentScore.toString().padLeft(5, "0")}",
+        Position(screenSize.width / 2, 10));
+
+    // handle collision scenario
+    if (isCollisionHappened) {
+      Rect collisionRect =
+          Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
+      Paint collisionPaint = Paint()..color = Colors.blueGrey.withOpacity(0.5);
+      canvas.drawRect(collisionRect, collisionPaint);
+      config.render(
+          canvas,
+          "GAME OVER",
+          Position(screenSize.width / 2 - 2.25 * tileSize,
+              screenSize.height / 2 - tileSize / 2));
+    }
   }
 
   void onTapDown(TapDownDetails details) {
-    print(details.globalPosition);
-    if (!tapped) {
+    if (!tapped && !isCollisionHappened) {
       tapped = true;
       tRex.updateAnimation("jump-up");
       jumpUp = true;
+    }
+    if (isCollisionHappened) {
+      isCollisionHappened = false;
+      resetGame();
     }
   }
 }
