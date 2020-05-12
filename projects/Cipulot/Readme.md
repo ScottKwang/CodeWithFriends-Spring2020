@@ -39,7 +39,7 @@ This project was tested on the following configuration:
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
-
+* The gesture recognition functions that are integrated with the Leap Motion SDK are not supported at the moment. But all the hand data (bones, vectors orientation, etc.) can be accessed as normal.
 ## Reference 
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
 [Masked Face Recognition Dataset and Application](https://arxiv.org/pdf/2003.09093.pdf)
