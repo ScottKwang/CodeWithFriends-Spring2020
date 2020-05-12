@@ -32,11 +32,11 @@ public class MainScreen extends BorderPane {
         toggleButtonBass.setToggleGroup(toggleGroup);
         toggleButtonDrums.setToggleGroup(toggleGroup);
 
-        toggleButtonStyle.setOnAction(e -> { onToggleButtonClick(toggleButtonStyle); });
-        toggleButtonKey.setOnAction(e -> { onToggleButtonClick(toggleButtonKey); });
-        toggleButtonMelody.setOnAction(e -> { onToggleButtonClick(toggleButtonMelody); });
-        toggleButtonBass.setOnAction(e -> { onToggleButtonClick(toggleButtonBass); });
-        toggleButtonDrums.setOnAction(e -> { onToggleButtonClick(toggleButtonDrums); });
+        toggleButtonStyle.setOnAction(e -> {    onToggleButtonClick(toggleButtonStyle); });
+        toggleButtonKey.setOnAction(e -> {      onToggleButtonClick(toggleButtonKey); });
+        toggleButtonMelody.setOnAction(e -> {   onToggleButtonClick(toggleButtonMelody); });
+        toggleButtonBass.setOnAction(e -> {     onToggleButtonClick(toggleButtonBass); });
+        toggleButtonDrums.setOnAction(e -> {    onToggleButtonClick(toggleButtonDrums); });
 
         VBox leftMenu = new VBox(toggleButtonStyle,
                 toggleButtonKey,
