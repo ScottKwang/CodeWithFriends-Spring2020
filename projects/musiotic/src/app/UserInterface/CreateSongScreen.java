@@ -1,23 +1,16 @@
 package UserInterface;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
-import java.net.MalformedURLException;
-
-public class MainScreen extends BorderPane {
-    public MainScreen(){
-//        var newSongBtn = new Button("Create New Song");
-//        var currSongsBtn = new Button("View ExistingSongs");
-//        var buttons = new VBox(200, newSongBtn, currSongsBtn);
-//        var center = new AnchorPane();
-//        center.getChildren().add(buttons);
-//        AnchorPane.setRightAnchor(buttons, 30.0);
+public class CreateSongScreen extends BorderPane {
+    public CreateSongScreen(){
+        String styleSheet = getClass().getResource("/css/create_song_screen.css").toExternalForm();
+        getStylesheets().add(styleSheet);
 
         ToggleButton toggleButtonStyle = new ToggleButton("Style");
         ToggleButton toggleButtonKey = new ToggleButton("Key");
@@ -46,21 +39,6 @@ public class MainScreen extends BorderPane {
 
         var left = new AnchorPane();
         left.getChildren().add(leftMenu);
-
-
-
-
-
-
-        // @ brian don't ask, fix it if u can LOL
-        // Set style sheet to Main Screen.
-        try {
-            String styleSheet = new File(System.getProperty("user.dir") + "\\projects\\musiotic\\assets\\css\\main_screen.css").toURI().toURL().toString();
-            getStylesheets().add(styleSheet);
-        } catch (MalformedURLException e) {
-            System.out.println(e.toString());
-        }
-
 
         ToolBar toolbar = new ToolBar();
         setTop(toolbar);
