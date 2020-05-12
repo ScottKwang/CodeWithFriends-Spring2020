@@ -26,10 +26,11 @@ The input interface is based on the [Leap Motion](https://www.ultraleap.com/data
 ## Built with
 * [Python 3.7.7](https://www.python.org/downloads/release/python-377/) - Win64
 * [Tensorflow 2.2](https://www.tensorflow.org/install) - GPU used
-* [Leap Motion v4 SDK](https://developer.leapmotion.com/setup/desktop) - Standard Download
+* [Leap Motion v2 SDK](https://developer.leapmotion.com/setup/desktop) - With [fix](https://forums.leapmotion.com/t/resolved-windows-10-fall-creators-update-bugfix/6585)
 
 ### Note
 In order to make the Leap Motion Python library to work with Python3 (64bit for now) you need to use the provided pre-compiled files and put them in your installation path in the folders that are named as the one that are provided. You can find those in the "LM Python3 files" folder. Note that these files are a direct recompilation of the Python2 compatible scripts and not fully tested.
+The Leap Motion V4 SDK also works but introduces a tremendous amount of bugs with Python 3 that prevents the connection in many occasions.
 
 ## Specifications
 This project was tested on the following configuration:
@@ -38,11 +39,7 @@ This project was tested on the following configuration:
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
-* Sometimes the Leap Motion sensor cannot be accessed by the Python interface and a management service restart must be performed to fix it (this applies even if "normal" Leap Motion enabled apps are working just fine). This might be caused, probabily, by a lack of checks functions in the ported library.
 
-## Possible fixes and workarounds
-* Leap Motion access: patchable with a function that restarts automatically the service if the connection fails too many times in a row.
-                      In the long term a proper porting of the entire library could end up giving an inside view on the problem (maybe?)
 ## Reference 
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
 [Masked Face Recognition Dataset and Application](https://arxiv.org/pdf/2003.09093.pdf)
