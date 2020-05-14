@@ -15,7 +15,7 @@ public class StartScreen extends BorderPane {
 
         var newSongBtn = new Button("Create New Song");
         newSongBtn.setOnAction(e -> {
-            CreateSongScreen mainScreen = new CreateSongScreen();
+            UserInterface.CreateSongScreen mainScreen = new UserInterface.CreateSongScreen();
             newSongBtn.getScene().setRoot(mainScreen);
         });
 
