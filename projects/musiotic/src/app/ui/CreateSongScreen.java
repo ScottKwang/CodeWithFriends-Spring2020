@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
@@ -8,37 +9,35 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class CreateSongScreen extends BorderPane {
-    public CreateSongScreen(){
+
+    public String menuState = "Style";
+
+    public CreateSongScreen() {
         String styleSheet = getClass().getResource("/css/create_song_screen.css").toExternalForm();
         getStylesheets().add(styleSheet);
 
-        ToggleButton toggleButtonStyle = new ToggleButton("Style");
-        ToggleButton toggleButtonKey = new ToggleButton("Key");
-        ToggleButton toggleButtonMelody = new ToggleButton("Melody");
-        ToggleButton toggleButtonBass = new ToggleButton("Bass");
-        ToggleButton toggleButtonDrums = new ToggleButton("Drums");
-        ToggleGroup toggleGroup = new ToggleGroup();
+        Button styleBtn = new Button("Style");
+        Button KeyBtn = new Button("Key");
+        Button MelodyBtn = new Button("Melody");
+        Button BassBtn = new Button("Bass");
+        Button DrumsBtn = new Button("Drums");
 
-        toggleButtonStyle.setToggleGroup(toggleGroup);
-        toggleButtonKey.setToggleGroup(toggleGroup);
-        toggleButtonMelody.setToggleGroup(toggleGroup);
-        toggleButtonBass.setToggleGroup(toggleGroup);
-        toggleButtonDrums.setToggleGroup(toggleGroup);
+        styleBtn.setOnMouseClicked(e -> {    onButtonClick(styleBtn);   });
+        KeyBtn.setOnMouseClicked(e -> {      onButtonClick(KeyBtn);     });
+        MelodyBtn.setOnMouseClicked(e -> {   onButtonClick(MelodyBtn);  });
+        BassBtn.setOnMouseClicked(e -> {     onButtonClick(BassBtn);    });
+        DrumsBtn.setOnMouseClicked(e -> {    onButtonClick(DrumsBtn);   });
 
-        toggleButtonStyle.setOnAction(e -> { onToggleButtonClick(toggleButtonStyle); });
-        toggleButtonKey.setOnAction(e -> { onToggleButtonClick(toggleButtonKey); });
-        toggleButtonMelody.setOnAction(e -> { onToggleButtonClick(toggleButtonMelody); });
-        toggleButtonBass.setOnAction(e -> { onToggleButtonClick(toggleButtonBass); });
-        toggleButtonDrums.setOnAction(e -> { onToggleButtonClick(toggleButtonDrums); });
+        VBox menuButtons = new VBox(styleBtn,
+                KeyBtn,
+                MelodyBtn,
+                BassBtn,
+                DrumsBtn);
 
-        VBox leftMenu = new VBox(toggleButtonStyle,
-                toggleButtonKey,
-                toggleButtonMelody,
-                toggleButtonBass,
-                toggleButtonDrums);
+        menuButtons.getStyleClass().add("menu-buttons");
 
         var left = new AnchorPane();
-        left.getChildren().add(leftMenu);
+        left.getChildren().add(menuButtons);
 
         ToolBar toolbar = new ToolBar();
         setTop(toolbar);
@@ -46,12 +45,9 @@ public class CreateSongScreen extends BorderPane {
         setLeft(left);
     }
 
-    private void onToggleButtonClick(ToggleButton button) {
-        if (button.isSelected()) {
-            System.out.println(button.getText() + " Toggle Opened");
-        } else {
-            System.out.println(button.getText() + " Toggle Closed");
-        }
+    private void onButtonClick(Button button) {
+        menuState = button.getText();
+        System.out.println("Menu State: " + menuState);
     }
 
 }
