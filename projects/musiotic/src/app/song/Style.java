@@ -1,7 +1,7 @@
 package song;
 
 public enum Style {
-    PIANO("Classical Piano"),
+    PIANO("Classical Piano", Phase.Type.Key),
     GUITAR("Acoustic Guitar"),
     SYNTH("Synthesizer and Drums");
 

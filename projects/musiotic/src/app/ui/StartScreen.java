@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import song.SongManager;
 
 public class StartScreen extends BorderPane {
     public StartScreen(){
@@ -15,8 +16,9 @@ public class StartScreen extends BorderPane {
 
         var newSongBtn = new Button("Create New Song");
         newSongBtn.setOnAction(e -> {
-            UserInterface.CreateSongScreen mainScreen = new UserInterface.CreateSongScreen();
-            newSongBtn.getScene().setRoot(mainScreen);
+            var manager = new SongManager();
+            var newSongScreen = new SongEditorScreen(manager);
+            newSongBtn.getScene().setRoot(newSongScreen);
         });
 
         var currSongsBtn = new Button("View Existing Songs");

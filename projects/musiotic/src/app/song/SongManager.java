@@ -1,9 +1,22 @@
 package song;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 public class SongManager {
-    private Phase currentPhase;
+    public final StylePhase stylePhase;
 
     public SongManager(){
-        currentPhase = new StylePhase(this);
+        stylePhase = new StylePhase(this);
+    }
+
+    private Consumer<List<Phase>> onStyleSelect;
+
+    public void setOnStyleSelect(Consumer<List<Phase>> onStyleSelect){
+        this.onStyleSelect = onStyleSelect;
+    }
+
+    public void populate(){
+        onStyleSelect.accept(stylePhase.getPhases());
     }
 }
