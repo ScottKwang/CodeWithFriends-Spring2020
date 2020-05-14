@@ -28,7 +28,7 @@ public class DrumMIDIExample {
         File f = new File("/audio/kicks/ac_kick_6.au");
         f.canRead();
 
-        SimpleSampleInst kickInst = new SimpleSampleInst("/audio/kicks/ac_kick_6.au", FRQ[36]);
+        SimpleSampleInst kickInst = new SimpleSampleInst("/src/audio/kicks/ac_kick_6.au", FRQ[48]);
 //        SimpleSampleInst snareInst = new SimpleSampleInst("Snare.au", FRQ[38]);
 //        SimpleSampleInst hatsInst = new SimpleSampleInst("Hats.au", FRQ[42]);
 //        SimpleSampleInst openHatsInst = new SimpleSampleInst("HHOpen.au", FRQ[46]);
@@ -78,7 +78,7 @@ public class DrumMIDIExample {
 //        s.addPart(openHatsPart);
 //
 //        //write midi
-        Write.midi(s, "/app/AudioDrums.mid");
+        Write.midi(s, "src/resources/audio/AudioDrums.mid");
 //
 //        //write au
 //        Write.au(s, "/audio/AudioDrums.au", drumKit);
