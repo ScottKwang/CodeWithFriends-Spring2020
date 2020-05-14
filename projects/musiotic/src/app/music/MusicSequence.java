@@ -1,4 +1,4 @@
-package MusicComponents;
+package music;
 
 public interface MusicSequence {
 }

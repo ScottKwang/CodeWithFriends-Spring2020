@@ -1,4 +1,4 @@
-package UserInterface;
+package ui;
 
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
