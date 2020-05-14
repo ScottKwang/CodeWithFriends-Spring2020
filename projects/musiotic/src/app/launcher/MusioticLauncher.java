@@ -1,6 +1,6 @@
-package Launcher;
+package launcher;
 
-import UserInterface.StartScreen;
+import ui.StartScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
