@@ -8,6 +8,7 @@ import numpy as np
 import Leap
 import threading
 from threading import Thread
+from Leap import SwipeGesture
 from playsound import playsound
 from imutils.video import VideoStream
 '''
@@ -25,7 +26,7 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 # Flag to indicate if Leap Motion controller is connected
-Leap_connected = True
+Leap_connected = False
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
@@ -34,19 +35,13 @@ Leap_enabled = False
 Stopped = False
 
 # Palm position vector
-Position = None
+Palm_position = None
 
 # Flag to indicate if the user "pressed" the virtual button
 Pressed = False
 
-Face_time_count = 0         # Timestamp of the particular frame for face
-Mask_time_count = 0         # Timestamp of the particular frame for mask
-Start_time_count_face = 0   # Timestamp of the frame in which the face was detected
-Start_time_count_mask = 0   # Timestamp of the frame in which the mask was detected
-First_face_flag = True      # Flag to determin if the frame time should be saved in the Start_time_count or not
-First_mask_flag = True
-detected_face_flag = False     # Flag to avoid multiple calls for the same audio file in a shot time (multiple playbacks at the same time)
-detected_facemask_flag = False    # Flag to avoid multiple calls for the same audio file in a shot time (multiple playbacks at the same time)
+First_frame_timestamp = 0
+Prev_feature = None
 
 # Audio files path
 stop_audio_path = 'audios/stop.mp3'
@@ -78,11 +73,9 @@ class FeedThread(Thread):
         self.name = name
 
     def run(self):
-        global Stopped, Position, Leap_enabled
-        global First_face_flag, First_mask_flag, detected_facemask_flag, detected_face_flag
-        global Face_time_count, Start_time_count_face, Mask_time_count, Start_time_count_mask
+        global Stopped, Palm_position, Leap_enabled
+        global First_frame_timestamp, Prev_feature
         zip_features = None
-        len_zip_features = 0
 
         vs = VideoStream(src=0).start()
 
@@ -96,11 +89,6 @@ class FeedThread(Thread):
             (locs, preds) = self.mask_evaluation(frame, faceNet, maskNet)
 
             zip_features = zip(locs, preds)
-            len_zip_features = len(list(zip_features))
-
-            # Check if no features are detected
-            if(len_zip_features == 0):
-                print("No features detected!")
 
             # For each detected face draw a bounding box around it with proper color
             for (box, pred) in zip_features:
@@ -108,40 +96,37 @@ class FeedThread(Thread):
                 (startX, startY, endX, endY) = box
                 (mask, withoutMask) = pred
 
-                # Set color based on facemask value
-                if(mask > withoutMask) and (detected_facemask_flag == False):
-                    Mask_time_count = time.clock()
-                    if(First_mask_flag == True):
-                        Start_time_count_mask = Mask_time_count
-                        First_mask_flag = False
+                # Face mask detected
+                if(mask > withoutMask):
+                    # First frame with a face mask
+                    if(Prev_feature == None) or (Prev_feature == False):
+                        First_frame_timestamp = time.clock()
+                        Prev_feature = True
 
-                    # Here we just compare the current frametime with the first one and check if enough time passed we trigger the audio and events
-                    if((Mask_time_count - Start_time_count_mask) >= 5):
-                        # If the code made it's way here it means that a person with a facemask wants to knock on door
-                        detected_facemask_flag = True
-                        Leap_enabled = True
-                        Hello = AudioThread("hello", hello_audio_path)
-                        Hello.daemon = True
-                        Hello.start()
-                elif (mask < withoutMask) and (detected_face_flag == False):
-                    Face_time_count = time.clock()
-                    if(First_face_flag == True):
-                        Start_time_count_face = Mask_time_count
-                        First_face_flag = False
+                    # Successive frames still with a face mask
+                    else:
+                        # Check if enough time elapsed with the same feature
+                        if((time.clock() - First_frame_timestamp) >= 3):
+                            print("facemask time")
 
-                    # Here we just compare the current frametime with the first one and check if enough time passed we trigger the audio and events
-                    if((Face_time_count - Start_time_count_face) >= 5):
-                        # If the code made it's way here it means that a person with a facemask wants to knock on door
-                        detected_face_flag = True
-                        Stop = AudioThread("stop", stop_audio_path)
-                        Stop.daemon = True
-                        Stop.start()
+                # No face mask detected
+                elif(mask < withoutMask):
+                    # First frame without a face mask
+                    if(Prev_feature == None) or (Prev_feature == True):
+                        First_frame_timestamp = time.clock()
+                        Prev_feature = False
+
+                    # Successive frames still without a face mask
+                    else:
+                        # Check if enough time elapsed with the same feature
+                        if((time.clock() - First_frame_timestamp) >= 3):
+                            print("face time")
 
                 # Set color based on facemask value
                 color = (0, 255, 0) if (mask > withoutMask) else (0, 0, 255)
 
                 #cv2.putText(frame, label, (startX, startY - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
-                cv2.putText(frame, str(Position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
+                #cv2.putText(frame, str(Palm_position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
                 cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
 
             # show the output frame
@@ -243,8 +228,8 @@ class LeapThread(Thread):
                   "' has exited due to an exception raised in function 'run leap'!\n\n")
             sys.exit()
 
-
 class SampleListener(Leap.Listener):
+    state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
     def on_init(self, controller):
         print("Initialized\n")
@@ -255,6 +240,9 @@ class SampleListener(Leap.Listener):
         Leap_connected = True
         print("Connected\n")
 
+        # Enable gesture recognition (specific gesture based)
+        controller.enable_gesture(Leap.Gesture.TYPE_SWIPE);
+
     def on_disconnect(self, controller):
         print("Disconnected\n")
 
@@ -262,12 +250,14 @@ class SampleListener(Leap.Listener):
         print("Exited Leap Motion\n")
 
     def on_frame(self, controller):
-        global Leap_enabled, Position, Pressed, door_audio_path
+        global Leap_enabled, Palm_position, Pressed, door_audio_path
 
         # Get the most recent frame and report some basic information
         frame = controller.frame()
         hands = frame.hands
+        gestures = list(frame.gestures())
         numHands = len(hands)
+        numGestures = len(gestures)
 
         if numHands >= 1:
             # Get the first hand
@@ -276,20 +266,41 @@ class SampleListener(Leap.Listener):
             # Get the palm position
             palm = hand.palm_position
             normal = hand.palm_normal
-            Position = palm
+            Palm_position = palm
 
             # If the user put his/her hand at a certain distance from the sensor it triggers the ringbell
-            if((Position[1] <= 120) and (Pressed == False) and (Leap_enabled == True)):
+            if((Palm_position[1] <= 120) and (Pressed == False) and (Leap_enabled == True)):
                 Pressed = True
                 Door = AudioThread("door", door_audio_path)
                 Door.daemon = True
                 Door.start()
 
-        else:
+        elif numHands == 0:
             # Just reset showed position to none if no hand is detected and reset the flag for next user press
-            Position = None
+            Palm_position = None
             Pressed = False
 
+        # If one or more gesture (2 hand, different gesture) are detected cycle through them
+        if numGestures >= 1:
+            for gesture in gestures:
+                if gesture.type == Leap.Gesture.TYPE_SWIPE:
+                    swipe = SwipeGesture(gesture)
+                    print("  Swipe id: %d, state: %s, position: %s, direction: %s, speed: %f" % (
+                            gesture.id, self.state_names[gesture.state],
+                            swipe.position, swipe.direction, swipe.speed))
+
+    def state_string(self, state):
+        if state == Leap.Gesture.STATE_START:
+            return "STATE_START"
+
+        if state == Leap.Gesture.STATE_UPDATE:
+            return "STATE_UPDATE"
+
+        if state == Leap.Gesture.STATE_STOP:
+            return "STATE_STOP"
+
+        if state == Leap.Gesture.STATE_INVALID:
+            return "STATE_INVALID"
 
 class AudioThread(Thread):
     '''
