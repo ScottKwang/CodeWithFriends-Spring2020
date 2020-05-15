@@ -23,7 +23,7 @@ public abstract class Phase {
     public enum Type {
         Style("Style", StylePhase.class),
         Key("Key", KeyPhase.class, Style),
-        Melody1("Melody 1", null, Style, Key),
+        Melody1("Melody 1", Melody1Phase.class, Style, Key),
         Melody2("Melody 2", null, Style, Key),
         Bass("Bass", null, Style, Key),
         Drums("Drums", null, Style, Key),
@@ -40,6 +40,7 @@ public abstract class Phase {
         }
 
         public Phase getPhase(SongManager manager){
+            System.out.println("Phase: getPhase(manager)");
             if(phaseClass == null){
                 throw new IllegalStateException(name + " hasn't been implemented yet!");
             }

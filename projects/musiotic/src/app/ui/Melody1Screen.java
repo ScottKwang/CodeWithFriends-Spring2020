@@ -4,28 +4,25 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import song.Melody1Phase;
 import song.Style;
 import song.StylePhase;
 
-public class StyleScreen {
-    private final StylePhase phase;
+public class Melody1Screen {
+    private final Melody1Phase phase;
     private final Node screen;
 
-    public StyleScreen(StylePhase phase){
+    public Melody1Screen(Melody1Phase phase){
         this.phase = phase;
         var content = new VBox();
         var label = new Label("Style");
         var complete = new Button("Next");
-        complete.setOnMouseClicked(e -> {
-            System.out.println("StyleScreen: \"next\" button clicked");
-            phase.setStyle(Style.PIANO);
-        });
+        //complete.setOnMouseClicked(e -> phase.setStyle(Style.PIANO));
         content.getChildren().addAll(label, complete);
         screen = content;
     }
 
     public Node getScreen(){
-        System.out.println("StyleScreen: getScreen()");
         return screen;
     }
 }

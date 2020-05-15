@@ -23,14 +23,15 @@ public class SongEditorScreen extends BorderPane {
         getStylesheets().add(styleSheet);
 
         var stylePhase = manager.stylePhase;
-        Button button = new Button(stylePhase.getType().name);
-        button.setOnMouseClicked(e -> {
+        Button styleButton = new Button(stylePhase.getType().name);
+        styleButton.setOnMouseClicked(e -> {
+            System.out.println("SongEditorScreen: styleButton pressed");
             currentPhase = stylePhase;
             setCenter(stylePhase.getScreen());
         });
 
         menuButtons = new VBox();
-        menuButtons.getChildren().add(button);
+        menuButtons.getChildren().add(styleButton);
         menuButtons.getStyleClass().add("menu-buttons");
 
         var menu = new AnchorPane();
@@ -47,17 +48,24 @@ public class SongEditorScreen extends BorderPane {
     }
 
     private void populate(List<Phase> phases){
+        System.out.println("SongEditorScreen: populate(phases)");
         var buttons = new ArrayList<Button>();
         for(var phase : phases){
             Button button = new Button(phase.getType().name);
             button.setOnMouseClicked(e -> {
                 currentPhase = phase;
+                System.out.println("currentPhase: " + currentPhase.getType().name);
                 setCenter(phase.getScreen());
             });
             button.disableProperty().bind(phase.disabled);
             buttons.add(button);
         }
         menuButtons.getChildren().addAll(buttons);
+        if (currentPhase == manager.stylePhase) {
+            currentPhase = manager.keyPhase;
+            manager.currentPhase = manager.keyPhase;
+            setCenter(currentPhase.getScreen());
+        }
     }
 
 
