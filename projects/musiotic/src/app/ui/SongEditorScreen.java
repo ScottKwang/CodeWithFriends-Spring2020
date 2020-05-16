@@ -9,7 +9,7 @@ import song.Phase;
 import song.SongManager;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class SongEditorScreen extends BorderPane {
 
@@ -47,7 +47,7 @@ public class SongEditorScreen extends BorderPane {
         manager.setOnStyleSelect(this::populate);
     }
 
-    private void populate(List<Phase> phases){
+    private void populate(Collection<Phase> phases){
         System.out.println("SongEditorScreen: populate(phases)");
         var buttons = new ArrayList<Button>();
         for(var phase : phases){
@@ -62,8 +62,11 @@ public class SongEditorScreen extends BorderPane {
         }
         menuButtons.getChildren().addAll(buttons);
         if (currentPhase == manager.stylePhase) {
-            currentPhase = manager.keyPhase;
-            manager.currentPhase = manager.keyPhase;
+            var keyPhase = manager.phaseMap.get(Phase.Type.Key); // Does every type have a key? this may return null
+            if(keyPhase != null){
+                currentPhase = keyPhase;
+                manager.goToPhase(Phase.Type.Key); // song manager might need more to do processing when phase changes
+            }
             setCenter(currentPhase.getScreen());
         }
     }

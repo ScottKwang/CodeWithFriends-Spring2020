@@ -1,11 +1,14 @@
 package song;
 
 import javafx.scene.Node;
-import javafx.scene.control.Label;
+import ui.Melody1Screen;
 
 public class Melody1Phase extends Phase {
+    private final Melody1Screen screen;
+
     public Melody1Phase(SongManager manager) {
         super(manager);
+        screen = new Melody1Screen(this);
     }
 
     @Override
@@ -15,6 +18,6 @@ public class Melody1Phase extends Phase {
 
     @Override
     public Node getScreen() {
-        return new Label("Melody");
+        return screen.getScreen();
     }
 }

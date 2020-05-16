@@ -1,16 +1,18 @@
 package song;
 
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import ui.KeyScreen;
 
 public class KeyPhase extends Phase {
+    private final KeyScreen screen;
+
     public KeyPhase(SongManager manager) {
         super(manager);
+        screen = new KeyScreen(this);
     }
 
-    public String key;
+    public String key; // todo separate into root and major/minor
+    // to allow for easier transposition (from CM to DM or from CM to Cm for example)
 
     @Override
     public Type getType() {
@@ -19,21 +21,12 @@ public class KeyPhase extends Phase {
 
     @Override
     public Node getScreen() {
-        Button CButton = new Button ("C");
-        Button DButton = new Button ("D");
-        Button AButton = new Button ("A");
-        VBox testButtons = new VBox(CButton, DButton, AButton);
+        return screen.getScreen();
+    }
 
-        CButton.setOnMouseClicked(e -> {
-            key = "C";
-        });
-        DButton.setOnMouseClicked(e -> {
-            key = "D";
-        });
-        AButton.setOnMouseClicked(e -> {
-            key = "A";
-        });
 
-        return testButtons;
+    public void setKey(String key) {
+        this.key = key;
+        completed.setValue(true);
     }
 }

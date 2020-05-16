@@ -1,5 +1,6 @@
 package song;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
@@ -7,9 +8,9 @@ import ui.StyleScreen;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 
-public class StylePhase extends Phase{
+public class StylePhase extends Phase {
     private final SongManager manager;
     private Style style;
     private final StyleScreen screen;
@@ -32,7 +33,7 @@ public class StylePhase extends Phase{
         return screen.getScreen();
     }
 
-    public List<Phase> getPhases(){
+    public Map<Type, Phase> getPhases(){
         System.out.println("StylePhase: getPhases()");
         var phases = new LinkedHashMap<Type, Phase>(); // preserve insertion order (button order on UI depends on this)
         for(Type phase : style.phases){
@@ -54,11 +55,12 @@ public class StylePhase extends Phase{
                 }
             }
             phase.disabled = Bindings.createBooleanBinding(() ->
-                !props.stream().allMatch(BooleanProperty::getValue)
+                !props.stream().allMatch(BooleanProperty::getValue),
+                props.toArray(Observable[]::new)
             );
         }
 
-        return new ArrayList<>(phases.values());
+        return phases;
     }
 
     public void setStyle(Style style) {
@@ -68,6 +70,8 @@ public class StylePhase extends Phase{
             completed.setValue(true);
             manager.populateStyle();
         }
-        else throw new IllegalStateException("A style has already been selected for this song.");
+        else if(this.style != style){
+            throw new IllegalStateException("A style has already been selected for this song.");
+        }
     }
 }

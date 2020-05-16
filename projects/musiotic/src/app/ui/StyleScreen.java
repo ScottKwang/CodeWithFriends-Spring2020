@@ -2,6 +2,7 @@ package ui;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import song.Style;
@@ -13,14 +14,20 @@ public class StyleScreen {
 
     public StyleScreen(StylePhase phase){
         this.phase = phase;
+        var choices = new ChoiceBox<String>();
+        for(Style style : Style.values()){
+            choices.getItems().add(style.name);
+        }
         var content = new VBox();
         var label = new Label("Style");
         var complete = new Button("Next");
         complete.setOnMouseClicked(e -> {
             System.out.println("StyleScreen: \"next\" button clicked");
-            phase.setStyle(Style.PIANO);
+            choices.disableProperty().setValue(true);
+            phase.setStyle(Style.getStyle(choices.getValue()));
         });
-        content.getChildren().addAll(label, complete);
+        complete.disableProperty().bind(choices.valueProperty().isNull());
+        content.getChildren().addAll(label, choices, complete);
         screen = content;
     }
 
