@@ -71,7 +71,7 @@ class FeedThread(Thread):
         self.name = name
 
     def run(self):
-        global Stopped, Palm_position, Leap_enabled
+        global Stopped, Palm_position
         # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
         Prev_feature = None
         # Variable to store timestamps
@@ -167,6 +167,7 @@ class FeedThread(Thread):
         return (locs, preds)
 
     def feature_timer(self, prediction, prev, timestamp):
+        global Leap_enabled
 
         (mask, withoutMask) = prediction
 
@@ -182,6 +183,8 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("facemask time")
+                    # Enable motion detection for user inputs
+                    Leap_enabled = True
 
         # No face mask detected
         elif(mask < withoutMask):
@@ -195,6 +198,8 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("face time")
+                    # Disable motion detection for user inputs
+                    Leap_enabled = False
 
         # Set color based on facemask value
         color = (0, 255, 0) if (mask > withoutMask) else (0, 0, 255)
@@ -263,55 +268,57 @@ class SampleListener(Leap.Listener):
     def on_frame(self, controller):
         global Leap_enabled, Palm_position, Pressed, door_audio_path
 
-        # Get the most recent frame and report some basic information
-        frame = controller.frame()
-        hands = frame.hands
-        gestures = list(frame.gestures())
-        numHands = len(hands)
-        numGestures = len(gestures)
+        # Do all the motion detection stuff only if user gesture is enabled (face mask on)
+        if(Leap_enabled == True):
+            # Get the most recent frame and report some basic information
+            frame = controller.frame()
+            hands = frame.hands
+            gestures = list(frame.gestures())
+            numHands = len(hands)
+            numGestures = len(gestures)
 
-        if numHands >= 1:
-            # Get the first hand
-            hand = hands[0]
+            if numHands >= 1:
+                # Get the first hand
+                hand = hands[0]
 
-            # Get the palm position
-            palm = hand.palm_position
-            normal = hand.palm_normal
-            Palm_position = palm
+                # Get the palm position
+                palm = hand.palm_position
+                normal = hand.palm_normal
+                Palm_position = palm
 
-            # If the user put his/her hand at a certain distance from the sensor it triggers the ringbell
-            if((Palm_position[1] <= 120) and (Pressed == False) and (Leap_enabled == True)):
-                Pressed = True
-                Door = AudioThread("door", door_audio_path)
-                Door.daemon = True
-                Door.start()
+                # If the user put his/her hand at a certain distance from the sensor it triggers the ringbell
+                if(Palm_position[1] <= 120) and (Pressed == False):
+                    Pressed = True
+                    Door = AudioThread("door", door_audio_path)
+                    Door.daemon = True
+                    Door.start()
 
-        elif numHands == 0:
-            # Just reset position to none if no hand is detected and reset the flag for next user press
-            Palm_position = None
-            Pressed = False
+            elif numHands == 0:
+                # Just reset position to none if no hand is detected and reset the flag for next user press
+                Palm_position = None
+                Pressed = False
 
-        # If one or more gesture (2 hand, different gesture) are detected cycle through them
-        if numGestures >= 1:
-            for gesture in gestures:
-                if gesture.type == Leap.Gesture.TYPE_SWIPE:
-                    swipe = SwipeGesture(gesture)
+            # If one or more gesture (2 hand, different gesture) are detected cycle through them
+            if numGestures >= 1:
+                for gesture in gestures:
+                    if gesture.type == Leap.Gesture.TYPE_SWIPE:
+                        swipe = SwipeGesture(gesture)
 
-                    if(self.state_names[gesture.state] == 'STATE_START'):
-                        print("Swipe start")
+                        if(self.state_names[gesture.state] == 'STATE_START'):
+                            print("Swipe start")
 
-                    if(self.state_names[gesture.state] == 'STATE_UPDATE'):
-                        print("Swipe update")
+                        if(self.state_names[gesture.state] == 'STATE_UPDATE'):
+                            print("Swipe update")
 
-                    if(self.state_names[gesture.state] == 'STATE_END'):
-                        print("Swipe end")
+                        if(self.state_names[gesture.state] == 'STATE_END'):
+                            print("Swipe end")
 
-                    # Complete set of gesture details...
-                    '''
-                    print("  Swipe id: %d, state: %s, position: %s, direction: %s, speed: %f" % (
-                        gesture.id, self.state_names[gesture.state],
-                        swipe.position, swipe.direction, swipe.speed))
-                    '''
+                        # Complete set of gesture details...
+                        '''
+                        print("  Swipe id: %d, state: %s, position: %s, direction: %s, speed: %f" % (
+                            gesture.id, self.state_names[gesture.state],
+                            swipe.position, swipe.direction, swipe.speed))
+                        '''
 
     def state_string(self, state):
         if state == Leap.Gesture.STATE_START:
