@@ -174,26 +174,26 @@ class FeedThread(Thread):
         if(mask > withoutMask):
             # First frame with a face mask
             if(prev == None) or (prev == False):
-                timestamp = time.clock()
+                timestamp = time.process_time()
                 prev = True
 
             # Successive frames still with a face mask
             else:
                 # Check if enough time elapsed with the same feature
-                if((time.clock() - timestamp) >= 3):
+                if((time.process_time() - timestamp) >= 3):
                     print("facemask time")
 
         # No face mask detected
         elif(mask < withoutMask):
             # First frame without a face mask
             if(prev == None) or (prev == True):
-                timestamp = time.clock()
+                timestamp = time.process_time()
                 prev = False
 
             # Successive frames still without a face mask
             else:
                 # Check if enough time elapsed with the same feature
-                if((time.clock() - timestamp) >= 3):
+                if((time.process_time() - timestamp) >= 3):
                     print("face time")
 
         # Set color based on facemask value
