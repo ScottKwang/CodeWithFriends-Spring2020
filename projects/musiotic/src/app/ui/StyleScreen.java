@@ -20,13 +20,14 @@ public class StyleScreen {
         }
         var content = new VBox();
         var label = new Label("Style");
-        var complete = new Button("Next");
+        var complete = new Button("Confirm");
         complete.setOnMouseClicked(e -> {
             System.out.println("StyleScreen: \"next\" button clicked");
             choices.disableProperty().setValue(true);
             phase.setStyle(Style.getStyle(choices.getValue()));
         });
         complete.disableProperty().bind(choices.valueProperty().isNull());
+        complete.visibleProperty().bind(phase.completed.not());
         content.getChildren().addAll(label, choices, complete);
         screen = content;
     }

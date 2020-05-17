@@ -1,34 +1,64 @@
 package song;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.function.Consumer;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import ui.SongEditorScreen;
+import util.MappedLinkedList;
 
 public class SongManager {
     public final StylePhase stylePhase;
-    public Map<Phase.Type, Phase> phaseMap;
-    protected Phase currentPhase;
+    private SongEditorScreen screen;
+    public MappedLinkedList<Phase.Type, Phase> phaseList;
+    private Property<Phase> currentPhase;
+    private final BooleanProperty nextAvailable;
+    private final BooleanProperty prevAvailable;
 
 
     public SongManager(){
         stylePhase = new StylePhase(this);
-        currentPhase = stylePhase;
+        currentPhase = new SimpleObjectProperty<>();
+        currentPhase.setValue(stylePhase);
+        nextAvailable = new SimpleBooleanProperty();
+        nextAvailable.bind(stylePhase.completed);
+        prevAvailable = new SimpleBooleanProperty();
+        prevAvailable.bind(Bindings.createBooleanBinding(
+                () -> !currentPhase.getValue().equals(stylePhase),
+                currentPhase
+        ));
     }
 
-    private Consumer<Collection<Phase>> onStyleSelect;
-
-    public void setOnStyleSelect(Consumer<Collection<Phase>> onStyleSelect){
-        System.out.println("SongManager: setOnStyleSelect(onStyleSelect)");
-        this.onStyleSelect = onStyleSelect;
+    public void setScreen(SongEditorScreen screen){
+        this.screen = screen;
     }
 
     public void populateStyle(){
+        if(screen == null) throw new IllegalStateException("SongEditorScreen not set.");
         System.out.println("SongManager: populateStyle()");
-        phaseMap = stylePhase.getPhases();
-        onStyleSelect.accept(phaseMap.values());
+        var phases = stylePhase.getPhases();
+        phaseList = new MappedLinkedList<>(phases);
+        screen.populate(phases.values());
     }
 
-    public void goToPhase(Phase.Type type){
+    public void goToPhase(Phase phase){
+        if(screen == null) throw new IllegalStateException("SongEditorScreen not set.");
+        screen.updatePhase(updatePhase(phase));
+    }
 
+    public Phase updatePhase(Phase phase){
+        var next = phaseList.getNext(phase.getType());
+        nextAvailable.bind(next == null ? new SimpleBooleanProperty(false) : next.disabled.not());
+        currentPhase.setValue(phase);
+        return phase;
+    }
+
+    public BooleanProperty nextAvailable() {
+        return nextAvailable;
+    }
+
+    public BooleanProperty prevAvailable() {
+        return prevAvailable;
     }
 }
