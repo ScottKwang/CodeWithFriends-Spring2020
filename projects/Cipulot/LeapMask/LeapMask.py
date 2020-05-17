@@ -3,9 +3,10 @@ import os
 import sys
 import time
 import cv2
+import Leap
+import serial
 import imutils
 import numpy as np
-import Leap
 import threading
 from threading import Thread
 from Leap import SwipeGesture
@@ -40,9 +41,6 @@ Palm_position = None
 # Flag to indicate if the user "pressed" the virtual button
 Pressed = False
 
-First_frame_timestamp = 0
-Prev_feature = None
-
 # Audio files path
 stop_audio_path = 'audios/stop.mp3'
 hello_audio_path = 'audios/hello.mp3'
@@ -54,7 +52,7 @@ weights_Path = 'models/mask_model.caffemodel'
 model_Path = 'models/mask_detector.model'
 
 # Set a threshold for face detection
-confidence_threshold = 0.5
+confidence_threshold = 0.6
 
 # Read deep learning network
 faceNet = cv2.dnn.readNet(prototxt_Path, weights_Path)
@@ -74,7 +72,11 @@ class FeedThread(Thread):
 
     def run(self):
         global Stopped, Palm_position, Leap_enabled
-        global First_frame_timestamp, Prev_feature
+        # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
+        Prev_feature = None
+        # Variable to store timestamps
+        First_frame_timestamp = 0
+        # Just a variable to store the zip object of the prediction
         zip_features = None
 
         vs = VideoStream(src=0).start()
@@ -94,36 +96,9 @@ class FeedThread(Thread):
             for (box, pred) in zip_features:
                 # Unpacking of bounding box and prediction values
                 (startX, startY, endX, endY) = box
-                (mask, withoutMask) = pred
 
-                # Face mask detected
-                if(mask > withoutMask):
-                    # First frame with a face mask
-                    if(Prev_feature == None) or (Prev_feature == False):
-                        First_frame_timestamp = time.clock()
-                        Prev_feature = True
-
-                    # Successive frames still with a face mask
-                    else:
-                        # Check if enough time elapsed with the same feature
-                        if((time.clock() - First_frame_timestamp) >= 3):
-                            print("facemask time")
-
-                # No face mask detected
-                elif(mask < withoutMask):
-                    # First frame without a face mask
-                    if(Prev_feature == None) or (Prev_feature == True):
-                        First_frame_timestamp = time.clock()
-                        Prev_feature = False
-
-                    # Successive frames still without a face mask
-                    else:
-                        # Check if enough time elapsed with the same feature
-                        if((time.clock() - First_frame_timestamp) >= 3):
-                            print("face time")
-
-                # Set color based on facemask value
-                color = (0, 255, 0) if (mask > withoutMask) else (0, 0, 255)
+                Prev_feature, First_frame_timestamp, color = self.feature_timer(
+                    pred, Prev_feature, First_frame_timestamp)
 
                 #cv2.putText(frame, label, (startX, startY - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
                 #cv2.putText(frame, str(Palm_position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
@@ -152,7 +127,7 @@ class FeedThread(Thread):
         # Create a blob from image to process it through network classification
         (h, w) = frame.shape[:2]
         blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300),
-                                    (104.0, 177.0, 123.0))
+                                     (104.0, 177.0, 123.0))
 
         # Set the network input and execute detection
         faceNet.setInput(blob)
@@ -191,6 +166,41 @@ class FeedThread(Thread):
         # Return location of detected face and prediction value
         return (locs, preds)
 
+    def feature_timer(self, prediction, prev, timestamp):
+
+        (mask, withoutMask) = prediction
+
+        # Face mask detected
+        if(mask > withoutMask):
+            # First frame with a face mask
+            if(prev == None) or (prev == False):
+                timestamp = time.clock()
+                prev = True
+
+            # Successive frames still with a face mask
+            else:
+                # Check if enough time elapsed with the same feature
+                if((time.clock() - timestamp) >= 3):
+                    print("facemask time")
+
+        # No face mask detected
+        elif(mask < withoutMask):
+            # First frame without a face mask
+            if(prev == None) or (prev == True):
+                timestamp = time.clock()
+                prev = False
+
+            # Successive frames still without a face mask
+            else:
+                # Check if enough time elapsed with the same feature
+                if((time.clock() - timestamp) >= 3):
+                    print("face time")
+
+        # Set color based on facemask value
+        color = (0, 255, 0) if (mask > withoutMask) else (0, 0, 255)
+
+        return prev, timestamp, color
+
 
 class LeapThread(Thread):
     '''
@@ -228,6 +238,7 @@ class LeapThread(Thread):
                   "' has exited due to an exception raised in function 'run leap'!\n\n")
             sys.exit()
 
+
 class SampleListener(Leap.Listener):
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
@@ -241,7 +252,7 @@ class SampleListener(Leap.Listener):
         print("Connected\n")
 
         # Enable gesture recognition (specific gesture based)
-        controller.enable_gesture(Leap.Gesture.TYPE_SWIPE);
+        controller.enable_gesture(Leap.Gesture.TYPE_SWIPE)
 
     def on_disconnect(self, controller):
         print("Disconnected\n")
@@ -276,7 +287,7 @@ class SampleListener(Leap.Listener):
                 Door.start()
 
         elif numHands == 0:
-            # Just reset showed position to none if no hand is detected and reset the flag for next user press
+            # Just reset position to none if no hand is detected and reset the flag for next user press
             Palm_position = None
             Pressed = False
 
@@ -285,9 +296,22 @@ class SampleListener(Leap.Listener):
             for gesture in gestures:
                 if gesture.type == Leap.Gesture.TYPE_SWIPE:
                     swipe = SwipeGesture(gesture)
+
+                    if(self.state_names[gesture.state] == 'STATE_START'):
+                        print("Swipe start")
+
+                    if(self.state_names[gesture.state] == 'STATE_UPDATE'):
+                        print("Swipe update")
+
+                    if(self.state_names[gesture.state] == 'STATE_END'):
+                        print("Swipe end")
+
+                    # Complete set of gesture details...
+                    '''
                     print("  Swipe id: %d, state: %s, position: %s, direction: %s, speed: %f" % (
-                            gesture.id, self.state_names[gesture.state],
-                            swipe.position, swipe.direction, swipe.speed))
+                        gesture.id, self.state_names[gesture.state],
+                        swipe.position, swipe.direction, swipe.speed))
+                    '''
 
     def state_string(self, state):
         if state == Leap.Gesture.STATE_START:
@@ -301,6 +325,7 @@ class SampleListener(Leap.Listener):
 
         if state == Leap.Gesture.STATE_INVALID:
             return "STATE_INVALID"
+
 
 class AudioThread(Thread):
     '''
