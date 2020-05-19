@@ -1,4 +1,5 @@
 #from __future__ import absolute_import, division, print_function, unicode_literals
+import logging
 import os
 import sys
 import io
@@ -26,14 +27,15 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from gui import main_gui
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 # Flag to indicate if Leap Motion controller is connected
 Leap_connected = True
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
 
-# Flag to indicate threads if the thread was user stopped
+# Flag used to check if any thread raised an exception or exited by the user
 Stopped = False
 
 # Palm position vector
@@ -60,6 +62,100 @@ faceNet = cv2.dnn.readNet(prototxt_Path, weights_Path)
 
 # load the face mask detector model from disk
 maskNet = load_model(model_Path)
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowModality(QtCore.Qt.NonModal)
+        MainWindow.resize(951, 487)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(20, 20, 261, 71))
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 951, 26))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuAbout = QtWidgets.QMenu(self.menubar)
+        self.menuAbout.setObjectName("menuAbout")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionAbout_LeapMask = QtWidgets.QAction(MainWindow)
+        self.actionAbout_LeapMask.setObjectName("actionAbout_LeapMask")
+        self.actionGitHub_Page = QtWidgets.QAction(MainWindow)
+        self.actionGitHub_Page.setObjectName("actionGitHub_Page")
+        self.menuFile.addAction(self.actionExit)
+        self.menuAbout.addAction(self.actionAbout_LeapMask)
+        self.menuAbout.addAction(self.actionGitHub_Page)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuAbout.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.actionExit.triggered.connect(self.exit)
+        self.actionGitHub_Page.triggered.connect(self.GitHub_link)
+        # self.Start_Button.clicked.connect(self.start_LeapMask)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "LeapMask GUI"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.menuAbout.setTitle(_translate("MainWindow", "Help"))
+        self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionAbout_LeapMask.setText(
+            _translate("MainWindow", "About LeapMask"))
+        self.actionGitHub_Page.setText(_translate("MainWindow", "GitHub Page"))
+
+    def exit(self):
+        sys.exit()
+
+    def GitHub_link(self):
+        os.system(
+            "start \"\" https://github.com/Cipulot/CodeWithFriends-Spring2020/tree/master/projects/Cipulot")
+
+    def text(self, text):
+        self.label.setText(text)
+
+
+class GUIThread(Thread):
+    '''
+    Provides a dedicated thread for the GUI
+    '''
+
+    def __init__(self, name):
+        Thread.__init__(self)
+        self.name = name
+
+    def run(self):
+        global Stopped
+        try:
+            app = QtWidgets.QApplication([])
+            MainWindow = QtWidgets.QMainWindow()
+            ui = Ui_MainWindow()
+            ui.setupUi(MainWindow)
+            MainWindow.show()
+
+            # sys.exit(app.exec_())
+            if(app.exec_() == 0):
+                print("\n\nClosing LeapMask...\n\n")
+                Stopped = True
+
+        except:
+            print("\n\nThe GUI thread raised an exception. Terminating...\n\n")
+            Stopped = True
 
 
 class FeedThread(Thread):
@@ -122,6 +218,7 @@ class FeedThread(Thread):
             # Clean stuff and flag that the thread is being  stopped
             cv2.destroyAllWindows()
             vs.stop()
+            print("\n\nThe feature detection thread raised an exception. Terminating...\n\n")
             Stopped = True
 
     def mask_evaluation(self, frame, faceNet, maskNet):
@@ -244,9 +341,8 @@ class LeapThread(Thread):
 
         # If ANY exception is raised then the specified thread will be closed
         except:
-            print("\n\n\nThread '" + self.name +
-                  "' has exited due to an exception raised in function 'run leap'!\n\n")
-            sys.exit()
+            print("\n\nThe Leap Motion thread raised an exception. Terminating...\n\n")
+            Stopped = True
 
 
 class SampleListener(Leap.Listener):
@@ -353,32 +449,16 @@ class AudioThread(Thread):
         playsound(self.path)
 
 
-class GuiThread(Thread):
-    '''
-    Provides a dedicated thread for the GUI
-    '''
-
-    def __init__(self, name):
-        Thread.__init__(self)
-        self.name = name
-
-    def run(self):
-        global Stopped
-        print("Starting GUI....")
-        if(main_gui() == 0):
-            print("END")
-            Stopped = True
-
-
-def main():
+def LeapMask_main():
     global Stopped, Leap_connected
 
     try:
-        Gui_thread = GuiThread("GUI")
+        print("\n######## LeapMask ########\n")
+        # Create a GUI thread to manage the visual stuff
+        Gui_thread = GUIThread("GUI")
         Gui_thread.daemon = True
         Gui_thread.start()
 
-        print("\n######## LeapMask ########\n")
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
         Leap_thread.daemon = True
@@ -393,9 +473,7 @@ def main():
             time.sleep(0.5)
             time_out_timer += 0.5
             if(time_out_timer >= 10):
-                print(
-                    "Timeout: cannot connect to the Leap Motion sensor in time :(\nExiting...\n")
-                return 0
+                print("Timeout: cannot connect to the Leap Motion sensor in time :(\nExiting...\n")
                 sys.exit()
 
         print("Starting detection feed thread...\n")
@@ -405,26 +483,18 @@ def main():
         Camera_thread.start()
 
         while(True):
-            if(Stopped == False):
+            if Stopped == False:
                 time.sleep(0.5)
             else:
-                print("Closing main thread...\n")
-                sys.exit()
-            # Keep this main thread alive if openCV and Leap Motion are still running
-            if((Camera_thread.isAlive() == True) and (Leap_thread.isAlive() == True)):
-                time.sleep(0.5)
-
-            # If both threads aren't alive this means that both exited correctely (using the global flag Stopped)
-            # this cover also the case you decide to exit from one of the threads (if you press esc in opencv the program will stop)
-            elif((Camera_thread.isAlive() == False) and (Leap_thread.isAlive() == False)):
-                print("Closing main thread...\n")
+                print("Closing LeapMask...")
                 sys.exit()
 
-    # If ANY exception is raised then the specified thread will be closed
-    except:
+    # If any non-exit exception is raised then the specified thread will be closed
+    except Exception:
+        print("\n\nThe main thread raised an exception. Terminating...\n\n")
         sys.exit()
 
 
 if __name__ == '__main__':
     # Call main function and pass args given by user
-    main()
+    LeapMask_main()
