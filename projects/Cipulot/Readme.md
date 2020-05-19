@@ -25,6 +25,7 @@ The input interface is based on the [Leap Motion](https://www.ultraleap.com/data
 
 ## Built with
 * [Python 3.7.7](https://www.python.org/downloads/release/python-377/) - Win64
+* [PyQt5](https://pypi.org/project/PyQt5/) - For basic gui
 * [Tensorflow 2.2](https://www.tensorflow.org/install) - GPU used
 * [Leap Motion v2 SDK](https://developer.leapmotion.com/setup/desktop) - With [fix](https://forums.leapmotion.com/t/resolved-windows-10-fall-creators-update-bugfix/6585)
 
