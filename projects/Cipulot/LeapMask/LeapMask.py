@@ -1,6 +1,7 @@
 #from __future__ import absolute_import, division, print_function, unicode_literals
 import os
 import sys
+import io
 import time
 import cv2
 import Leap
@@ -25,9 +26,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-
+from gui import main_gui
 # Flag to indicate if Leap Motion controller is connected
-Leap_connected = False
+Leap_connected = True
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
@@ -72,52 +73,56 @@ class FeedThread(Thread):
 
     def run(self):
         global Stopped, Palm_position
-        # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
-        Prev_feature = None
-        # Variable to store timestamps
-        First_frame_timestamp = 0
-        # Just a variable to store the zip object of the prediction
-        zip_features = None
+        try:
+            # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
+            Prev_feature = None
+            # Variable to store timestamps
+            First_frame_timestamp = 0
+            # Just a variable to store the zip object of the prediction
+            zip_features = None
 
-        vs = VideoStream(src=0).start()
+            vs = VideoStream(src=0).start()
 
-        while True:
-            # Grab frame and resize it.
-            # This will also help with workload reduction in larger frames
-            frame = vs.read()
-            frame = imutils.resize(frame, width=400)
+            while True:
+                # Grab frame and resize it.
+                # This will also help with workload reduction in larger frames
+                frame = vs.read()
+                frame = imutils.resize(frame, width=400)
 
-            # Evaluate if there is a face mask in the frame, returning position and prediction value
-            (locs, preds) = self.mask_evaluation(frame, faceNet, maskNet)
+                # Evaluate if there is a face mask in the frame, returning position and prediction value
+                (locs, preds) = self.mask_evaluation(frame, faceNet, maskNet)
 
-            zip_features = zip(locs, preds)
+                zip_features = zip(locs, preds)
 
-            # For each detected face draw a bounding box around it with proper color
-            for (box, pred) in zip_features:
-                # Unpacking of bounding box and prediction values
-                (startX, startY, endX, endY) = box
+                # For each detected face draw a bounding box around it with proper color
+                for (box, pred) in zip_features:
+                    # Unpacking of bounding box and prediction values
+                    (startX, startY, endX, endY) = box
 
-                Prev_feature, First_frame_timestamp, color = self.feature_timer(
-                    pred, Prev_feature, First_frame_timestamp)
+                    Prev_feature, First_frame_timestamp, color = self.feature_timer(
+                        pred, Prev_feature, First_frame_timestamp)
 
-                #cv2.putText(frame, label, (startX, startY - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
-                #cv2.putText(frame, str(Palm_position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
-                cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+                    #cv2.putText(frame, label, (startX, startY - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
+                    #cv2.putText(frame, str(Palm_position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
+                    cv2.rectangle(frame, (startX, startY),
+                                  (endX, endY), color, 2)
 
-            # show the output frame
-            cv2.imshow(self.name, frame)
+                # show the output frame
+                cv2.imshow(self.name, frame)
 
-            # Check for pressed keys to exit
-            k = cv2.waitKey(1)
-            if k % 256 == 27:
-                # ESC pressed
-                print("Closing Opencv...\n")
-                break
-
-        # Clean stuff and flag that the thread is being  stopped
-        cv2.destroyAllWindows()
-        vs.stop()
-        Stopped = True
+                # Check for pressed keys to exit
+                k = cv2.waitKey(1)
+                '''
+                if k % 256 == 27:
+                    # ESC pressed
+                    print("Closing Opencv...\n")
+                    break
+                '''
+        except:
+            # Clean stuff and flag that the thread is being  stopped
+            cv2.destroyAllWindows()
+            vs.stop()
+            Stopped = True
 
     def mask_evaluation(self, frame, faceNet, maskNet):
         faces = []
@@ -348,10 +353,31 @@ class AudioThread(Thread):
         playsound(self.path)
 
 
+class GuiThread(Thread):
+    '''
+    Provides a dedicated thread for the GUI
+    '''
+
+    def __init__(self, name):
+        Thread.__init__(self)
+        self.name = name
+
+    def run(self):
+        global Stopped
+        print("Starting GUI....")
+        if(main_gui() == 0):
+            print("END")
+            Stopped = True
+
+
 def main():
-    global Leap_connected
+    global Stopped, Leap_connected
 
     try:
+        Gui_thread = GuiThread("GUI")
+        Gui_thread.daemon = True
+        Gui_thread.start()
+
         print("\n######## LeapMask ########\n")
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
@@ -369,6 +395,7 @@ def main():
             if(time_out_timer >= 10):
                 print(
                     "Timeout: cannot connect to the Leap Motion sensor in time :(\nExiting...\n")
+                return 0
                 sys.exit()
 
         print("Starting detection feed thread...\n")
@@ -378,6 +405,11 @@ def main():
         Camera_thread.start()
 
         while(True):
+            if(Stopped == False):
+                time.sleep(0.5)
+            else:
+                print("Closing main thread...\n")
+                sys.exit()
             # Keep this main thread alive if openCV and Leap Motion are still running
             if((Camera_thread.isAlive() == True) and (Leap_thread.isAlive() == True)):
                 time.sleep(0.5)
