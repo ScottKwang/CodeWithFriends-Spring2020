@@ -218,7 +218,8 @@ class FeedThread(Thread):
             # Clean stuff and flag that the thread is being  stopped
             cv2.destroyAllWindows()
             vs.stop()
-            print("\n\nThe feature detection thread raised an exception. Terminating...\n\n")
+            print(
+                "\n\nThe feature detection thread raised an exception. Terminating...\n\n")
             Stopped = True
 
     def mask_evaluation(self, frame, faceNet, maskNet):
@@ -473,7 +474,8 @@ def LeapMask_main():
             time.sleep(0.5)
             time_out_timer += 0.5
             if(time_out_timer >= 10):
-                print("Timeout: cannot connect to the Leap Motion sensor in time :(\nExiting...\n")
+                print(
+                    "Timeout: cannot connect to the Leap Motion sensor in time :(\nExiting...\n")
                 sys.exit()
 
         print("Starting detection feed thread...\n")
@@ -490,7 +492,8 @@ def LeapMask_main():
                 sys.exit()
 
     # If any non-exit exception is raised then the specified thread will be closed
-    except Exception:
+    except Exception as e:
+        print(e)
         print("\n\nThe main thread raised an exception. Terminating...\n\n")
         sys.exit()
 
