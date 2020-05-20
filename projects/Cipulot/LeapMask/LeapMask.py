@@ -28,6 +28,11 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QImage, QPixmap, QMovie
+
+
+# UI object as global to enable access to if from anywhere
+ui = None
 
 # Flag to indicate if Leap Motion controller is connected
 Leap_connected = True
@@ -49,6 +54,10 @@ stop_audio_path = 'audios/stop.mp3'
 hello_audio_path = 'audios/hello.mp3'
 door_audio_path = 'audios/door.mp3'
 
+# Image files path
+Left_swipe_img_path = 'imgs/Swipe_left_img.png'
+Right_swipe_img_path = 'imgs/Swipe_right_img.png'
+
 # Paths to serialized detector and loads
 prototxt_Path = 'models/deploy.prototxt'
 weights_Path = 'models/mask_model.caffemodel'
@@ -65,21 +74,40 @@ maskNet = load_model(model_Path)
 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
-        MainWindow.resize(951, 487)
+        MainWindow.setFixedSize(800, 380)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 20, 261, 71))
+        self.feature_label = QtWidgets.QLabel(self.centralwidget)
+        self.feature_label.setGeometry(QtCore.QRect(150, 2, 261, 71))
         font = QtGui.QFont()
-        font.setPointSize(22)
+        font.setFamily("Calibri Light")
+        font.setPointSize(16)
+        self.feature_label.setFont(font)
+        self.feature_label.setObjectName("feature_label")
+        self.qtframe = QtWidgets.QLabel(self.centralwidget)
+        self.qtframe.setGeometry(QtCore.QRect(290, 10, 491, 321))
+        self.qtframe.setScaledContents(True)
+        self.qtframe.setObjectName("qtframe")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 10, 181, 51))
+        font = QtGui.QFont()
+        font.setFamily("Calibri Light")
+        font.setPointSize(20)
+        font.setBold(False)
+        font.setWeight(50)
         self.label.setFont(font)
         self.label.setObjectName("label")
+        self.leap_label = QtWidgets.QLabel(self.centralwidget)
+        self.leap_label.setGeometry(QtCore.QRect(40, 100, 181, 221))
+        self.leap_label.setScaledContents(True)
+        self.leap_label.setObjectName("leap_label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 951, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 814, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -106,12 +134,12 @@ class Ui_MainWindow(object):
 
         self.actionExit.triggered.connect(self.exit)
         self.actionGitHub_Page.triggered.connect(self.GitHub_link)
-        # self.Start_Button.clicked.connect(self.start_LeapMask)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "LeapMask GUI"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.feature_label.setText(_translate("MainWindow", "Face mask"))
+        self.label.setText(_translate("MainWindow", "Detected:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuAbout.setTitle(_translate("MainWindow", "Help"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
@@ -126,9 +154,6 @@ class Ui_MainWindow(object):
         os.system(
             "start \"\" https://github.com/Cipulot/CodeWithFriends-Spring2020/tree/master/projects/Cipulot")
 
-    def text(self, text):
-        self.label.setText(text)
-
 
 class GUIThread(Thread):
     '''
@@ -140,14 +165,13 @@ class GUIThread(Thread):
         self.name = name
 
     def run(self):
-        global Stopped
+        global Stopped, ui
         try:
             app = QtWidgets.QApplication([])
             MainWindow = QtWidgets.QMainWindow()
             ui = Ui_MainWindow()
             ui.setupUi(MainWindow)
             MainWindow.show()
-
             # sys.exit(app.exec_())
             if(app.exec_() == 0):
                 print("\n\nClosing LeapMask...\n\n")
@@ -179,7 +203,7 @@ class FeedThread(Thread):
 
             vs = VideoStream(src=0).start()
 
-            while True:
+            while (Stopped == False):
                 # Grab frame and resize it.
                 # This will also help with workload reduction in larger frames
                 frame = vs.read()
@@ -204,7 +228,13 @@ class FeedThread(Thread):
                                   (endX, endY), color, 2)
 
                 # show the output frame
-                cv2.imshow(self.name, frame)
+                height, width, channel = frame.shape
+                bytesPerLine = 3 * width
+                qImg = QImage(frame.data, width, height,
+                              bytesPerLine, QImage.Format_RGB888).rgbSwapped()
+                #qImg = qimage2ndarray.array2qimage(frame, True)
+                update_ui_frame(qImg)
+                #cv2.imshow(self.name, frame)
 
                 # Check for pressed keys to exit
                 k = cv2.waitKey(1)
@@ -214,10 +244,11 @@ class FeedThread(Thread):
                     print("Closing Opencv...\n")
                     break
                 '''
-        except:
+        except Exception as e:
             # Clean stuff and flag that the thread is being  stopped
             cv2.destroyAllWindows()
             vs.stop()
+            print(e)
             print(
                 "\n\nThe feature detection thread raised an exception. Terminating...\n\n")
             Stopped = True
@@ -286,6 +317,7 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("facemask time")
+                    update_ui_label("Face Mask")
                     # Enable motion detection for user inputs
                     Leap_enabled = True
 
@@ -301,6 +333,7 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("face time")
+                    update_ui_label("Face Only")
                     # Disable motion detection for user inputs
                     Leap_enabled = False
 
@@ -450,6 +483,24 @@ class AudioThread(Thread):
         playsound(self.path)
 
 
+def update_ui_frame(img):
+    global ui
+    ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
+
+
+def update_ui_label(text: str):
+    global ui
+    ui.feature_label.setText(text)
+
+
+def update_leap_label(direction: str):
+    global ui, Left_swipe_img_path, Right_swipe_img_path
+    if(direction == "LEFT"):
+        ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
+    elif(direction == "RIGHT"):
+        ui.leap_label.setPixmap(QtGui.QPixmap(Right_swipe_img_path))
+
+
 def LeapMask_main():
     global Stopped, Leap_connected
 
@@ -459,12 +510,17 @@ def LeapMask_main():
         Gui_thread = GUIThread("GUI")
         Gui_thread.daemon = True
         Gui_thread.start()
+        time.sleep(1)
+
+        update_ui_label("HELLO")
+        update_leap_label("LEFT")
+        time.sleep(5)
+        update_leap_label("RIGHT")
 
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
         Leap_thread.daemon = True
         Leap_thread.start()
-
         # Initialize a time-out timer variable
         time_out_timer = 0
 
