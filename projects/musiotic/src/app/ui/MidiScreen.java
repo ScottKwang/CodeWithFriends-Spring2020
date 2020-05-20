@@ -28,7 +28,16 @@ public class MidiScreen {
     private final Phase phase;
     private final Node screen;
     private final MIDISequence midiSequence;
+
+    // Setting to each pane which {col, row} it's in.
     private HashMap<Pane, int[]> cells;
+
+    //TODO: Make first column Key column.
+    //TODO: CSS them borders.
+    //TODO: Buttons for ADD, EDIT, and DELETE.
+    //TODO: Place to let Brian connect JMusic.
+    //TODO: Set up Add measures for left and right side (add buttons as well)
+    //TODO: SCROLL this PANE!
 
 
     public MidiScreen(MIDISequence midiSequence) {
