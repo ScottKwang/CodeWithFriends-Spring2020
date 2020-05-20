@@ -2,11 +2,14 @@ package ui;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Bloom;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -37,13 +40,35 @@ public class MidiScreen {
     //TODO: Buttons for ADD, EDIT, and DELETE.
     //TODO: Place to let Brian connect JMusic.
     //TODO: Set up Add measures for left and right side (add buttons as well)
-    //TODO: SCROLL this PANE!
 
+    // Variables for horizontal scrolling
+    int scrollPos = 0;
+    final int scrollMinPos = 0;
+    final int scrollMaxPos = 20;
 
     public MidiScreen(MIDISequence midiSequence) {
         this.phase = midiSequence.getPhase();
         this.midiSequence = midiSequence;
         GridPane gridPane = new GridPane();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPannable(true);
+        scrollPane.setContent(gridPane);
+
+        // https://stackoverflow.com/questions/32544574/javafx-scrollpane-horizontal-panning-with-scroll-wheel
+        scrollPane.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+
+                if (event.getDeltaY() > 0)
+                    scrollPane.setHvalue(scrollPos == scrollMinPos ? scrollMinPos : scrollPos--);
+                else
+                    scrollPane.setHvalue(scrollPos == scrollMaxPos ? scrollMaxPos : scrollPos++);
+
+            }
+        });
+        scrollPane.setHmin(scrollMinPos);
+        scrollPane.setHmax(scrollMaxPos);
+
         cells = new HashMap<>();
         initializeCells(gridPane);
 
@@ -51,7 +76,7 @@ public class MidiScreen {
         //FOR DEBUGGING
         gridPane.setGridLinesVisible(true);
 
-        screen = gridPane;
+        screen = scrollPane;
     }
 
     public Node getScreen(){
@@ -59,8 +84,21 @@ public class MidiScreen {
     }
 
     private void initializeCells(GridPane gridPane) {
-        for(int i = 0; i < midiSequence.numMeasures*4; i++) {
-            for(int j = 0; j < midiSequence.numNotes; j++) {
+        // Top Vertical Bar
+        for(int i = 0; i < midiSequence.numMeasures; i++) {
+            Label measureNumber = new Label(Integer.toString(i + 1));
+            gridPane.add(measureNumber, i*4 + 1, 0, 4, 1);
+        }
+
+        // Left Side Horizontal Bar
+        for(int j = 0; j < midiSequence.numNotes; j++) {
+            Label noteLabel = new Label(Integer.toString(j + 1));
+            gridPane.add(noteLabel, 0, j+1, 1, 1);
+            //TODO: Need to get from KeyPhase.
+        }
+
+        for(int i = 1; i < midiSequence.numMeasures*4 + 1; i++) {
+            for(int j = 1; j < midiSequence.numNotes + 1; j++) {
                 cells.put(createCell(Color.WHITESMOKE, gridPane, i, j), new int[] {i, j});
             }
         }
