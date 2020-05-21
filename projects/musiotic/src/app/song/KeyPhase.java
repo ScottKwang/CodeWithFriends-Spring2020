@@ -3,11 +3,14 @@ package song;
 import javafx.scene.Node;
 import jm.JMC;
 import ui.KeyScreen;
+import ui.MidiScreen;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class KeyPhase extends Phase {
     private final KeyScreen screen;
+    private ArrayList<String> scale;
 
     public KeyPhase(SongManager manager) {
         super(manager);
@@ -25,6 +28,12 @@ public class KeyPhase extends Phase {
     @Override
     public Node getScreen() {
         return screen.getScreen();
+    }
+
+    @Override
+    public MidiScreen getMidiScreen() {
+        // Shouldn't be here!
+        return null;
     }
 
     private static final Map<String, Integer> roots = Map.of(
@@ -46,7 +55,32 @@ public class KeyPhase extends Phase {
     public void setChoices(String tonic, String mode) {
         this.tonic = roots.get(tonic);
         this.mode = modes.get(mode);
+        scale = setScale(tonic, mode);
         completed.setValue(true);
+        manager.setScale();
         manager.goToPhase(manager.phaseList.getNext(getType()));
     }
+
+    private ArrayList<String> setScale(String tonic, String mode) {
+        //TODO: Need to get scale from KeyPhase.
+        // @params none because we can get the tonic and mode from keyPhase in song manager
+        // Input tonic/mode, get back notes. C major is CDEFGABC.
+        // Return back (tentative) an ArrayList of Strings!
+        // TEMPORARY C MAJOR
+        ArrayList<String> list = new ArrayList<>();
+        list.add("C");
+        list.add("D");
+        list.add("E");
+        list.add("F");
+        list.add("G");
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        return list;
+    }
+
+    protected ArrayList<String> getScale() {
+        return scale;
+    }
+
 }

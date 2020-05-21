@@ -45,35 +45,24 @@ import java.util.HashMap;
 public class Melody1Screen {
     private final Melody1Phase phase;
     private final Node screen;
-
-    //scroll bar, left right
+    private final MidiScreen midiScreen;
 
     public Melody1Screen(Melody1Phase phase) {
         this.phase = phase;
 
         BorderPane pane = new BorderPane();
-        //Scene scene = new Scene(pane, 600, 600);
-        //pane.setBorder(new Border(new BorderStroke(Color.BLACK,
-        //        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        //scene.setFill(Color.LIGHTGREEN);
-
-        //Pane circles = new Pane(circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9);
-//        circles.setBorder(new Border(new BorderStroke(Color.BLACK,
-//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-//        circles.setPrefSize(600, 600);
-//        circles.setMaxSize(600, 600);
-//        circles.setMinSize(600, 600);
-        //root.getChildren().add(pane);
-//        pane.getChildren().addAll(circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9);
-        MidiScreen midiScreen = new MidiScreen(phase.getMidiSequence());
+        midiScreen = new MidiScreen(phase);
         pane.setCenter(midiScreen.getScreen());
 
         screen = pane;
-
     }
 
     public Node getScreen(){
         return screen;
+    }
+
+    public MidiScreen getMidiScreen() {
+        return midiScreen;
     }
 
 }

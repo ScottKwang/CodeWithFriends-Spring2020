@@ -43,7 +43,8 @@ public class KeyScreen {
         modeChoice.setValue("Major");
 
         Button confirm = new Button("Confirm");
-        confirm.setOnMouseClicked(e -> this.phase.setChoices(tonicChoice.getValue(), modeChoice.getValue()));
+        confirm.setOnMouseClicked(e ->
+                this.phase.setChoices(tonicChoice.getValue(), modeChoice.getValue()));
 
         screen = new VBox(
                 description,

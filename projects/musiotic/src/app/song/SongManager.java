@@ -5,8 +5,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import ui.MidiScreen;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
+
+import java.util.ArrayList;
 
 public class SongManager {
     public final StylePhase stylePhase;
@@ -16,6 +19,10 @@ public class SongManager {
     private final BooleanProperty nextAvailable;
     private final BooleanProperty prevAvailable;
 
+    // Number of notes a user can input midi for. 8 is one octave.
+    public int numNotes;
+    // How many measures the MIDI Sequence will have. Default: 4 measures (4 bar loops).
+    public int numMeasures;
 
     public SongManager(){
         stylePhase = new StylePhase(this);
@@ -28,6 +35,8 @@ public class SongManager {
                 () -> !currentPhase.getValue().equals(stylePhase),
                 currentPhase
         ));
+        numNotes = 8;
+        numMeasures = 4;
     }
 
     public void setScreen(SongEditorScreen screen){
@@ -61,4 +70,35 @@ public class SongManager {
     public BooleanProperty prevAvailable() {
         return prevAvailable;
     }
+
+    public void addMeasures(boolean right) {
+        this.numMeasures += 4;
+        System.out.println("The number of Measures this MIDI has is: " + numMeasures);
+        if (right) addMeasuresRight();
+        else addMeasuresLeft();
+    }
+
+    private void addMeasuresLeft() {
+        //TODO:
+    }
+
+    private void addMeasuresRight() {
+        //TODO:
+    }
+
+    public ArrayList<String> getScale() {
+        return ((KeyPhase) phaseList.get(Phase.Type.Key)).getScale();
+    }
+
+    public void setScale() {
+        Phase phase = phaseList.head();
+        while (phase != null) {
+            if (phase.getType() != Phase.Type.Style && phase.getType() != Phase.Type.Key) {
+                phase.getMidiScreen().initializeCells();
+            }
+            phase = phaseList.getNext(phase.getType());
+        }
+    }
+
+
 }

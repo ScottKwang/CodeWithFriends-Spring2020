@@ -2,6 +2,7 @@ package ui;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Bloom;
@@ -12,16 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import music.MIDISequence;
 import song.Phase;
 
 import java.util.ArrayList;
@@ -30,26 +27,25 @@ import java.util.HashMap;
 public class MidiScreen {
     private final Phase phase;
     private final Node screen;
-    private final MIDISequence midiSequence;
+    private GridPane gridPane;
 
     // Setting to each pane which {col, row} it's in.
     private HashMap<Pane, int[]> cells;
 
-    //TODO: Make first column Key column.
     //TODO: CSS them borders.
-    //TODO: Buttons for ADD, EDIT, and DELETE.
-    //TODO: Place to let Brian connect JMusic.
     //TODO: Set up Add measures for left and right side (add buttons as well)
 
     // Variables for horizontal scrolling
     int scrollPos = 0;
     final int scrollMinPos = 0;
     final int scrollMaxPos = 20;
+    String mode = "ADD";
 
-    public MidiScreen(MIDISequence midiSequence) {
-        this.phase = midiSequence.getPhase();
-        this.midiSequence = midiSequence;
-        GridPane gridPane = new GridPane();
+    public MidiScreen(Phase phase) {
+        this.phase = phase;
+        gridPane = new GridPane();
+        BorderPane borderPane = new BorderPane();
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPannable(true);
         scrollPane.setContent(gridPane);
@@ -70,38 +66,61 @@ public class MidiScreen {
         scrollPane.setHmax(scrollMaxPos);
 
         cells = new HashMap<>();
-        initializeCells(gridPane);
+//        initializeCells(gridPane);
 
 
-        //FOR DEBUGGING
-        gridPane.setGridLinesVisible(true);
-
-        screen = scrollPane;
+        Button add = new Button("ADD NOTE");
+        Button edit = new Button("EDIT NOTE");
+        Button delete = new Button("DELETE NOTE");
+        HBox editButtons = new HBox(add, edit, delete);
+        add.setOnMouseClicked(e -> {
+            System.out.println("MODE: ADD");
+            mode = "ADD";
+        });
+        edit.setOnMouseClicked(e -> {
+            System.out.println("MODE: EDIT");
+            mode = "EDIT";
+        });
+        delete.setOnMouseClicked(e -> {
+            System.out.println("MODE: DELETE");
+            mode = "DELETE";
+        });
+        borderPane.setTop(editButtons);
+        borderPane.setCenter(scrollPane);
+        screen = borderPane;
     }
 
     public Node getScreen(){
         return screen;
     }
 
-    private void initializeCells(GridPane gridPane) {
+    public void initializeCells() {
         // Top Vertical Bar
-        for(int i = 0; i < midiSequence.numMeasures; i++) {
+        for(int i = 0; i < phase.manager.numMeasures; i++) {
             Label measureNumber = new Label(Integer.toString(i + 1));
             gridPane.add(measureNumber, i*4 + 1, 0, 4, 1);
         }
 
-        // Left Side Horizontal Bar
-        for(int j = 0; j < midiSequence.numNotes; j++) {
-            Label noteLabel = new Label(Integer.toString(j + 1));
-            gridPane.add(noteLabel, 0, j+1, 1, 1);
-            //TODO: Need to get from KeyPhase.
-        }
 
-        for(int i = 1; i < midiSequence.numMeasures*4 + 1; i++) {
-            for(int j = 1; j < midiSequence.numNotes + 1; j++) {
-                cells.put(createCell(Color.WHITESMOKE, gridPane, i, j), new int[] {i, j});
+        if (phase.getType() == Phase.Type.Drums) {
+            //TODO: Differentiate for Drums
+            // Kick, Snare, Hihat, open hihat, anything else?
+        } else {
+            // Left Side Horizontal Bar
+            ArrayList<String> scale = phase.manager.getScale();
+            for(int j = 0; j < phase.manager.numNotes; j++) {
+                Label noteLabel = new Label(scale.get(j));
+                gridPane.add(noteLabel, 0, j+1, 1, 1);
+            }
+            for(int i = 1; i < phase.manager.numMeasures*4 + 1; i++) {
+                for(int j = 1; j < phase.manager.numNotes + 1; j++) {
+                    cells.put(createCell(Color.WHITESMOKE, gridPane, i, j), new int[] {i, j});
+                }
             }
         }
+
+        //FOR DEBUGGING
+        gridPane.setGridLinesVisible(true);
     }
 
     private Pane createCell(Color c, GridPane gridPane, int col, int row) {
@@ -118,14 +137,29 @@ public class MidiScreen {
 
     // Example:
     // https://docs.oracle.com/javafx/2/drag_drop/HelloDragAndDrop.java.html
-    private void setPane(Pane c) {
-        c.setOnDragDetected(new EventHandler<MouseEvent>() {
+    private void setPane(Pane pane) {
+        pane.setOnMouseClicked(e -> {
+            //TODO: Fix duplicate notes and different length notes
+            if (mode.equals("ADD")) {
+                System.out.println("ADD");
+                addNote(pane);
+            } else if (mode.equals("EDIT")) {
+                System.out.println("EDIT");
+            } else if (mode.equals("DELETE")) {
+                System.out.println("DELETE");
+                deleteNote(pane);
+            } else {
+                System.out.println("Don't be here.");
+            }
+        });
+
+        pane.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 /* drag was detected, start drag-and-drop gesture*/
                 System.out.println("onDragDetected");
 
                 /* allow any transfer mode */
-                Dragboard db = c.startDragAndDrop(TransferMode.ANY);
+                Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
                 ClipboardContent cc = new ClipboardContent();
                 cc.putString("Needs this to work"); // Lol API
                 db.setContent(cc);
@@ -134,10 +168,10 @@ public class MidiScreen {
             }
         });
 
-        c.setOnDragOver(new EventHandler <DragEvent>() {
+        pane.setOnDragOver(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
                 /* accept it only if it is  not dragged from the same node */
-                if (event.getGestureSource() != c) {
+                if (event.getGestureSource() != pane) {
                     /* allow for both copying and moving, whatever user chooses */
                     System.out.println("onDragOver");
                     event.acceptTransferModes(TransferMode.MOVE);
@@ -149,37 +183,37 @@ public class MidiScreen {
             }
         });
 
-        c.setOnDragEntered(new EventHandler <DragEvent>() {
+        pane.setOnDragEntered(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
                 /* the drag-and-drop gesture entered the target */
                 System.out.println("onDragEntered");
                 /* show to the user that it is an actual gesture target */
-                if (event.getGestureSource() != c) {
+                if (event.getGestureSource() != pane) {
                     Bloom bloom = new Bloom();
-                    c.setEffect(bloom);
+                    pane.setEffect(bloom);
                 }
 
                 event.consume();
             }
         });
 
-        c.setOnDragExited(new EventHandler <DragEvent>() {
+        pane.setOnDragExited(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
                 /* mouse moved away, remove the graphical cues */
-                c.setEffect(null);
+                pane.setEffect(null);
 
                 event.consume();
             }
         });
 
-        c.setOnDragDropped(new EventHandler <DragEvent>() {
+        pane.setOnDragDropped(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
                 /* data dropped */
                 System.out.println("onDragDropped");
                 /* if there is a string data on dragboard, read it and use it */
-                Pane oldC = (Pane) event.getGestureSource();
-                Rectangle oldR = (Rectangle) oldC.getChildren().toArray()[0];
-                Rectangle r = (Rectangle) c.getChildren().toArray()[0];
+                Pane oldPane = (Pane) event.getGestureSource();
+                Rectangle oldR = (Rectangle) oldPane.getChildren().toArray()[0];
+                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
                 r.setFill(oldR.getFill());
                 /* let the source know whether the string was successfully
                  * transferred and used */
@@ -189,13 +223,13 @@ public class MidiScreen {
             }
         });
 
-        c.setOnDragDone(new EventHandler<DragEvent>() {
+        pane.setOnDragDone(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 /* the drag-and-drop gesture ended */
                 System.out.println("onDragDone");
                 /* if the data was successfully moved, clear it */
                 if (event.getTransferMode() == TransferMode.MOVE) {
-                    Rectangle r = (Rectangle) c.getChildren().toArray()[0];
+                    Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
                     r.setFill(Color.WHITESMOKE);
                 }
 
@@ -205,5 +239,49 @@ public class MidiScreen {
 
 
     }
+
+    private void addNote(Pane pane) {
+        int[] location = cells.get(pane);
+        int col = location[0];
+        int row = location[1];
+        System.out.println("col: " + col + ". row: " + row);
+        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+        r.setFill(Color.RED);
+        String note = getNote(row);
+        System.out.println(note + " Added!");
+        //TODO: ADD MIDI HERE FROM JMUSIC
+    }
+
+    private void deleteNote(Pane pane) {
+        int[] location = cells.get(pane);
+        int col = location[0];
+        int row = location[1];
+        System.out.println("col: " + col + ". row: " + row);
+        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+        r.setFill(Color.WHITESMOKE);
+        String note = getNote(row);
+        System.out.println(note + " Deleted!");
+        //TODO: DELETE MIDI HERE FROM JMUSIC
+    }
+
+    private String getNote(int row) {
+        String note = "";
+        // i is 1 here so we don't check the cell at 0,0.
+        for (int i = 1; i < gridPane.getChildren().size(); i++) {
+            Node node = gridPane.getChildren().get(i);
+            if (node != null) {
+                try {
+                    if (gridPane.getColumnIndex(node) == 0 && gridPane.getRowIndex(node) == row) {
+                        note = ((Label) node).getText();
+                    }
+                } catch(NullPointerException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        return note;
+    }
+
+
 
 }

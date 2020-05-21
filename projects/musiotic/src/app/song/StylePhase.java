@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
+import ui.MidiScreen;
 import ui.StyleScreen;
 
 import java.util.ArrayList;
@@ -30,6 +31,12 @@ public class StylePhase extends Phase {
     public Node getScreen() {
         System.out.println("StylePhase: getScreen()");
         return screen.getScreen();
+    }
+
+    @Override
+    public MidiScreen getMidiScreen() {
+        // Shouldn't be here!
+        return null;
     }
 
     public LinkedHashMap<Type, Phase> getPhases(){
