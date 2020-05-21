@@ -1,0 +1,16 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+// @import '~bootstrap/scss/bootstrap';
+
+
+//adminLTE
+@import "~admin-lte/dist/css/adminlte.css";
+@import '~admin-lte/plugins/fontawesome-free/css/all.css';
+@import '~admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
+@import '~admin-lte/plugins/toastr/toastr.min.css';
+@import '~admin-lte/plugins/sweetalert2/sweetalert2.min.css';
