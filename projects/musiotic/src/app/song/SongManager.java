@@ -5,21 +5,26 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import jm.JMC;
+import jm.music.data.Note;
+import jm.music.data.Part;
+import jm.music.data.Phrase;
 import jm.music.data.Score;
+import jm.music.tools.Mod;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 public class SongManager {
     public final StylePhase stylePhase;
     private SongEditorScreen screen;
-    public MappedLinkedList<Phase.Type, Phase> phaseList;
+    public MappedLinkedList<Phase.Type, Phase> phaseMap;
     private Property<Phase> currentPhase;
     private final BooleanProperty nextAvailable;
     private final BooleanProperty prevAvailable;
-    public Map<Phase.Type, Phase> phaseMap;
     private Score score;
     private int tonic;
     private int[] mode;
@@ -55,7 +60,7 @@ public class SongManager {
         if(screen == null) throw new IllegalStateException("SongEditorScreen not set.");
         System.out.println("SongManager: populateStyle()");
         var phases = stylePhase.getPhases();
-        phaseList = new MappedLinkedList<>(phases);
+        phaseMap = new MappedLinkedList<>(phases);
         screen.populate(phases.values());
     }
 
@@ -65,12 +70,10 @@ public class SongManager {
     }
 
     public Phase updatePhase(Phase phase){
-        var next = phaseList.getNext(phase.getType());
+        var next = phaseMap.getNext(phase.getType());
         nextAvailable.bind(next == null ? new SimpleBooleanProperty(false) : next.disabled.not());
         currentPhase.setValue(phase);
         return phase;
-    }
-
     }
 
     public void changeTonic(int tonic){
@@ -98,6 +101,8 @@ public class SongManager {
                 }
 
         this.mode = mode;
+    }
+
     public BooleanProperty nextAvailable() {
         return nextAvailable;
     }
@@ -121,7 +126,7 @@ public class SongManager {
         //TODO:
     }
 
-    public ArrayList<String> getScale() {
-        return ((KeyPhase) phaseList.get(Phase.Type.Key)).getScale();
+    public List<StringProperty> getScale() {
+        return ((KeyPhase) phaseMap.get(Phase.Type.Key)).getScale();
     }
 }

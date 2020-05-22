@@ -43,13 +43,13 @@ public class SongEditorScreen extends BorderPane {
         Button next = new Button("Next");
         next.disableProperty().bind(manager.nextAvailable().not());
         next.setOnMouseClicked(e -> {
-            var nextPhase = manager.phaseList.getNext(currentPhase.getType());
+            var nextPhase = manager.phaseMap.getNext(currentPhase.getType());
             goToPhase(nextPhase);
         });
         Button previous = new Button("Previous");
         previous.disableProperty().bind(manager.prevAvailable().not());
         previous.setOnMouseClicked(e -> {
-            var prevPhase = manager.phaseList.getPrev(currentPhase.getType());
+            var prevPhase = manager.phaseMap.getPrev(currentPhase.getType());
             goToPhase(prevPhase);
         });
         HBox actions = new HBox(previous, next);
@@ -78,7 +78,7 @@ public class SongEditorScreen extends BorderPane {
         }
         menuButtons.getChildren().addAll(buttons);
         if (currentPhase == manager.stylePhase) {
-            var keyPhase = manager.phaseList.get(Phase.Type.Key); // Does every type have a key? this may return null
+            var keyPhase = manager.phaseMap.get(Phase.Type.Key); // Does every type have a key? this may return null
             if(keyPhase != null){
                 goToPhase(keyPhase);
             }
