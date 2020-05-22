@@ -30,7 +30,6 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QImage, QPixmap, QMovie
 
-
 # UI object as global to enable access to if from anywhere
 main_ui = None
 AboutWindow = None
@@ -255,11 +254,9 @@ class GUIThread(Thread):
             MainWindow.show()
             # sys.exit(app.exec_())
             if(app.exec_() == 0):
-                print("\n\nClosing LeapMask...\n\n")
                 Stopped = True
 
-        except Exception as e:
-            print(e)
+        except:
             print("\n\nThe GUI thread raised an exception. Terminating...\n\n")
             Stopped = True
 
@@ -326,11 +323,10 @@ class FeedThread(Thread):
                     print("Closing Opencv...\n")
                     break
                 '''
-        except Exception as e:
+        except:
             # Clean stuff and flag that the thread is being  stopped
             cv2.destroyAllWindows()
             vs.stop()
-            print(e)
             print(
                 "\n\nThe feature detection thread raised an exception. Terminating...\n\n")
             Stopped = True
@@ -567,7 +563,10 @@ class AudioThread(Thread):
 
 def update_main_ui_frame(img):
     global main_ui
-    main_ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
+    try:
+        main_ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
+    except:
+        sys.exit()
 
 
 def update_main_ui_label(text: str):
@@ -577,6 +576,7 @@ def update_main_ui_label(text: str):
 
 def update_leap_label(flag: str):
     global main_ui, Left_swipe_img_path, Right_swipe_img_path
+
     if(flag == "LEFT"):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
     elif(flag == "RIGHT"):
@@ -585,7 +585,6 @@ def update_leap_label(flag: str):
 
 def LeapMask_main():
     global Stopped, Leap_connected
-
     try:
         print("\n######## LeapMask ########\n")
         # Create a GUI thread to manage the visual stuff
@@ -628,10 +627,7 @@ def LeapMask_main():
                 print("Closing LeapMask...")
                 sys.exit()
 
-    # If any non-exit exception is raised then the specified thread will be closed
-    except Exception as e:
-        print(e)
-        print("\n\nThe main thread raised an exception. Terminating...\n\n")
+    except:
         sys.exit()
 
 
