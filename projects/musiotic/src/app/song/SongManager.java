@@ -119,14 +119,27 @@ public class SongManager {
     }
 
     private void addMeasuresLeft() {
-        //TODO:
+        Score rest = score.copy();
+        for(Part part : rest.getPartArray()){
+            part.clean();
+            for(int i = 0; i < 4; i++){
+                part.addNote(
+                        new Note(JMC.REST, JMC.WHOLE_NOTE), part.getEndTime()
+                );
+            }
+        }
+        Mod.merge(rest, score);
     }
 
     private void addMeasuresRight() {
-        //TODO:
+        for(Part part : score.getPartArray()){
+            part.addNote(new Note(JMC.REST, JMC.WHOLE_NOTE), part.getEndTime());
+        }
     }
 
     public List<StringProperty> getScale() {
-        return ((KeyPhase) phaseMap.get(Phase.Type.Key)).getScale();
+        var keyPhase = (KeyPhase) phaseMap.get(Phase.Type.Key);
+        if(keyPhase == null) return null;
+        return keyPhase.getScale();
     }
 }

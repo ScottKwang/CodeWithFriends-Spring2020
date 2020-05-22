@@ -51,8 +51,16 @@ public class KeyPhase extends Phase {
             "Mixolydian", JMC.MIXOLYDIAN_SCALE
     );
     public void setChoices(String tonic, String mode) {
-        this.tonic = roots.get(tonic);
-        this.mode = modes.get(mode);
+        var newTonic = roots.get(tonic);
+        if(newTonic != this.tonic){
+            this.tonic = newTonic;
+            manager.changeTonic(newTonic);
+        }
+        var newMode = modes.get(mode);
+        if(newMode != this.mode){
+            this.mode = newMode;
+            manager.changeMode(newMode);
+        }
         setScale(tonic.toCharArray()[0], this.mode);
         completed.setValue(true);
         manager.goToPhase(manager.phaseMap.getNext(getType()));
