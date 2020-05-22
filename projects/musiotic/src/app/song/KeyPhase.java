@@ -3,7 +3,6 @@ package song;
 import javafx.scene.Node;
 import jm.JMC;
 import ui.KeyScreen;
-import ui.MidiScreen;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -30,12 +29,6 @@ public class KeyPhase extends Phase {
         return screen.getScreen();
     }
 
-    @Override
-    public MidiScreen getMidiScreen() {
-        // Shouldn't be here!
-        return null;
-    }
-
     private static final Map<String, Integer> roots = Map.of(
             "A", JMC.A4,
             "B", JMC.B4,
@@ -57,7 +50,6 @@ public class KeyPhase extends Phase {
         this.mode = modes.get(mode);
         scale = setScale(tonic, mode);
         completed.setValue(true);
-        manager.setScale();
         manager.goToPhase(manager.phaseList.getNext(getType()));
     }
 

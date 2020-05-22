@@ -4,14 +4,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import song.BassPhase;
 
-public class BassScreen {
+public class BassScreen extends MidiScreen {
     private final BassPhase phase;
     private final Node screen;
-    private final MidiScreen midiScreen;
+    private final MidiGrid midiGrid;
 
     public BassScreen(BassPhase phase){
+        super(phase);
         this.phase = phase;
-        midiScreen = new MidiScreen(phase);
+        midiGrid = new MidiGrid(phase);
         screen = new Label("Bass");
     }
 
@@ -19,7 +20,7 @@ public class BassScreen {
         return screen;
     }
 
-    public MidiScreen getMidiScreen() {
-        return midiScreen;
+    public MidiGrid getMidiGrid() {
+        return midiGrid;
     }
 }

@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import song.KeyPhase;
 
-public class KeyScreen {
+public class KeyScreen implements Screen{
     private final KeyPhase phase;
     private final Node screen;
 

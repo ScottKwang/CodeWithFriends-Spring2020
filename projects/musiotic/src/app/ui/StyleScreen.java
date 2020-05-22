@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import song.Style;
 import song.StylePhase;
 
-public class StyleScreen {
+public class StyleScreen implements Screen{
     private final StylePhase phase;
     private final Node screen;
 

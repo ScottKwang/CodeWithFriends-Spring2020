@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import ui.MidiScreen;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
 
@@ -89,16 +88,4 @@ public class SongManager {
     public ArrayList<String> getScale() {
         return ((KeyPhase) phaseList.get(Phase.Type.Key)).getScale();
     }
-
-    public void setScale() {
-        Phase phase = phaseList.head();
-        while (phase != null) {
-            if (phase.getType() != Phase.Type.Style && phase.getType() != Phase.Type.Key) {
-                phase.getMidiScreen().initializeCells();
-            }
-            phase = phaseList.getNext(phase.getType());
-        }
-    }
-
-
 }

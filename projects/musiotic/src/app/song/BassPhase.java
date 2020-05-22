@@ -2,7 +2,6 @@ package song;
 
 import javafx.scene.Node;
 import ui.BassScreen;
-import ui.MidiScreen;
 
 public class BassPhase extends Phase {
     private final BassScreen screen;
@@ -20,10 +19,5 @@ public class BassPhase extends Phase {
     @Override
     public Node getScreen() {
         return screen.getScreen();
-    }
-
-    @Override
-    public MidiScreen getMidiScreen() {
-        return screen.getMidiScreen();
     }
 }

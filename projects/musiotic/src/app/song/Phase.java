@@ -4,7 +4,6 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
-import ui.MidiScreen;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ public abstract class Phase {
 
     public abstract Type getType();
     public abstract Node getScreen();
-    public abstract MidiScreen getMidiScreen();
 
     public enum Type {
         Style("Style", StylePhase.class),
