@@ -151,7 +151,8 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuAbout.setTitle(_translate("MainWindow", "Help"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
-        self.actionAbout_LeapMask.setText(_translate("MainWindow", "About LeapMask"))
+        self.actionAbout_LeapMask.setText(
+            _translate("MainWindow", "About LeapMask"))
         self.actionGitHub_Page.setText(_translate("MainWindow", "GitHub Page"))
 
     def GitHub_link(self):
@@ -163,6 +164,11 @@ class Ui_MainWindow(object):
         AboutWindow.show()
 
     def exit(self):
+        global Stopped
+        Stopped = True
+
+    # I need this function cause closing the gui from the X on top-right caused a total crash. This seems also the proper way to handle closign of gui
+    def closeEvent(self, event):
         global Stopped
         Stopped = True
 
@@ -217,12 +223,15 @@ class Ui_AboutWindow(object):
         AboutWindow.setWindowTitle(_translate("AboutWindow", "About LeapMask"))
         self.pushButton.setText(_translate("AboutWindow", "OK"))
         self.label.setText(_translate("AboutWindow", "LeapMask"))
-        self.label_2.setText(_translate("AboutWindow", "Code With Friends - Spring 2020"))
-        self.label_3.setText(_translate("AboutWindow", "Developed by: Luca Sevà (Cipulot)"))
+        self.label_2.setText(_translate(
+            "AboutWindow", "Code With Friends - Spring 2020"))
+        self.label_3.setText(_translate(
+            "AboutWindow", "Developed by: Luca Sevà (Cipulot)"))
 
     def Ok_clicked(self):
         global AboutWindow
         AboutWindow.close()
+
 
 class GUIThread(Thread):
     '''
@@ -249,7 +258,8 @@ class GUIThread(Thread):
                 print("\n\nClosing LeapMask...\n\n")
                 Stopped = True
 
-        except:
+        except Exception as e:
+            print(e)
             print("\n\nThe GUI thread raised an exception. Terminating...\n\n")
             Stopped = True
 
@@ -585,8 +595,8 @@ def LeapMask_main():
         time.sleep(1)
 
         update_main_ui_label("HELLO")
-        #update_leap_label("LEFT")
-        #update_leap_label("RIGHT")
+        # update_leap_label("LEFT")
+        # update_leap_label("RIGHT")
 
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
