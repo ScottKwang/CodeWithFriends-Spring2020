@@ -32,7 +32,8 @@ from PyQt5.QtGui import QImage, QPixmap, QMovie
 
 
 # UI object as global to enable access to if from anywhere
-ui = None
+main_ui = None
+AboutWindow = None
 
 # Flag to indicate if Leap Motion controller is connected
 Leap_connected = True
@@ -54,9 +55,10 @@ stop_audio_path = 'audios/stop.mp3'
 hello_audio_path = 'audios/hello.mp3'
 door_audio_path = 'audios/door.mp3'
 
-# Image files path
+# Image and gifs files path
 Left_swipe_img_path = 'imgs/Swipe_left_img.png'
 Right_swipe_img_path = 'imgs/Swipe_right_img.png'
+Scott_gif_path = 'gifs/scott'
 
 # Paths to serialized detector and loads
 prototxt_Path = 'models/deploy.prototxt'
@@ -72,9 +74,14 @@ faceNet = cv2.dnn.readNet(prototxt_Path, weights_Path)
 # load the face mask detector model from disk
 maskNet = load_model(model_Path)
 
+# Handle high resolution displays:
+
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
 
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
@@ -134,6 +141,7 @@ class Ui_MainWindow(object):
 
         self.actionExit.triggered.connect(self.exit)
         self.actionGitHub_Page.triggered.connect(self.GitHub_link)
+        self.actionAbout_LeapMask.triggered.connect(self.open_about)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -143,17 +151,78 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuAbout.setTitle(_translate("MainWindow", "Help"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
-        self.actionAbout_LeapMask.setText(
-            _translate("MainWindow", "About LeapMask"))
+        self.actionAbout_LeapMask.setText(_translate("MainWindow", "About LeapMask"))
         self.actionGitHub_Page.setText(_translate("MainWindow", "GitHub Page"))
-
-    def exit(self):
-        sys.exit()
 
     def GitHub_link(self):
         os.system(
             "start \"\" https://github.com/Cipulot/CodeWithFriends-Spring2020/tree/master/projects/Cipulot")
 
+    def open_about(self):
+        global AboutWindow
+        AboutWindow.show()
+
+    def exit(self):
+        global Stopped
+        Stopped = True
+
+
+class Ui_AboutWindow(object):
+    def setupUi(self, AboutWindow):
+        global Scott_gif_path
+        AboutWindow.setObjectName("AboutWindow")
+        AboutWindow.setWindowModality(QtCore.Qt.NonModal)
+        AboutWindow.setEnabled(True)
+        AboutWindow.setFixedSize(270, 400)
+        self.pushButton = QtWidgets.QPushButton(AboutWindow)
+        self.pushButton.setGeometry(QtCore.QRect(90, 370, 93, 28))
+        self.pushButton.setObjectName("pushButton")
+        self.label = QtWidgets.QLabel(AboutWindow)
+        self.label.setGeometry(QtCore.QRect(80, 10, 161, 41))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(22)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(AboutWindow)
+        self.label_2.setGeometry(QtCore.QRect(10, 70, 301, 31))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(14)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(AboutWindow)
+        self.label_3.setGeometry(QtCore.QRect(55, 340, 201, 31))
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(AboutWindow)
+        self.label_4.setGeometry(QtCore.QRect(45, 110, 181, 221))
+        self.label_4.setText("")
+        self.label_4.setScaledContents(True)
+        self.label_4.setObjectName("label_4")
+        self.movie = QtGui.QMovie(Scott_gif_path)
+        self.movie.setCacheMode(QMovie.CacheAll)
+        self.movie.setSpeed(100)
+        self.label_4.setMovie(self.movie)
+        self.movie.start()
+
+        self.retranslateUi(AboutWindow)
+        QtCore.QMetaObject.connectSlotsByName(AboutWindow)
+        self.pushButton.clicked.connect(self.Ok_clicked)
+
+    def retranslateUi(self, AboutWindow):
+        _translate = QtCore.QCoreApplication.translate
+        AboutWindow.setWindowTitle(_translate("AboutWindow", "About LeapMask"))
+        self.pushButton.setText(_translate("AboutWindow", "OK"))
+        self.label.setText(_translate("AboutWindow", "LeapMask"))
+        self.label_2.setText(_translate("AboutWindow", "Code With Friends - Spring 2020"))
+        self.label_3.setText(_translate("AboutWindow", "Developed by: Luca Sevà (Cipulot)"))
+
+    def Ok_clicked(self):
+        global AboutWindow
+        AboutWindow.close()
 
 class GUIThread(Thread):
     '''
@@ -165,12 +234,15 @@ class GUIThread(Thread):
         self.name = name
 
     def run(self):
-        global Stopped, ui
+        global Stopped, main_ui, AboutWindow
         try:
             app = QtWidgets.QApplication([])
             MainWindow = QtWidgets.QMainWindow()
-            ui = Ui_MainWindow()
-            ui.setupUi(MainWindow)
+            AboutWindow = QtWidgets.QDialog()
+            main_ui = Ui_MainWindow()
+            main_ui.setupUi(MainWindow)
+            about_ui = Ui_AboutWindow()
+            about_ui.setupUi(AboutWindow)
             MainWindow.show()
             # sys.exit(app.exec_())
             if(app.exec_() == 0):
@@ -233,7 +305,7 @@ class FeedThread(Thread):
                 qImg = QImage(frame.data, width, height,
                               bytesPerLine, QImage.Format_RGB888).rgbSwapped()
                 #qImg = qimage2ndarray.array2qimage(frame, True)
-                update_ui_frame(qImg)
+                update_main_ui_frame(qImg)
                 #cv2.imshow(self.name, frame)
 
                 # Check for pressed keys to exit
@@ -317,7 +389,7 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("facemask time")
-                    update_ui_label("Face Mask")
+                    update_main_ui_label("Face Mask")
                     # Enable motion detection for user inputs
                     Leap_enabled = True
 
@@ -333,7 +405,7 @@ class FeedThread(Thread):
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
                     print("face time")
-                    update_ui_label("Face Only")
+                    update_main_ui_label("Face Only")
                     # Disable motion detection for user inputs
                     Leap_enabled = False
 
@@ -483,22 +555,22 @@ class AudioThread(Thread):
         playsound(self.path)
 
 
-def update_ui_frame(img):
-    global ui
-    ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
+def update_main_ui_frame(img):
+    global main_ui
+    main_ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
 
 
-def update_ui_label(text: str):
-    global ui
-    ui.feature_label.setText(text)
+def update_main_ui_label(text: str):
+    global main_ui
+    main_ui.feature_label.setText(text)
 
 
-def update_leap_label(direction: str):
-    global ui, Left_swipe_img_path, Right_swipe_img_path
-    if(direction == "LEFT"):
-        ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
-    elif(direction == "RIGHT"):
-        ui.leap_label.setPixmap(QtGui.QPixmap(Right_swipe_img_path))
+def update_leap_label(flag: str):
+    global main_ui, Left_swipe_img_path, Right_swipe_img_path
+    if(flag == "LEFT"):
+        main_ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
+    elif(flag == "RIGHT"):
+        main_ui.leap_label.setPixmap(QtGui.QPixmap(Right_swipe_img_path))
 
 
 def LeapMask_main():
@@ -512,10 +584,9 @@ def LeapMask_main():
         Gui_thread.start()
         time.sleep(1)
 
-        update_ui_label("HELLO")
-        update_leap_label("LEFT")
-        time.sleep(5)
-        update_leap_label("RIGHT")
+        update_main_ui_label("HELLO")
+        #update_leap_label("LEFT")
+        #update_leap_label("RIGHT")
 
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
