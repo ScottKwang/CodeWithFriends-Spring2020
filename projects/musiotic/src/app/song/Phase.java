@@ -8,9 +8,9 @@ import javafx.scene.Node;
 import java.util.List;
 
 public abstract class Phase {
-    protected final SongManager manager;
+    public final SongManager manager;
     public BooleanBinding disabled;
-    protected final BooleanProperty completed;
+    public final BooleanProperty completed;
     public Phase(SongManager manager){
         this.manager = manager;
         completed = new SimpleBooleanProperty();

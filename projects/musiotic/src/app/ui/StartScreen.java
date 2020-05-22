@@ -18,6 +18,7 @@ public class StartScreen extends BorderPane {
         newSongBtn.setOnAction(e -> {
             var manager = new SongManager();
             var newSongScreen = new SongEditorScreen(manager);
+            manager.setScreen(newSongScreen);
             newSongBtn.getScene().setRoot(newSongScreen);
         });
 

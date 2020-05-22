@@ -1,19 +1,17 @@
 package ui;
 
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import song.Melody1Phase;
 
-public class Melody1Screen {
+public class Melody1Screen extends MidiScreen {
     private final Melody1Phase phase;
-    private final Node screen;
 
-    public Melody1Screen(Melody1Phase phase){
+    public Melody1Screen(Melody1Phase phase) {
+        super(phase);
         this.phase = phase;
-        screen = new Label("Melody");
-    }
+        setBottom(new Label("Melody Screen")); // For example todo remove this label
 
-    public Node getScreen(){
-        return screen;
+        // midiGrid is null here but set once the style is confirmed it will be set.
+        System.out.println(midiGrid);
     }
 }

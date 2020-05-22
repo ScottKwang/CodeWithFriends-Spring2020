@@ -8,7 +8,6 @@ import ui.StyleScreen;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class StylePhase extends Phase {
     private final SongManager manager;
@@ -33,9 +32,10 @@ public class StylePhase extends Phase {
         return screen.getScreen();
     }
 
-    public Map<Type, Phase> getPhases(){
+    public LinkedHashMap<Type, Phase> getPhases(){
         System.out.println("StylePhase: getPhases()");
         var phases = new LinkedHashMap<Type, Phase>(); // preserve insertion order (button order on UI depends on this)
+        phases.put(Type.Style, this);
         for(Type phase : style.phases){
             System.out.println("StylePhase: getPhases() phase into hashmap: " + phase.name);
             phases.put(phase, phase.getPhase(manager));
@@ -43,6 +43,7 @@ public class StylePhase extends Phase {
         }
 
         for(Phase phase : phases.values()){
+            if(phase == this) continue;
             var prereqs = phase.getType().getPrereqs();
             var props = new ArrayList<BooleanProperty>();
             for(Type prereq : prereqs) {

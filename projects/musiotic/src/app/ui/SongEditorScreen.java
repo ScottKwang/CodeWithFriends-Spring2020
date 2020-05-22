@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import song.Phase;
 import song.SongManager;
@@ -14,8 +15,8 @@ import java.util.Collection;
 public class SongEditorScreen extends BorderPane {
 
     private final SongManager manager;
-    public Phase currentPhase;
     private final VBox menuButtons;
+    public Phase currentPhase;
 
     public SongEditorScreen(SongManager manager) {
         this.manager = manager;
@@ -38,37 +39,60 @@ public class SongEditorScreen extends BorderPane {
         menu.getChildren().add(menuButtons);
 
         ToolBar toolbar = new ToolBar();
+
+        Button next = new Button("Next");
+        next.disableProperty().bind(manager.nextAvailable().not());
+        next.setOnMouseClicked(e -> {
+            var nextPhase = manager.phaseList.getNext(currentPhase.getType());
+            goToPhase(nextPhase);
+        });
+        Button previous = new Button("Previous");
+        previous.disableProperty().bind(manager.prevAvailable().not());
+        previous.setOnMouseClicked(e -> {
+            var prevPhase = manager.phaseList.getPrev(currentPhase.getType());
+            goToPhase(prevPhase);
+        });
+        HBox actions = new HBox(previous, next);
+        actions.setId("actions"); // For future styling
+
         setTop(toolbar);
         setLeft(menu);
+        setBottom(actions);
 
         currentPhase = stylePhase;
         setCenter(stylePhase.getScreen());
-
-        manager.setOnStyleSelect(this::populate);
     }
 
-    private void populate(Collection<Phase> phases){
+    public void populate(Collection<Phase> phases){
         System.out.println("SongEditorScreen: populate(phases)");
         var buttons = new ArrayList<Button>();
         for(var phase : phases){
+            if(phase == manager.stylePhase) continue;
             Button button = new Button(phase.getType().name);
             button.setOnMouseClicked(e -> {
-                currentPhase = phase;
                 System.out.println("currentPhase: " + currentPhase.getType().name);
-                setCenter(phase.getScreen());
+                goToPhase(phase);
             });
             button.disableProperty().bind(phase.disabled);
             buttons.add(button);
         }
         menuButtons.getChildren().addAll(buttons);
         if (currentPhase == manager.stylePhase) {
-            var keyPhase = manager.phaseMap.get(Phase.Type.Key); // Does every type have a key? this may return null
+            var keyPhase = manager.phaseList.get(Phase.Type.Key); // Does every type have a key? this may return null
             if(keyPhase != null){
-                currentPhase = keyPhase;
-                manager.goToPhase(Phase.Type.Key); // song manager might need more to do processing when phase changes
+                goToPhase(keyPhase);
             }
-            setCenter(currentPhase.getScreen());
         }
+    }
+
+    private void goToPhase(Phase phase){
+        updatePhase(phase);
+        manager.updatePhase(phase);
+    }
+
+    public void updatePhase(Phase phase){
+        currentPhase = phase;
+        setCenter(phase.getScreen());
     }
 
 
