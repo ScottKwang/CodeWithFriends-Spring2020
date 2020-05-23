@@ -1,8 +1,12 @@
-Painting Page
-![](screenshots/paint.png)
+* About Page
+Horizon Painting WebApp
+![](screenshots/about.png)
 
-List Page
+* List Page
+Create a list of things you'd like to paint
 ![](screenshots/list.png)
 
-About Page
-![](screenshots/about.png)
+* Painting Page
+![](screenshots/paint.png)
+
+
