@@ -29,12 +29,15 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QImage, QPixmap, QMovie
 
+# Flag to disable feature detection
+feed_only = False
+
 # UI object as global to enable access to if from anywhere
 main_ui = None
 AboutWindow = None
 
 # Flag to indicate if Leap Motion controller is connected
-Leap_connected = False
+Leap_connected = True
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
@@ -287,7 +290,7 @@ class FeedThread(Thread):
         self.name = name
 
     def run(self):
-        global Stopped, Palm_position
+        global Stopped, feed_only, Palm_position
         try:
             # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
             Prev_feature = None
@@ -305,26 +308,28 @@ class FeedThread(Thread):
                 # This will also help with workload reduction in larger frames
                 frame = vs.read()
                 frame = imutils.resize(frame, width=400)
+                if(feed_only == False):
+                    # Evaluate if there is a face mask in the frame, returning position and prediction value
+                    (locs, preds) = self.mask_evaluation(frame, faceNet, maskNet)
 
-                # Evaluate if there is a face mask in the frame, returning position and prediction value
-                (locs, preds) = self.mask_evaluation(frame, faceNet, maskNet)
+                    zip_features = zip(locs, preds)
 
-                zip_features = zip(locs, preds)
+                    # For each detected face draw a bounding box around it with proper color
+                    for (box, pred) in zip_features:
+                        # Unpacking of bounding box and prediction values
+                        (startX, startY, endX, endY) = box
 
-                # For each detected face draw a bounding box around it with proper color
-                for (box, pred) in zip_features:
-                    # Unpacking of bounding box and prediction values
-                    (startX, startY, endX, endY) = box
+                        Prev_feature, First_frame_timestamp, color = self.feature_timer(
+                            pred, Prev_feature, First_frame_timestamp)
 
-                    Prev_feature, First_frame_timestamp, color = self.feature_timer(
-                        pred, Prev_feature, First_frame_timestamp)
+                        cv2.rectangle(frame, (startX, startY),
+                                    (endX, endY), color, 2)
 
-                    cv2.rectangle(frame, (startX, startY),
-                                  (endX, endY), color, 2)
-
-                # show the output frame
+                # show the output frame, converting it to QImage for the gui
                 height, width, channel = frame.shape
                 bytesPerLine = 3 * width
+
+                # Proceed with the conversion swapping the rgb values for color correction
                 qImg = QImage(frame.data, width, height,
                               bytesPerLine, QImage.Format_RGB888).rgbSwapped()
 
@@ -606,8 +611,6 @@ class AudioThread(Thread):
         playsound(self.path)
 
 # Update the video on the gui with the most updated frame
-
-
 def update_main_ui_frame(img):
     global Stopped, main_ui
     try:
@@ -622,8 +625,6 @@ def update_main_ui_frame(img):
         # sometimes prevent the exit of the app.
 
 # Update the detected feature label on the gui
-
-
 def update_main_ui_label(text: str):
     global main_ui
 
@@ -644,8 +645,6 @@ def update_leap_label(flag: str):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Yoo_img_path))
 
 # Main
-
-
 def LeapMask_main():
     global Stopped, Leap_connected
 
