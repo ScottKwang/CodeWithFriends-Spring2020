@@ -61,6 +61,7 @@ Left_swipe_img_path = 'imgs/Swipe_left_img.png'
 Right_swipe_img_path = 'imgs/Swipe_right_img.png'
 Yoo_img_path = 'imgs/Yoo_img.png'
 Scott_gif_path = 'gifs/scott'
+Icon_path = 'imgs/v3ct0red.png'
 
 # Paths to serialized detector and loads
 prototxt_Path = 'models/deploy.prototxt'
@@ -81,13 +82,15 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 # Class for main ui
-
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        global Icon_path
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.setFixedSize(800, 380)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(Icon_path), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.feature_label = QtWidgets.QLabel(self.centralwidget)
@@ -178,15 +181,16 @@ class Ui_MainWindow(object):
         Stopped = True
 
 # Class for about window ui
-
-
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
-        global Scott_gif_path
+        global Scott_gif_path, Icon_path
         AboutWindow.setObjectName("AboutWindow")
         AboutWindow.setWindowModality(QtCore.Qt.NonModal)
         AboutWindow.setEnabled(True)
         AboutWindow.setFixedSize(270, 400)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(Icon_path), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        AboutWindow.setWindowIcon(icon)
         self.pushButton = QtWidgets.QPushButton(AboutWindow)
         self.pushButton.setGeometry(QtCore.QRect(90, 370, 93, 28))
         self.pushButton.setObjectName("pushButton")
@@ -233,7 +237,7 @@ class Ui_AboutWindow(object):
         self.label_2.setText(_translate(
             "AboutWindow", "Code With Friends - Spring 2020"))
         self.label_3.setText(_translate(
-            "AboutWindow", "Developed by: Luca Sevà (Cipulot)"))
+            "AboutWindow", "Developed by: Luca Seva' (Cipulot)"))
 
     # Handle window closing when button pressed
     def Ok_clicked(self):
@@ -610,6 +614,7 @@ class AudioThread(Thread):
     def run(self):
         playsound(self.path)
 
+
 # Update the video on the gui with the most updated frame
 def update_main_ui_frame(img):
     global Stopped, main_ui
@@ -631,7 +636,6 @@ def update_main_ui_label(text: str):
     # Same as for update_main_ui_frame()
     if(Stopped == False):
         main_ui.feature_label.setText(text)
-
 
 def update_leap_label(flag: str):
     global main_ui, Left_swipe_img_path, Right_swipe_img_path, Yoo_img_path
@@ -698,7 +702,6 @@ def LeapMask_main():
 
     except:
         sys.exit()
-
 
 if __name__ == '__main__':
     # Call main function and pass args given by user
