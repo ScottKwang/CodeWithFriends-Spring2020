@@ -54,7 +54,8 @@ This project was tested on the following configuration:
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
-* Showing the frames in the gui slows down the perceived responsiveness of the app. This could be solved optimizing the queue of the frames and the conversion between np.array frame type to QImage.
+* Showing the frames in the gui with the feature detection enabled slows down the system drastically (at least for my system config). This could be solved using a more powerful GPU and furthermore optimizing the queue of the frames and the conversion between np.array frame type to QImage.
+If you want to compare the fluidity of the video feed w/ and w/o the feature detection process you can set the flag ```feed_only```: ```True``` disables the detection, ```False``` enables it.
 * When using dual (or more) monitor setup and you move the gui through the screens an error of scaling and ui element placement can occur. This is due to the fact that PyQt doesn't check natively if the dpi scale is changing (ex. from laptop pc to external monitor). This can cause the gui to look messed up if you try to run the app on a screen with different dpi scaling than the one that was designed on.
 
 ## Reference 
