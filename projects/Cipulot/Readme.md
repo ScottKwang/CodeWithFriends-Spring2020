@@ -24,7 +24,12 @@ The first tests were based on an haar cascade in OpenCV (you can see the result 
 The input interface is based on the [Leap Motion](https://www.ultraleap.com/datasheets/Leap_Motion_Controller_Datasheet.pdf) gesture sensor with ad-hoc compiled files in order to make it work with Python3 (since it's only Python2 compatible out of the box).
 
 ## GUI
-do stuff here
+To use this Python script I've implemented a very simple GUI that:
+* shows the camera feed with bounding boxes around detected features
+* gives a text output of the feature
+* indicates if a gesture has been recognized by the motion sensor
+
+![](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/gifs/Main_gui.gif)
 
 ## Built with
 * [Python 3.7.7](https://www.python.org/downloads/release/python-377/) - Win64
@@ -43,6 +48,7 @@ This project was tested on the following configuration:
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
+Showing the frames in the gui slows down the perceived responsiveness of the app. This could be solved optimizing the queue of the frames and the conversion between np.array frame type to QImage.
 
 ## Reference 
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
