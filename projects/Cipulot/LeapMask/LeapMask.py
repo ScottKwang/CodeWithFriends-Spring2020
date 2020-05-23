@@ -1,5 +1,4 @@
 #from __future__ import absolute_import, division, print_function, unicode_literals
-import logging
 import os
 import sys
 import io
@@ -74,12 +73,10 @@ faceNet = cv2.dnn.readNet(prototxt_Path, weights_Path)
 maskNet = load_model(model_Path)
 
 # Handle high resolution displays:
-
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
-
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
-
+# Class for main ui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -154,14 +151,17 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "About LeapMask"))
         self.actionGitHub_Page.setText(_translate("MainWindow", "GitHub Page"))
 
+    # Open github repo
     def GitHub_link(self):
         os.system(
             "start \"\" https://github.com/Cipulot/CodeWithFriends-Spring2020/tree/master/projects/Cipulot")
 
+    # Open about dialog window
     def open_about(self):
         global AboutWindow
         AboutWindow.show()
 
+    # Trigger global exit flag
     def exit(self):
         global Stopped
         Stopped = True
@@ -171,7 +171,7 @@ class Ui_MainWindow(object):
         global Stopped
         Stopped = True
 
-
+# Class for about window ui
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         global Scott_gif_path
@@ -227,9 +227,15 @@ class Ui_AboutWindow(object):
         self.label_3.setText(_translate(
             "AboutWindow", "Developed by: Luca Sevà (Cipulot)"))
 
+    # Handle window closing when button pressed
     def Ok_clicked(self):
         global AboutWindow
         AboutWindow.close()
+
+    # I need this function cause closing the gui from the X on top-right caused a total crash. This seems also the proper way to handle closign of gui
+    def closeEvent(self, event):
+        global Stopped
+        Stopped = True
 
 
 class GUIThread(Thread):
@@ -243,7 +249,9 @@ class GUIThread(Thread):
 
     def run(self):
         global Stopped, main_ui, AboutWindow
+
         try:
+            # Set up all gui stuff
             app = QtWidgets.QApplication([])
             MainWindow = QtWidgets.QMainWindow()
             AboutWindow = QtWidgets.QDialog()
@@ -251,8 +259,11 @@ class GUIThread(Thread):
             main_ui.setupUi(MainWindow)
             about_ui = Ui_AboutWindow()
             about_ui.setupUi(AboutWindow)
+
+            # Now show main ui
             MainWindow.show()
-            # sys.exit(app.exec_())
+
+            # If the app has exited set global flag
             if(app.exec_() == 0):
                 Stopped = True
 
@@ -275,8 +286,10 @@ class FeedThread(Thread):
         try:
             # Flag to indicate previous frame feature detected: True-> facemask | False->no facemask | None-> no feature
             Prev_feature = None
+
             # Variable to store timestamps
             First_frame_timestamp = 0
+
             # Just a variable to store the zip object of the prediction
             zip_features = None
 
@@ -301,8 +314,6 @@ class FeedThread(Thread):
                     Prev_feature, First_frame_timestamp, color = self.feature_timer(
                         pred, Prev_feature, First_frame_timestamp)
 
-                    #cv2.putText(frame, label, (startX, startY - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
-                    #cv2.putText(frame, str(Palm_position), (10, 15),cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2)
                     cv2.rectangle(frame, (startX, startY),
                                   (endX, endY), color, 2)
 
@@ -311,12 +322,17 @@ class FeedThread(Thread):
                 bytesPerLine = 3 * width
                 qImg = QImage(frame.data, width, height,
                               bytesPerLine, QImage.Format_RGB888).rgbSwapped()
-                #qImg = qimage2ndarray.array2qimage(frame, True)
+
+                # Call function that display frame (as QImage) on the main gui
                 update_main_ui_frame(qImg)
+
+                # For debug you can run the "normal" vc2 window instead. Just comment out the above and uncomment this:
                 #cv2.imshow(self.name, frame)
 
-                # Check for pressed keys to exit
+                # Check for pressed keys
                 k = cv2.waitKey(1)
+
+                # Implement only if using cv2 window
                 '''
                 if k % 256 == 27:
                     # ESC pressed
@@ -331,6 +347,7 @@ class FeedThread(Thread):
                 "\n\nThe feature detection thread raised an exception. Terminating...\n\n")
             Stopped = True
 
+    # Function that evaluates the feature values and position in the frame
     def mask_evaluation(self, frame, faceNet, maskNet):
         faces = []
         locs = []
@@ -378,6 +395,8 @@ class FeedThread(Thread):
         # Return location of detected face and prediction value
         return (locs, preds)
 
+    # Function that keeps track of the elapsed time since the first frame of a feature.
+    # Basically it start over to count if the detected feature changes....that's all.
     def feature_timer(self, prediction, prev, timestamp):
         global Leap_enabled
 
@@ -394,8 +413,12 @@ class FeedThread(Thread):
             else:
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
-                    print("facemask time")
+                    # Call function to update a label on the gui
                     update_main_ui_label("Face Mask")
+
+                    # Comment out if you want terminal feedback
+                    #print("facemask time")
+
                     # Enable motion detection for user inputs
                     Leap_enabled = True
 
@@ -410,8 +433,12 @@ class FeedThread(Thread):
             else:
                 # Check if enough time elapsed with the same feature
                 if((time.process_time() - timestamp) >= 3):
-                    print("face time")
+                    # Call function to update a label on the gui
                     update_main_ui_label("Face Only")
+
+                    # Comment out if you want terminal feedback
+                    #print("face time")
+
                     # Disable motion detection for user inputs
                     Leap_enabled = False
 
@@ -443,13 +470,9 @@ class LeapThread(Thread):
 
             print("Waiting for Leap Motion connection...\n")
 
-            # This loop ensure that this thread remains active and will allow the call of "remove_listener"
-            # if the user decides to exit the app via the openCV window
+            # This loop ensure that this thread remains active until the user decides to exit the app
             while(Stopped == False):
                 time.sleep(0.5)
-
-            # Remove the sample listener when done
-            controller.remove_listener(listener)
 
         # If ANY exception is raised then the specified thread will be closed
         except:
@@ -458,6 +481,8 @@ class LeapThread(Thread):
 
 
 class SampleListener(Leap.Listener):
+
+    # State of gesture names
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
     def on_init(self, controller):
@@ -483,10 +508,16 @@ class SampleListener(Leap.Listener):
 
         # Do all the motion detection stuff only if user gesture is enabled (face mask on)
         if(Leap_enabled == True):
-            # Get the most recent frame and report some basic information
+            # Get the most recent frame
             frame = controller.frame()
+
+            # Get hands, even tho we'll use only one
             hands = frame.hands
+
+            # Get gesture as list
             gestures = list(frame.gestures())
+
+            # Count hands and gestures
             numHands = len(hands)
             numGestures = len(gestures)
 
@@ -533,6 +564,7 @@ class SampleListener(Leap.Listener):
                             swipe.position, swipe.direction, swipe.speed))
                         '''
 
+    # Don't even know why I've made this tbh....since I got the state_names[] at the top.
     def state_string(self, state):
         if state == Leap.Gesture.STATE_START:
             return "STATE_START"
@@ -551,7 +583,8 @@ class AudioThread(Thread):
     '''
     Privides an audio player thread to play sound files.
     '''
-
+    # This thread might seem unnecessary, maybe it is. The playsound call will block successive calls until it stops to play.
+    # That's why I've backed it into this thread.
     def __init__(self, name, path):
         Thread.__init__(self)
         self.name = name
@@ -560,47 +593,63 @@ class AudioThread(Thread):
     def run(self):
         playsound(self.path)
 
-
+# Update the video on the gui with the most updated frame
 def update_main_ui_frame(img):
-    global main_ui
+    global Stopped, main_ui
     try:
-        main_ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
+        # Check if the app is still "allowed" to run.
+        # Picture this: another function in the code set the flag, but this function, being in its oun call, is still be executed, while the gui app no longer exists.
+        # This would be a problem, but not with this check
+        if(Stopped == False):
+            main_ui.qtframe.setPixmap(QtGui.QPixmap.fromImage(img))
     except:
         sys.exit()
+        # This is a brutal way to handle the exception (I don't...) but some exceptions that I couldn't figure out where are generated
+        # sometimes prevent the exit of the app.
 
-
+# Update the detected feature label on the gui
 def update_main_ui_label(text: str):
     global main_ui
-    main_ui.feature_label.setText(text)
+
+    # Same as for update_main_ui_frame()
+    if(Stopped == False):
+        main_ui.feature_label.setText(text)
 
 
 def update_leap_label(flag: str):
     global main_ui, Left_swipe_img_path, Right_swipe_img_path
 
-    if(flag == "LEFT"):
+    # Same as for update_main_ui_frame() plus case-based selection
+    if(flag == "LEFT") and (Stopped == False):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
-    elif(flag == "RIGHT"):
+    elif(flag == "RIGHT") and (Stopped == False):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Right_swipe_img_path))
 
-
+# Main
 def LeapMask_main():
     global Stopped, Leap_connected
+
     try:
         print("\n######## LeapMask ########\n")
+
         # Create a GUI thread to manage the visual stuff
         Gui_thread = GUIThread("GUI")
         Gui_thread.daemon = True
         Gui_thread.start()
+
+        # This sleep time IS REQUIRED!
+        # This allows the PyQt to initialize all the stuff and the globals to be updated.
+        # Otherwise this main will "see" the globals as their default value for XYZ period of time
         time.sleep(1)
 
+        #Put something here
         update_main_ui_label("HELLO")
-        # update_leap_label("LEFT")
-        # update_leap_label("RIGHT")
 
         # Create a Leap Motion thread that will handle connection and data gathering
         Leap_thread = LeapThread("Leap")
         Leap_thread.daemon = True
         Leap_thread.start()
+
         # Initialize a time-out timer variable
         time_out_timer = 0
 
@@ -620,6 +669,7 @@ def LeapMask_main():
         Camera_thread.daemon = True
         Camera_thread.start()
 
+        # Loop to keep the thread of main alive
         while(True):
             if Stopped == False:
                 time.sleep(0.5)
