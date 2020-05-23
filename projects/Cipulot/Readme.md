@@ -29,7 +29,13 @@ To use this Python script I've implemented a very simple GUI that:
 * gives a text output of the feature
 * indicates if a gesture has been recognized by the motion sensor
 
+Feature label change:
+
 ![](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/gifs/Main_gui.gif)
+
+Gesture and virtual press:
+
+![](link)
 
 ## Built with
 * [Python 3.7.7](https://www.python.org/downloads/release/python-377/) - Win64
@@ -48,7 +54,8 @@ This project was tested on the following configuration:
 * NVIDIA GeForce MX250 (2GB, driver version 445.87)
 
 ## Known issues
-Showing the frames in the gui slows down the perceived responsiveness of the app. This could be solved optimizing the queue of the frames and the conversion between np.array frame type to QImage.
+* Showing the frames in the gui slows down the perceived responsiveness of the app. This could be solved optimizing the queue of the frames and the conversion between np.array frame type to QImage.
+* When using dual (or more) monitor setup and you move the gui through the screens an error of scaling and ui element placement can occur. This is due to the fact that PyQt donesn't check natively if the dpi scale is changing (ex. from laptop pc to external monitor). This can cause the gui to look messed up if you try to run the app on a screen with different dpi scaling than the one that was designed on.
 
 ## Reference 
 If you're interested looking into the Face Mask detection stuff take a look at this paper (in that you can find a GitHub Repo with a lot of training images and links to positive/negative images databases):
