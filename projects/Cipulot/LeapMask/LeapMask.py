@@ -34,7 +34,7 @@ main_ui = None
 AboutWindow = None
 
 # Flag to indicate if Leap Motion controller is connected
-Leap_connected = True
+Leap_connected = False
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
@@ -51,11 +51,12 @@ Pressed = False
 # Audio files path
 stop_audio_path = 'audios/stop.mp3'
 hello_audio_path = 'audios/hello.mp3'
-door_audio_path = 'audios/door.mp3'
+Yoo_audio_path = 'audios/Yoo.mp3'
 
 # Image and gifs files path
 Left_swipe_img_path = 'imgs/Swipe_left_img.png'
 Right_swipe_img_path = 'imgs/Swipe_right_img.png'
+Yoo_img_path = 'imgs/Yoo_img.png'
 Scott_gif_path = 'gifs/scott'
 
 # Paths to serialized detector and loads
@@ -77,6 +78,8 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 # Class for main ui
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -172,6 +175,8 @@ class Ui_MainWindow(object):
         Stopped = True
 
 # Class for about window ui
+
+
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         global Scott_gif_path
@@ -504,10 +509,10 @@ class SampleListener(Leap.Listener):
         print("Exited Leap Motion\n")
 
     def on_frame(self, controller):
-        global Leap_enabled, Palm_position, Pressed, door_audio_path
+        global Stopped, Leap_enabled, Palm_position, Pressed, Yoo_audio_path
 
         # Do all the motion detection stuff only if user gesture is enabled (face mask on)
-        if(Leap_enabled == True):
+        if(Leap_enabled == True) and (Stopped == False):
             # Get the most recent frame
             frame = controller.frame()
 
@@ -533,9 +538,10 @@ class SampleListener(Leap.Listener):
                 # If the user put his/her hand at a certain distance from the sensor it triggers the ringbell
                 if(Palm_position[1] <= 120) and (Pressed == False):
                     Pressed = True
-                    Door = AudioThread("door", door_audio_path)
-                    Door.daemon = True
-                    Door.start()
+                    update_leap_label("YOO")
+                    Yoo = AudioThread("Yoo", Yoo_audio_path)
+                    Yoo.daemon = True
+                    Yoo.start()
 
             elif numHands == 0:
                 # Just reset position to none if no hand is detected and reset the flag for next user press
@@ -547,6 +553,7 @@ class SampleListener(Leap.Listener):
                 for gesture in gestures:
                     if gesture.type == Leap.Gesture.TYPE_SWIPE:
                         swipe = SwipeGesture(gesture)
+                        Swipe_direction = swipe.direction
 
                         if(self.state_names[gesture.state] == 'STATE_START'):
                             print("Swipe start")
@@ -556,6 +563,10 @@ class SampleListener(Leap.Listener):
 
                         if(self.state_names[gesture.state] == 'STATE_END'):
                             print("Swipe end")
+                            if(Swipe_direction[0] > 0):
+                                update_leap_label("RIGHT")
+                            elif(Swipe_direction[0] < 0):
+                                update_leap_label("LEFT")
 
                         # Complete set of gesture details...
                         '''
@@ -585,6 +596,7 @@ class AudioThread(Thread):
     '''
     # This thread might seem unnecessary, maybe it is. The playsound call will block successive calls until it stops to play.
     # That's why I've backed it into this thread.
+
     def __init__(self, name, path):
         Thread.__init__(self)
         self.name = name
@@ -594,6 +606,8 @@ class AudioThread(Thread):
         playsound(self.path)
 
 # Update the video on the gui with the most updated frame
+
+
 def update_main_ui_frame(img):
     global Stopped, main_ui
     try:
@@ -608,6 +622,8 @@ def update_main_ui_frame(img):
         # sometimes prevent the exit of the app.
 
 # Update the detected feature label on the gui
+
+
 def update_main_ui_label(text: str):
     global main_ui
 
@@ -617,15 +633,19 @@ def update_main_ui_label(text: str):
 
 
 def update_leap_label(flag: str):
-    global main_ui, Left_swipe_img_path, Right_swipe_img_path
+    global main_ui, Left_swipe_img_path, Right_swipe_img_path, Yoo_img_path
 
     # Same as for update_main_ui_frame() plus case-based selection
     if(flag == "LEFT") and (Stopped == False):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Left_swipe_img_path))
     elif(flag == "RIGHT") and (Stopped == False):
         main_ui.leap_label.setPixmap(QtGui.QPixmap(Right_swipe_img_path))
+    if(flag == "YOO") and (Stopped == False):
+        main_ui.leap_label.setPixmap(QtGui.QPixmap(Yoo_img_path))
 
 # Main
+
+
 def LeapMask_main():
     global Stopped, Leap_connected
 
@@ -642,7 +662,7 @@ def LeapMask_main():
         # Otherwise this main will "see" the globals as their default value for XYZ period of time
         time.sleep(1)
 
-        #Put something here
+        # Put something here
         update_main_ui_label("HELLO")
 
         # Create a Leap Motion thread that will handle connection and data gathering
@@ -672,7 +692,7 @@ def LeapMask_main():
         # Loop to keep the thread of main alive
         while(True):
             if Stopped == False:
-                time.sleep(0.5)
+                time.sleep(0.1)
             else:
                 print("Closing LeapMask...")
                 sys.exit()
