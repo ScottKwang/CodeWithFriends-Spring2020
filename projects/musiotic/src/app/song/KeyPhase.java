@@ -108,12 +108,12 @@ public class KeyPhase extends Phase {
 
     @Override
     public void addNote(String noteName, int noteLength, int notePosition) {
-
+        System.out.println("Don't be here!");
     }
 
     @Override
     public void deleteNote(String noteName, int noteLength, int notePosition) {
-
+        System.out.println("Don't be here!");
     }
 
 

@@ -75,4 +75,14 @@ public class StylePhase extends Phase {
             throw new IllegalStateException("A style has already been selected for this song.");
         }
     }
+
+    @Override
+    public void addNote(String noteName, int noteLength, int notePosition) {
+        System.out.println("Don't be here!");
+    }
+
+    @Override
+    public void deleteNote(String noteName, int noteLength, int notePosition) {
+        System.out.println("Don't be here!");
+    }
 }
