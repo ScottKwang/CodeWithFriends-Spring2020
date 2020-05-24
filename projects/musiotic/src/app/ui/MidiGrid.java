@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -24,8 +25,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import song.Phase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MidiGrid {
     private final Phase phase;
@@ -145,9 +146,10 @@ public class MidiGrid {
             // or better yet, if the functionality is significantly different then abstract out the commonalities
         } else {
             // Left Side Horizontal Bar
-            ArrayList<String> scale = phase.manager.getScale();
+            List<StringProperty> scale = phase.manager.getScale();
             for(int j = 0; j < phase.manager.numNotes; j++) {
-                Label noteLabel = new Label(scale.get(j));
+                Label noteLabel = new Label();
+                noteLabel.textProperty().bind(scale.get(j));
                 gridPane.add(noteLabel, 0, j+1, 1, 1);
             }
             for(int i = 1; i < phase.manager.numMeasures*16 + 1; i++) {
