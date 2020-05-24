@@ -37,7 +37,7 @@ main_ui = None
 AboutWindow = None
 
 # Flag to indicate if Leap Motion controller is connected
-Leap_connected = True
+Leap_connected = False
 
 # Flag to indicate if Leap Motion controller is enabled
 Leap_enabled = False
