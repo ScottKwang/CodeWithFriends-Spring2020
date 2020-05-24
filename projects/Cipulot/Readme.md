@@ -35,7 +35,7 @@ Feature label change:
 
 Gesture and virtual press:
 
-![](link)
+![](https://github.com/Cipulot/CodeWithFriends-Spring2020/blob/master/projects/Cipulot/LeapMask/gifs/Gesture_gui.gif)
 
 ## Built with
 * [Python 3.7.7](https://www.python.org/downloads/release/python-377/) - Win64
