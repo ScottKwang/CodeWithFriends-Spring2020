@@ -1,0 +1,25 @@
+.event-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  background-color: 	#f9dc5c;
+  color: #111;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 1px 8px;
+  text-shadow: none;
+  line-height: 1.5;
+}
+
+.movie-option {
+  color: #111;
+  img {
+    width: 30px;
+    margin-right: 5px;
+  }
+}
+

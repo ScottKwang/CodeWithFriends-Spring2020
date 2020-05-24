@@ -1,0 +1,24 @@
+.container
+  .card.p-3.dark
+    h2 = t("edit_account")
+    = form_for resource, as: resource_name, url: registration_path(resource_name), :html => {:method =>  :put, :multipart => true} do |f|
+      .form-inputs
+        .form-group
+          = f.label :email
+          = f.text_field :email, required: true, autofocus: true, class:'form-control'
+        .form-group
+          = f.label :name
+          = f.text_field :name, autofocus: true, class:'form-control'
+        .form-group
+          = f.label :username
+          = f.text_field :username, autofocus: true, class:'form-control'
+        .form-group
+          = f.label :current_password
+          = f.text_field :current_password, type: 'password', required: true, class:'form-control'
+        .form-group
+          - if current_user.avatar.attached?
+            => image_tag current_user.avatar, class: 'round-image-100'
+          = f.file_field :avatar
+        .form-actions
+          = f.submit t('update'), class: 'btn btn-primary'
+

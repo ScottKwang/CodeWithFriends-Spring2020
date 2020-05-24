@@ -1,0 +1,9 @@
+.container
+  .row
+    .col-md-12.event-title
+      h1 = t('events.title')
+      = link_to t('events.create.title'), new_event_path, class: 'btn btn-primary btn-lg'
+  .row
+    .col-md-12
+      - @events.each do |event|
+        h3 = event.title

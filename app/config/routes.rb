@@ -7,4 +7,9 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  resources :users
+  resources :events
+
+  get 'all_tags' => 'tags#all_tags', as: 'all_tags'
 end

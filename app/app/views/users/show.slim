@@ -1,0 +1,18 @@
+.container
+  .user-profile
+    .row
+      .col-sm-4
+        - if @user.avatar.attached?
+          = image_tag @user.avatar, class: 'round-image-100'
+        - else
+          = image_tag gravatar_image_tag(@user.email), class: 'round-image-100'
+        .user-infos
+          h3 = t('user.infos')
+          -if @user.name
+            span.cat = t('user.name')
+            span = @user.name
+      .col-sm-8
+        .profile-title
+          div = format_name(@user)
+          = link_to t('Edit'), edit_user_registration_path(@user), class: "btn btn-primary btn-lg"
+        .user-data

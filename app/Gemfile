@@ -20,6 +20,12 @@ gem 'slim'
 gem 'sqlite3', '~> 1.4'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
+gem "aws-sdk-s3", require: false
+gem 'activestorage'
+gem 'gravatar_image_tag'
+gem 'actiontext', require: 'action_text'
+gem 'trix'
+gem 'acts-as-taggable-on', '~> 6.0'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
