@@ -1,0 +1,35 @@
+.root {
+    -fx-background-color: #8A2BE2;
+}
+
+.buttons {
+    -fx-alignment: center;
+    -fx-spacing: 100;
+    -fx-pref-width: 800;
+    -fx-max-width: 800;
+    -fx-padding: -200 150 0 150;
+    -fx-max-height: inherit;
+}
+
+.button {
+    -fx-background-color: gray;
+    -fx-max-width: inherit;
+    -fx-font-size: 36;
+    -fx-text-fill: black;
+}
+
+.button:hover {
+    -fx-background-color: white;
+}
+
+.center {
+    -fx-padding: 20 0 0 100;
+}
+
+.name {
+    -fx-max-width: 1280;
+    -fx-alignment: center;
+    -fx-font-family: sans-serif;
+    -fx-font-size: 90;
+    -fx-text-fill: black;
+}
