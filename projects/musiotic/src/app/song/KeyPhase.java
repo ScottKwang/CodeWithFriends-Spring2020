@@ -75,4 +75,15 @@ public class KeyPhase extends Phase {
         return scale;
     }
 
+    @Override
+    public void addNote(String noteName, int noteLength, int notePosition) {
+
+    }
+
+    @Override
+    public void deleteNote(String noteName, int noteLength, int notePosition) {
+
+    }
+
+
 }

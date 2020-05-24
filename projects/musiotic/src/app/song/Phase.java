@@ -20,6 +20,13 @@ public abstract class Phase {
     public abstract Type getType();
     public abstract Node getScreen();
 
+    //TODO: For Brian here! noteName should be giving you the left side of the midi grids text.
+    // noteLength: the length of the note in sixteenth note increments. So example: a quarter note would have length 4.
+    // notePosition: position note starts at, if 0 is the first sixteenth note, then 4 would be where the second quarter note starts.
+    public abstract void addNote(String noteName, int noteLength, int notePosition);
+    public abstract void deleteNote(String noteName, int noteLength, int notePosition);
+
+
     public enum Type {
         Style("Style", StylePhase.class),
         Key("Key", KeyPhase.class, Style),

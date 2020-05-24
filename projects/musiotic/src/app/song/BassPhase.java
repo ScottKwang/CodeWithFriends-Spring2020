@@ -20,4 +20,14 @@ public class BassPhase extends Phase {
     public Node getScreen() {
         return screen.getScreen();
     }
+
+    @Override
+    public void addNote(String noteName, int noteLength, int notePosition) {
+
+    }
+
+    @Override
+    public void deleteNote(String noteName, int noteLength, int notePosition) {
+
+    }
 }

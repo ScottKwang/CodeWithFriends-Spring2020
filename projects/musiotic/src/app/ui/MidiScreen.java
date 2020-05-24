@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import song.Phase;
 
-public abstract class MidiScreen implements Screen{
+public abstract class MidiScreen implements Screen {
     private final Phase phase;
     protected MidiGrid midiGrid;
     private final BorderPane screen;
