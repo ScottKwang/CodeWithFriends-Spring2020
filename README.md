@@ -4,7 +4,7 @@ Created by Alan Cao, [GitHub](https://github.com/Alacau) [Source code](https://g
 Summary
 (Write a short, 1-2 paragraph summary of what you did for Code With Friends this month)
 
-![Screenshot](https://imgur.com/ABZ26CT) ![Screenshot](https://imgur.com/pwA7WZC) ![Screenshot](https://imgur.com/rQ737Bc) ![Screenshot](https://imgur.com/XGJY7dx)
+![Screenshot](https://imgur.com/ABZ26CT.png) ![Screenshot](https://imgur.com/pwA7WZC.png) ![Screenshot](https://imgur.com/rQ737Bc.png) ![Screenshot](https://imgur.com/XGJY7dx.png)
 
 Inspiration
 (What inspired, motivated, or urged you to work on this project specifically?)
