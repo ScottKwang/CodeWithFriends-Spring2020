@@ -3,17 +3,42 @@ package imgprocesser
 import (
 	"image"
 	"image/color"
+	"image/draw"
 	_ "image/jpeg"
+	_ "image/png"
 	"math"
+	"os"
 )
 
 func ProcessImage(img image.Image) (image.Image, error){
 
-	processed, err := reverseColor(img)
+	processed, err := watermark(img)
 	if err != nil {
 		panic(err)
 	}
 	return processed, nil
+}
+
+func watermark(background image.Image) (image.Image, error) {
+	// open watermark img
+	f, err := os.Open("/Users/youngyuan/CodeWithFriends-Spring2020/projects/yngyuan/go-vaporwave/images/vaporlogo.png")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	watermark, _, err := image.Decode(f)
+	if err != nil {
+		panic(err)
+	}
+
+	offset := image.Pt(280, 460)
+	b := background.Bounds()
+	wm := image.NewRGBA(b)
+	draw.Draw(wm, b, background, image.Point{}, draw.Src)
+	draw.Draw(wm, watermark.Bounds().Add(offset), watermark, image.Point{}, draw.Over)
+
+	return wm, err
 }
 
 func reverseColor(img image.Image) (image.Image, error) {
