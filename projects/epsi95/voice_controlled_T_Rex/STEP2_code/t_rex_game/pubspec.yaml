@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flame: ^0.20.2
   flare_flutter: ^2.0.3
+  shared_preferences: ^0.5.7+3
 
 dev_dependencies:
   flutter_test:

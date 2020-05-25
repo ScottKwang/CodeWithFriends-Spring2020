@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/components/text_component.dart';
 import 'package:flame/game.dart';
 import 'dart:ui';
@@ -14,12 +16,14 @@ import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/position.dart';
 import 'package:flame/flame.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:noise_meter/noise_meter.dart';
 
 class TRexGame extends Game with TapDetector {
   Size screenSize;
   double tileSize;
   Sprite bgSprite;
-  double gameSpeed = 4.5;
+  double gameSpeed = 5.5;
   List<Grass> grasses = [];
   List<Cloud> clouds = [];
   List<Tree> trees = [];
@@ -33,11 +37,12 @@ class TRexGame extends Game with TapDetector {
   double mulFactor;
   bool tapped = false;
   TextConfig config;
-  int highScore = 2000;
+  int highScore;
   int currentScore = 0;
   bool isCollisionHappened = false;
   double relaxation;
   bool isHitSoundPlayable = true;
+  SharedPreferences score;
 
   TRexGame() {
     bgSprite = Sprite("bg/ground.png");
@@ -45,6 +50,8 @@ class TRexGame extends Game with TapDetector {
   }
 
   void initialize() async {
+    score = await SharedPreferences.getInstance();
+    highScore = score.getInt('dinoScore') ?? 0;
     resize(await Flame.util.initialDimensions());
     config = TextConfig(fontSize: tileSize, fontFamily: 'pizzadudedotdk');
     relaxation = tileSize * 0.6;
@@ -105,7 +112,16 @@ class TRexGame extends Game with TapDetector {
 
   @override
   void update(double t) {
-    print("game speed " + gameSpeed.toString());
+    // score handling
+    if (currentScore > highScore) {
+      highScore = currentScore;
+    }
+    if (currentScore == 999999) {
+      currentScore = 0;
+      gameSpeed = 5.5;
+    }
+    //speed handling
+    //print("game speed " + gameSpeed.toString());
     // check for multiple for 100 score
     if (currentScore != 0 && currentScore % 1000 == 0) {
       Flame.audio.play('score-reached.mp3');
@@ -122,18 +138,21 @@ class TRexGame extends Game with TapDetector {
             Flame.audio.play('hit.mp3');
             isHitSoundPlayable = false;
           }
-          print("collision happened");
+          //print("collision happened");
+          if (currentScore >= highScore) {
+            score.setInt("dinoScore", currentScore);
+          }
           isCollisionHappened = true;
         } else {
-          print("no collision");
-          print(dinoY);
-          print(screenSize.height - 3.5 * tileSize);
+          //print("no collision");
+          //print(dinoY);
+          //print(screenSize.height - 3.5 * tileSize);
         }
       }
     });
     if (!isCollisionHappened) {
       currentScore += 1;
-      gameSpeed = [gameSpeed + 0.001, 14].reduce(min);
+      gameSpeed = [gameSpeed + 0.0005, 13].reduce(min);
       // handling grass
       if (grasses.length > 0) {
         // step-1: update the grass position
@@ -211,7 +230,7 @@ class TRexGame extends Game with TapDetector {
         tRex.update((gameSpeed / 2) * t);
       }
       if (jumpUp) {
-        if (dinoY < referenceY - 2.5 * tileSize) {
+        if (dinoY < referenceY - 3.5 * tileSize) {
           // get the dino down
           jumpUp = false;
           jumpDown = true;
@@ -245,7 +264,7 @@ class TRexGame extends Game with TapDetector {
         tRex.update((gameSpeed / 2) * t);
       }
       if (jumpUp) {
-        if (dinoY < referenceY - 3 * tileSize) {
+        if (dinoY < referenceY - 3.5 * tileSize) {
           // get the dino down
           jumpUp = false;
           jumpDown = true;
@@ -313,7 +332,7 @@ class TRexGame extends Game with TapDetector {
     // showing score
     config.render(
         canvas,
-        "HI ${highScore.toString().padLeft(5, "0")}  ${currentScore.toString().padLeft(5, "0")}",
+        "HI ${highScore.toString().padLeft(6, "0")}  ${currentScore.toString().padLeft(6, "0")}",
         Position(screenSize.width / 2, 10));
 
     // handle collision scenario
