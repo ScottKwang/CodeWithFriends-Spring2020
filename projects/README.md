@@ -3,9 +3,10 @@
 Created by tomoaki3284, [GitHub Page](https://github.com/tomoaki3284).
 Source code: [Here](https://github.com/tomoaki3284/WSUCourseHelperApp).
 
-![ScreenShot](https://ibb.co/ykG9NX8)
-![ScreenShot](https://ibb.co/Z2SGSFB)
-![ScreenShot](https://ibb.co/QQXg1jw)
+![ScreenShot](/projectImages/coursesListView.png)
+![ScreenShot](/projectImages/scheduleVisualizer.png)
+![ScreenShot](/projectImages/scheduleVisualizer_timedetectorON.png)
+![ScreenShot](/projectImages/xnavigationDrawer.png)
 
 ## Who is this project for?
 This project is for students at my university selecting the courses for future semesters with less work by utilizing various features, such as schedule visualization, filter course by various category, etc.
