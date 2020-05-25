@@ -35,7 +35,7 @@
               <%= link_to format_name(current_user), user_path(current_user), class: "nav-link" %>
             </li>
             <li>
-              <%= link_to t('logout'), destroy_user_session_path, class: "nav-link" %>
+              <%= link_to t('logout'), destroy_user_session_path, class: "nav-link", method: :delete %>
             </li>
           <% else %>
             <li>
@@ -48,8 +48,24 @@
         </ul>
       </div>
     </nav>
-    <%= notice %>
-    <%= alert %>
+    <div id="flash" class="container">
+      <% if notice %>
+        <div class="alert alert-success">
+          <%= notice %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger">
+          <%= alert %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>

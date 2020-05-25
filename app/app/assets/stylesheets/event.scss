@@ -5,7 +5,7 @@
 }
 
 .label {
-  background-color: 	#f9dc5c;
+  background-color: #f9dc5c;
   color: #111;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -17,9 +17,56 @@
 
 .movie-option {
   color: #111;
+
   img {
     width: 30px;
     margin-right: 5px;
   }
 }
 
+.event-card {
+  margin-bottom: 15px;
+  padding: 5px 0;
+  background-color: #465362 !important;
+}
+
+.badge-event {
+  background-color: #ed254e;
+  color: #eee;
+  margin-right: 5px;
+}
+
+.event-show-btn {
+  margin-right: 5px;
+  float: right;
+}
+
+.event-label {
+  font-weight: bold;
+}
+
+.event-label::after {
+  content: ': ';
+}
+
+.event-image-200 {
+  width: 200px;
+  border-radius: 10px;
+}
+
+
+.event-user-link {
+  color: #eee;
+
+  &:hover {
+    color:  #f9dc5c;
+  }
+}
+
+.sub-title {
+  font-size: 18px;
+}
+
+.event.sub-form {
+  margin-top: 15px;
+}

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_resource
+  before_action :find_resource, only: [:show]
 
   def show
 

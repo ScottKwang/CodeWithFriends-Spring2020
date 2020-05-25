@@ -11,6 +11,7 @@ require("@rails/activestorage").start()
 require("channels")
 require('bootstrap')
 require("moment")
+require('jquery')
 import flatpickr from 'flatpickr'
 import "flatpickr/dist/flatpickr.min.css";
 
@@ -20,6 +21,10 @@ $(document).on('turbolinks:load', function() {
     enableTime: true,
     minDate: new Date()
   });
+
+  setTimeout(function(){
+    $('#flash').remove();
+  }, 5000);
 })
 
 

@@ -16,40 +16,42 @@
  *= event
  *= actiontext
  */
- @import "bootstrap";
+@import "bootstrap";
 
- body {
-   background-color: #222;
-   color: #DDD
- }
+body {
+  background-color: #222;
+  color: #DDD;
+}
 
- .btn-primary {
-   background-color: #f9dc5c;
-   border-color: #f9dc5c;
-   color: #222;
-  } //button
+.btn-primary {
+  background-color: #f9dc5c;
+  border-color: #f9dc5c;
+  color: #222;
+}
+//button
 
- .btn-primary:hover {
-   background-color: #fcedad;
-   border-color: #fcedad;
-   color: #222;
- } //hover
+.btn-primary:hover {
+  background-color: #fcedad;
+  border-color: #fcedad;
+  color: #222;
+}
+//hover
 
- .red-navbar {
-    background-color: #ed254e;
-    color:#eee;
-    border: 1px solid #333;
-    font-size: 24px;
- }
+.red-navbar {
+  background-color: #ed254e;
+  color: #eee;
+  border: 1px solid #333;
+  font-size: 24px;
+}
 
- navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.75);
-  }
+navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.75);
+}
 
- .dark {
-   background-color: #474747;
- }
+.dark {
+  background-color: #465362;
+}
 
- trix-toolbar .trix-button-group button {
+trix-toolbar .trix-button-group button {
   background-color: white;
 }

@@ -5,9 +5,16 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
   }
 
+  devise_scope :user do
+    get 'sign_out', to: 'devise/sessions#destroy'
+  end
+
+
+  get '/join_event/:id', to: 'events#join', as: 'join_event'
+  get '/quit_event/:id', to: 'events#quit', as: 'quit_event'
   resources :users
   resources :events
 

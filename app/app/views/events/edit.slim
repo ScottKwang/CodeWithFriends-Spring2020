@@ -1,0 +1,6 @@
+=javascript_pack_tag 'event'
+.container
+  .card.p-3.dark
+    h1 = t('events.edit.title') + " " + @event.title
+
+    = render 'form', event: @event

@@ -3,7 +3,17 @@
     .col-md-12.event-title
       h1 = t('events.title')
       = link_to t('events.create.title'), new_event_path, class: 'btn btn-primary btn-lg'
+  hr
   .row
-    .col-md-12
-      - @events.each do |event|
-        h3 = event.title
+    - @events.each do |event|
+      .col-md-4
+        .event-card.card
+          .col-md-8.
+            h3 = event.title
+            .event-date = event.date.to_formatted_s(:short)
+            div
+              - event.tag_list.each do |tag|
+                span.badge.badge-event
+                  = tag
+          div
+            = link_to t('show'), event_path(event), class: "btn btn-sm btn-primary event-show-btn"
