@@ -13,6 +13,7 @@ import 'components/tree.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/position.dart';
+import 'package:flame/flame.dart';
 
 class TRexGame extends Game with TapDetector {
   Size screenSize;
@@ -36,6 +37,7 @@ class TRexGame extends Game with TapDetector {
   int currentScore = 0;
   bool isCollisionHappened = false;
   double relaxation;
+  bool isHitSoundPlayable = true;
 
   TRexGame() {
     bgSprite = Sprite("bg/ground.png");
@@ -91,6 +93,7 @@ class TRexGame extends Game with TapDetector {
     clouds.clear();
     grasses.clear();
     currentScore = 0;
+    gameSpeed = 4.5;
     tRex.updateAnimation("t-rex-run");
   }
 
@@ -102,6 +105,11 @@ class TRexGame extends Game with TapDetector {
 
   @override
   void update(double t) {
+    print("game speed " + gameSpeed.toString());
+    // check for multiple for 100 score
+    if (currentScore != 0 && currentScore % 1000 == 0) {
+      Flame.audio.play('score-reached.mp3');
+    }
     // check for collision detection
     trees.forEach((element) {
       if ((element.treeRect.left > dinoX + relaxation &&
@@ -110,6 +118,10 @@ class TRexGame extends Game with TapDetector {
               element.treeRect.left < dinoX + 2 * tileSize - relaxation)) {
         if (dinoY + 2 * tileSize > screenSize.height - 3.5 * tileSize) {
           //collision happened
+          if (isHitSoundPlayable) {
+            Flame.audio.play('hit.mp3');
+            isHitSoundPlayable = false;
+          }
           print("collision happened");
           isCollisionHappened = true;
         } else {
@@ -121,7 +133,7 @@ class TRexGame extends Game with TapDetector {
     });
     if (!isCollisionHappened) {
       currentScore += 1;
-      gameSpeed += 0.001;
+      gameSpeed = [gameSpeed + 0.001, 14].reduce(min);
       // handling grass
       if (grasses.length > 0) {
         // step-1: update the grass position
@@ -199,7 +211,7 @@ class TRexGame extends Game with TapDetector {
         tRex.update((gameSpeed / 2) * t);
       }
       if (jumpUp) {
-        if (dinoY < referenceY - 3 * tileSize) {
+        if (dinoY < referenceY - 2.5 * tileSize) {
           // get the dino down
           jumpUp = false;
           jumpDown = true;
@@ -320,12 +332,14 @@ class TRexGame extends Game with TapDetector {
 
   void onTapDown(TapDownDetails details) {
     if (!tapped && !isCollisionHappened) {
+      Flame.audio.play('button-press.mp3');
       tapped = true;
       tRex.updateAnimation("jump-up");
       jumpUp = true;
     }
     if (isCollisionHappened) {
       isCollisionHappened = false;
+      isHitSoundPlayable = true;
       resetGame();
     }
   }

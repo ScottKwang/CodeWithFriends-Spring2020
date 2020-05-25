@@ -58,6 +58,9 @@ flutter:
     - assets/images/tree/tree_8.png
     - assets/images/tree/tree_9.png
     - assets/flare_files/t_rex_game.flr
+    - assets/audio/button-press.mp3
+    - assets/audio/hit.mp3
+    - assets/audio/score-reached.mp3
   fonts:
     - family: pizzadudedotdk
       fonts:
