@@ -3,6 +3,9 @@
 Hello there, I'm Cipulot and you're in the LeapMask repository!
 This project is a sort of baseline for future custom projects that needs a way to detect faces and provide a touch-less interface.
 
+## Inspiration
+I've been inspired by the global urge to detect if proper safety rules are followed by people in both public and private spaces. Being in university with this difficult situation I've found that the "real" problem will be the reopening of the spaces and the organization of classes, so I decided to put my experience into play.
+
 ## General functions
 Basicaly this repo gives you the ability to:
 * detect when a person is approaching the terminal through facial detection
