@@ -71,7 +71,6 @@ class Canvas extends React.Component {
             // Draw ball
             const ball = data.ball;
             if (ball) {
-                console.log("client ball:", ball);
                 Object.setPrototypeOf(ball, Ball.prototype);
                 ball.render(ctx);
             }
@@ -84,7 +83,7 @@ class Canvas extends React.Component {
 
     render() {
         return (
-            <canvas ref="canvas" width={c.WIDTH} height={c.HEIGHT} />
+            <canvas ref="canvas" width={c.WIDTH} height={c.HEIGHT} className="hide" />
         );
     }
 }

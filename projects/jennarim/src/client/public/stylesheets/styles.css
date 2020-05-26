@@ -1,9 +1,13 @@
 body {
-	background-color: red;
+	background-color: gainsboro;
 }
 
 canvas {
 	width: 600px;
 	height: 600px;
 	border: 5px solid black;
+}
+
+.hide {
+	display: none;
 }
