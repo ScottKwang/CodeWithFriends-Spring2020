@@ -1,8 +1,8 @@
 # Muse - A Dysfunctional Language
 
-Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This-other-incredibly-overrated-git-host-that-used-to-suck-until-Microsoft-bought-it](https://github.com/impure)).
+Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This-Other-Incredibly-Overrated-Git-Host-That-Used-To-Suck-Until-Microsoft-Bought-It](https://github.com/impure)).
 
-Code is available [here](https://gitlab.com/azuredown/muse), or you can pull the repo and use the commands `git submodule init` and `git submodule update`.
+Code is available [here](https://gitlab.com/azuredown/muse), or you can pull the CWF repo and use the commands `git submodule init` and `git submodule update`.
 
 ## Inspiration
 
@@ -26,7 +26,7 @@ Also there's [this license](https://gitlab.com/azuredown/muse/-/blob/master/LICE
 
 The biggest challenge by far was the Stack Map. I almost gave up because of this. Basically JVM bytecode must have an attribute called a 'Stack Map Table'. This is so when you jump to a location such as in a while loop the Java Runtime will know what variables have already been defined at that point in the code. Now if you don't have a Stack Map your code can technically run using the `-noverify` flag although you will get a warning message that this flag will be removed in a future version of Java. Presumably the Stack Map is for optimization purposes only.
 
-This was so challenging because the [documentation](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4) on the Stack Map Table is so confusing. And it's organized in a different way from the rest of the Java code. But eventually after sleeping on it I figured it out. The Stack Map doesn't contain all the information in a single entry. It contains information relative to the last stack map entry. Sort of like predicted frames (P-frames) in videos.
+This was so challenging because the [documentation](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4) on the Stack Map Table is so confusing. And it's organized in a different way compared to the JVM instructions. But eventually after sleeping on it I figured it out. The Stack Map doesn't contain all the information in a single entry. It contains information relative to the last stack map entry. Sort of like predicted frames (P-frames) in videos.
 
 Apart from this I didn't have many problems. Mostly due to the various tools for analyzing JVM bytecode and documentation.
 
