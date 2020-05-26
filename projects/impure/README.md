@@ -1,6 +1,8 @@
 # Muse - A Dysfunctional Language
 
-Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This-other-incredibly-overrated-git-host-that-used-to-suck-until-Microsoft-bought-it](https://github.com/impure)) ([Source code](https://gitlab.com/azuredown/muse))
+Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This-other-incredibly-overrated-git-host-that-used-to-suck-until-Microsoft-bought-it](https://github.com/impure)).
+
+Code is available [here](https://gitlab.com/azuredown/muse), or you can pull the repo and use the commands `git submodule init` and `git submodule update`.
 
 ## Inspiration
 
