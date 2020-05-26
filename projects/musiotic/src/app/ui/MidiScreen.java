@@ -2,14 +2,14 @@ package ui;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
-import song.Phase;
+import song.InstrumentalPhase;
 
 public abstract class MidiScreen implements Screen {
-    private final Phase phase;
+    private final InstrumentalPhase phase;
     protected MidiGrid midiGrid;
     private final BorderPane screen;
 
-    protected MidiScreen(Phase phase){
+    protected MidiScreen(InstrumentalPhase phase){
         this.phase = phase;
         screen = new BorderPane();
     }

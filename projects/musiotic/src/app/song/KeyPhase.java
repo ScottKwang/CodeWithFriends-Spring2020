@@ -33,7 +33,7 @@ public class KeyPhase extends Phase {
         return screen.getScreen();
     }
 
-    private static final Map<String, Integer> roots = Map.of(
+    public static final Map<String, Integer> roots = Map.of(
             "A", JMC.A3,
             "B", JMC.B3,
             "C", JMC.C4,
@@ -43,7 +43,7 @@ public class KeyPhase extends Phase {
             "G", JMC.G4
     );
 
-    private static final Map<String, int[]> modes = Map.of(
+    public static final Map<String, int[]> modes = Map.of(
             "Major", JMC.MAJOR_SCALE,
             "Minor", JMC.MINOR_SCALE,
             "Harmonic Minor", JMC.HARMONIC_MINOR_SCALE,
@@ -105,16 +105,4 @@ public class KeyPhase extends Phase {
     protected List<StringProperty> getScale() {
         return scale;
     }
-
-    @Override
-    public void addNote(String noteName, int noteLength, int notePosition) {
-        System.out.println("Don't be here!");
-    }
-
-    @Override
-    public void deleteNote(String noteName, int noteLength, int notePosition) {
-        System.out.println("Don't be here!");
-    }
-
-
 }

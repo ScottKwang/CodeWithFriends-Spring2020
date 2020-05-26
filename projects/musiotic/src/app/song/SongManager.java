@@ -12,9 +12,11 @@ import jm.music.data.Part;
 import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.music.tools.Mod;
+import jm.util.Play;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class SongManager {
         var phases = stylePhase.getPhases();
         phaseMap = new MappedLinkedList<>(phases);
         screen.populate(phases.values());
+        addMeasuresRight();
     }
 
     public void goToPhase(Phase phase){
@@ -141,5 +144,31 @@ public class SongManager {
         var keyPhase = (KeyPhase) phaseMap.get(Phase.Type.Key);
         if(keyPhase == null) return null;
         return keyPhase.getScale();
+    }
+
+    public void addPart(Part part) {
+        score.add(part);
+    }
+
+    public void play(int measureNum){
+        Phase curr = phaseMap.getNext(Phase.Type.Style);
+        List<Part> oldParts = new ArrayList<>();
+        while(curr != null){
+            if(curr instanceof InstrumentalPhase){
+                Part part = ((InstrumentalPhase) curr).part;
+                Part oldPart = part.copy();
+                var currPhrases = part.getPhraseList();
+                currPhrases.removeAll(currPhrases.subList(0, measureNum));
+                ((InstrumentalPhase) curr).connectMeasures(); // Prepare part for playing
+                ((InstrumentalPhase) curr).part = oldPart; // Reset phase's part for continued editing
+                oldParts.add(oldPart);
+                Mod.consolidate(part);
+            }
+            curr = phaseMap.getNext(curr.getType());
+        }
+
+        Play.midi(score);
+        score.removeAllParts();
+        for(Part part : oldParts) score.addPart(part);
     }
 }

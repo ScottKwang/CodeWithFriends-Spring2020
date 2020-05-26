@@ -3,7 +3,7 @@ package song;
 import javafx.scene.Node;
 import ui.Melody1Screen;
 
-public class Melody1Phase extends Phase {
+public class Melody1Phase extends InstrumentalPhase {
     private final Melody1Screen screen;
 
     public Melody1Phase(SongManager manager) {
@@ -19,15 +19,5 @@ public class Melody1Phase extends Phase {
     @Override
     public Node getScreen() {
         return screen.getScreen();
-    }
-
-    @Override
-    public void addNote(String noteName, int noteLength, int notePosition) {
-
-    }
-
-    @Override
-    public void deleteNote(String noteName, int noteLength, int notePosition) {
-
     }
 }

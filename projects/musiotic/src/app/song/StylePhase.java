@@ -36,9 +36,10 @@ public class StylePhase extends Phase {
         System.out.println("StylePhase: getPhases()");
         var phases = new LinkedHashMap<Type, Phase>(); // preserve insertion order (button order on UI depends on this)
         phases.put(Type.Style, this);
-        for(Type phase : style.phases){
-            System.out.println("StylePhase: getPhases() phase into hashmap: " + phase.name);
-            phases.put(phase, phase.getPhase(manager));
+        for(PhaseDetail phase : style.getPhases()){
+            Type type = phase.getKey();
+            System.out.println("StylePhase: getPhases() phase into hashmap: " + type.name);
+            phases.put(type, type.getPhase(manager));
             System.out.println("StylePhase: getPhases() HashMap State: " + phases.toString());
         }
 
@@ -76,13 +77,7 @@ public class StylePhase extends Phase {
         }
     }
 
-    @Override
-    public void addNote(String noteName, int noteLength, int notePosition) {
-        System.out.println("Don't be here!");
-    }
-
-    @Override
-    public void deleteNote(String noteName, int noteLength, int notePosition) {
-        System.out.println("Don't be here!");
+    public Style getStyle(){
+        return style;
     }
 }
