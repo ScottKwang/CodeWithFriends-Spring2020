@@ -10,7 +10,7 @@ Code is available [here](https://gitlab.com/azuredown/muse), or you can pull the
 
 I finally got tired of those snobbish functional programmers and was like, "Oh, yeah? What if I made a language without functions? A dysfunctional language." And then I was like, "Woah, dude."
 
-But what really got me thinking about this is C\# which is really similar to Java (think of it as Microsoft's non-trademark infringing version of Java). It's easy to use, but it also has so much baggage from Java. There's just so much typing. That is keyboard typing not type typing.
+But what really got me thinking about this is C\# which is really similar to Java (think of it as Microsoft's non-trademark-infringing version of Java). It's easy to use, but it also has so much baggage from Java. There's just so much typing. That is keyboard typing not type typing.
 
 ## Summary
 
@@ -26,7 +26,7 @@ Also there's [this license](https://gitlab.com/azuredown/muse/-/blob/master/LICE
 
 The biggest challenge by far was the Stack Map. I almost gave up because of this. Basically JVM bytecode must have an attribute called a 'Stack Map Table'. This is so when you jump to a location such as in a while loop the Java Runtime will know what variables have already been defined at that point in the code. Now if you don't have a Stack Map your code can technically run using the `-noverify` flag although you will get a warning message that this flag will be removed in a future version of Java. Presumably the Stack Map is for optimization purposes only.
 
-This was so challenging because the [documentation](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4) on the Stack Map Table is so confusing. And it's organized in a different way compared to the JVM instructions. But eventually after sleeping on it I figured it out. The Stack Map doesn't contain all the information in a single entry. It contains information relative to the last stack map entry. Sort of like predicted frames (P-frames) in videos.
+This was so challenging because the [documentation](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4) on the Stack Map Table is so confusing. And the layout of the table does not resemble the JVM instructions like at all. But eventually after [sleeping on it I figured it out](https://youtu.be/tQ7_vbNEDEk?list=PLe_b-HAZD1pW-Da_Atlx_1XfyNVe-sv9r&t=90). The Stack Map doesn't contain all the information in a single entry. It contains information relative to the last stack map entry. Sort of like predicted frames (P-frames) in videos.
 
 Apart from this I didn't have many problems. Mostly due to the various tools for analyzing JVM bytecode and documentation.
 
@@ -46,7 +46,7 @@ Also I did find [this resource](https://medium.com/@davethomas_9528/writing-hell
 
 I'm quite happy with what I did in a month. I wouldn't change it. But if I had more time I would look into using a parser other than ANTLR. ANTLR is just terrible. It has like no debugging output and it just gets so confused by the weirdest things. The best thing I could find for it is this IntelliJ ANTLR plugin although the plugin apparently caused IntelliJ to crash occasionally when it was open.
 
-And it was buggy too. Every time something went wrong I had to check if it was actually ANTLR causing problems because it got confused between an assignment and a print again. Plus all the tutorials for it are complete garbage. I think a better way of parsing would be to write my own Parser. I know how it works now. First you transform the string to tokens and then you transform the tokens into a syntax tree. Simple. I bet I could write one that was way better than ANTLR. And more flexible too. And I could have tokens like + - / * without needing to have white space between them like ANTLR.
+And ANTLR is buggy too. Every time something went wrong I had to check if it was actually ANTLR causing problems because it got confused between an assignment and a print again. Plus all the tutorials for it are complete garbage. I think a better way of parsing would be to write my own Parser. I know how it works now. First you transform the string to tokens and then you transform the tokens into a syntax tree. Simple. I bet I could write one that was way better than ANTLR. And more flexible too. And I could have tokens like + - / * without needing to have white space between them like ANTLR.
 
 Also I don't really like the JVM. Yeah, it's easier, but you can tell the JVM was designed for Java. It was not designed for custom languages and definitely not one with Python-style syntax.
 
