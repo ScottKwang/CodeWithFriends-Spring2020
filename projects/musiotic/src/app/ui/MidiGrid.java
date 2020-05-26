@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Bloom;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
@@ -23,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import song.InstrumentalPhase;
 import song.Phase;
 import util.IntegerArray;
 
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MidiGrid {
-    private final Phase phase;
+    private final InstrumentalPhase phase;
     private final HBox actionButtons;
     private ScrollPane scrollPane;
     private GridPane gridPane;
@@ -54,7 +54,7 @@ public class MidiGrid {
     // 1 is sixteenth, 2 is eighth, 4 is quarter etc:...
     private int noteLength = 4;
 
-    public MidiGrid(Phase phase) {
+    public MidiGrid(InstrumentalPhase phase) {
         this.phase = phase;
         gridPane = new GridPane();
         scrollPane = new ScrollPane();
