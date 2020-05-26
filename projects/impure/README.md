@@ -16,7 +16,7 @@ But what really got me thinking about this is C\# which is really similar to Jav
 
 ![This is what it looks like](https://i.imgur.com/jBf8URr.png)
 
-So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (not yet fully implemented). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
+So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (although this has changed to only void functions can be instantiated). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
 
 Syntax wise it's very similar to Python because Python is simple. But I also made sure to add some custom flourishes. First of all you can start a variable name with a number. I always wanted to do that. Also when accessing a variable in a parent container, a 'global' variable, you have to use unix directory syntax like ../var1. Because why oh why do modern languages use the same syntax to access global and local variables.
 
@@ -32,21 +32,23 @@ Apart from this I didn't have many problems. Mostly due to the various tools for
 
 ## Tools And Resources
 
-Without a doubt the most useful resource is Oracle's documentation on the JVM class file format. Most notably the actual assembly instructions found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html) and the class file specification found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4). There's some other resources but I mostly just used those two.
+Without a doubt the most useful resource was Oracle's documentation on the JVM class file format. Most notably the actual assembly instructions found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html) and the class file specification found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4). There's some other resources but I mostly just used those two.
 
 Then there's the tool for viewing the class file: `javap`. Although the way to properly run it is `javap -v CLASS_FILE_NAME`. This provides a readout of exactly what is in your class file. It's pretty useful for debugging things like a jump instruction that is pointing to the wrong location or if you run out of stack space.
 
 ![Javap](https://i.imgur.com/KMohXlk.png)
 
-Although it's not perfect so I did occasionally need to view the file in a hex editor. Although I didn't have to do this too often.
+Although it's not perfect so I did occasionally need to view the file in a hex editor. I didn't have to do this too often though.
 
 Also I did find [this resource](https://medium.com/@davethomas_9528/writing-hello-world-in-java-byte-code-34f75428e0ad) on creating a hello world program in JVM bytecode helpful, but only at the start. There's also some other resources listed [here](https://gitlab.com/azuredown/muse/-/blob/master/Notes/Other%20Notes.txt), although I didn't find any of the other ones particularly useful.
 
 ## What Would You Have done Differently?
 
-I'm quite happy with what I did in a month. I wouldn't change it. But if I had more time I would look into using a parser other than ANTLR. ANTLR is just terrible. It has like no debugging output and it just gets so confused by the weirdest things. The best thing I could find for it is this IntelliJ ANTLR plugin although the plugin apparently caused IntelliJ to crash occasionally when it was open.
+I would have used a parser other than ANTLR. ANTLR is just terrible. It has like no debugging output and it just gets so confused by the weirdest things. The best thing I could find for it is this IntelliJ ANTLR plugin although the plugin apparently caused IntelliJ to crash occasionally when it was open.
 
-And ANTLR is buggy too. Every time something went wrong I had to check if it was actually ANTLR causing problems because it got confused between an assignment and a print again. Plus all the tutorials for it are complete garbage. I think a better way of parsing would be to write my own Parser. I know how it works now. First you transform the string to tokens and then you transform the tokens into a syntax tree. Simple. I bet I could write one that was way better than ANTLR. And more flexible too. And I could have tokens like + - / * without needing to have white space between them like ANTLR.
+And ANTLR is buggy too. Every time something went wrong I had to check if it was actually ANTLR causing problems because it got confused between an assignment and a print again. Plus all the tutorials for it are complete garbage.
+
+Ideally I would write my own parser although this might take an unreasonably high amount of time. Or maybe not. It doesn't sound too hard. All you have to do is transform the string to tokens and then you transform the tokens into a syntax tree. I bet I could write one that was way better than ANTLR. And more flexible too. And I could have tokens like + - / * without needing to have white space between them like ANTLR.
 
 Also I don't really like the JVM. Yeah, it's easier, but you can tell the JVM was designed for Java. It was not designed for custom languages and definitely not one with Python-style syntax.
 
