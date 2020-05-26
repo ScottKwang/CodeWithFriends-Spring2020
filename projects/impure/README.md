@@ -16,7 +16,7 @@ But what really got me thinking about this is C\# which is really similar to Jav
 
 ![This is what it looks like](https://i.imgur.com/jBf8URr.png)
 
-So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (not yet fully implemented yet). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
+So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (not yet fully implemented). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
 
 Syntax wise it's very similar to Python because Python is simple. But I also made sure to add some custom flourishes. First of all you can start a variable name with a number. I always wanted to do that. Also when accessing a variable in a parent container, a 'global' variable, you have to use unix directory syntax like ../var1. Because why oh why do modern languages use the same syntax to access global and local variables.
 
@@ -34,7 +34,7 @@ Apart from this I didn't have many problems. Mostly due to the various tools for
 
 Without a doubt the most useful resource is Oracle's documentation on the JVM class file format. Most notably the actual assembly instructions found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html) and the class file specification found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4). There's some other resources but I mostly just used those two.
 
-Then there's the tool for viewing the class file: `javap`. Although the way to properly run it is `javap -v CLASS_FILE_NAME`. This provides a readout of exactly what is in your class file. It's pretty useful for debugging things like a jump instruction that is pointing to the wrong location.
+Then there's the tool for viewing the class file: `javap`. Although the way to properly run it is `javap -v CLASS_FILE_NAME`. This provides a readout of exactly what is in your class file. It's pretty useful for debugging things like a jump instruction that is pointing to the wrong location or if you run out of stack space.
 
 ![Javap](https://i.imgur.com/KMohXlk.png)
 
@@ -51,8 +51,4 @@ And ANTLR is buggy too. Every time something went wrong I had to check if it was
 Also I don't really like the JVM. Yeah, it's easier, but you can tell the JVM was designed for Java. It was not designed for custom languages and definitely not one with Python-style syntax.
 
 I would use LLVM because that's what the big kids use. Big kids as in Apple, Oracle, Mozilla, and Microsoft. I originally tried using LLVM but it wasn't easy to set up and eventually I just decided the JVM was easier.
-
-## What Did You Learn?
-
-I learned how the JVM works. And I learned how to use a hex editor. And make a git submodule. Honestly not that much.
 
