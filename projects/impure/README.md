@@ -1,6 +1,6 @@
 # Muse - A Dysfunctional Language
 
-Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This other incredibly overrated git host that used to suck until Microsoft bought it](https://github.com/impure)) ([Source code](https://gitlab.com/azuredown/muse))
+Created by Andrew Zuo, ([GitLab](https://gitlab.com/azuredown), [This-other-incredibly-overrated-git-host-that-used-to-suck-until-Microsoft-bought-it](https://github.com/impure)) ([Source code](https://gitlab.com/azuredown/muse))
 
 ## Inspiration
 
@@ -12,7 +12,7 @@ But what really got me thinking about this is C\# which is really similar to Jav
 
 ## Summary
 
-![This is what it looks like]()
+![This is what it looks like](https://i.imgur.com/jBf8URr.png)
 
 So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (not yet fully implemented yet). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
 
