@@ -24,7 +24,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import song.Phase;
+import util.IntegerArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class MidiGrid {
     private GridPane gridPane;
 
     // Setting to each pane which {col, row} it's in.
-    private HashMap<Pane, int[]> cells;
+    private HashMap<IntegerArray, MidiPane> cells;
 
     //TODO: CSS them borders.
     //TODO: Set up Add measures for left and right side (add buttons as well)
@@ -57,26 +59,22 @@ public class MidiGrid {
         scrollPane.setContent(gridPane);
 
         // https://stackoverflow.com/questions/32544574/javafx-scrollpane-horizontal-panning-with-scroll-wheel
-        scrollPane.setOnScroll(new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle(ScrollEvent event) {
-
-                if (event.getDeltaY() > 0)
-                    scrollPane.setHvalue(scrollPos == scrollMinPos ? scrollMinPos : scrollPos--);
-                else
-                    scrollPane.setHvalue(scrollPos == scrollMaxPos ? scrollMaxPos : scrollPos++);
-
-            }
+        scrollPane.setOnScroll(event -> {
+            if (event.getDeltaY() > 0)
+                scrollPane.setHvalue(scrollPos == scrollMinPos ? scrollMinPos : scrollPos--);
+            else
+                scrollPane.setHvalue(scrollPos == scrollMaxPos ? scrollMaxPos : scrollPos++);
         });
         scrollPane.setHmin(scrollMinPos);
         scrollPane.setHmax(scrollMaxPos);
 
-        cells = new HashMap<>();
+        cells = new HashMap<IntegerArray, MidiPane>();
 
 //        initializeCells(gridPane);
 
         HBox modeButtons = initializeModeButtons();
         HBox lengthButtons = initializeNoteLengthButtons();
+
         actionButtons = new HBox(modeButtons, lengthButtons);
 
         String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
@@ -113,21 +111,27 @@ public class MidiGrid {
 
         sixteenthNote.setOnMouseClicked(e -> {
             noteLength = 1;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         eighthNote.setOnMouseClicked(e -> {
             noteLength = 2;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         quarterNote.setOnMouseClicked(e -> {
             noteLength = 4;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         halfNote.setOnMouseClicked(e -> {
             noteLength = 8;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         wholeNote.setOnMouseClicked(e -> {
             noteLength = 16;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         doubleWholeNote.setOnMouseClicked(e -> {
             noteLength = 32;
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         });
         return new HBox(sixteenthNote, eighthNote, quarterNote, halfNote, wholeNote, doubleWholeNote);
     }
@@ -135,7 +139,7 @@ public class MidiGrid {
     public void initializeCells() {
         // Top Vertical Bar
         for(int i = 0; i < phase.manager.numMeasures; i++) {
-            Label measureNumber = new Label(" " + Integer.toString(i + 1));
+            Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
             gridPane.add(measureNumber, i*16 + 1, 0, 4, 1);
         }
 
@@ -154,19 +158,25 @@ public class MidiGrid {
             }
             for(int i = 1; i < phase.manager.numMeasures*16 + 1; i++) {
                 for(int j = 1; j < phase.manager.numNotes + 1; j++) {
-                    cells.put(createCell(Color.WHITESMOKE, gridPane, i, j), new int[] {i, j});
+                    Integer[] indexes = {i, j};
+                    IntegerArray arr = new IntegerArray(indexes);
+
+                    cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i, j));
+                    System.out.println("CELLS.PUT: row: " + j + " col: " + i);
+
                 }
             }
+            arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
         }
 
         //FOR DEBUGGING
         //gridPane.setGridLinesVisible(true);
     }
 
-    private Pane createCell(Color c, GridPane gridPane, int col, int row) {
-        Pane pane = new Pane();
+    private MidiPane createCell(Color c, GridPane gridPane, int col, int row) {
+        MidiPane pane = new MidiPane(row, col);
         pane.getStyleClass().add("grid-cell-off");
-        Rectangle rectangle = new Rectangle(60, 40, c);
+        Rectangle rectangle = new Rectangle(40, 40, c);
         rectangle.setY(1);
         rectangle.setX(1);
 //        rectangle.setFill(c);
@@ -182,9 +192,181 @@ public class MidiGrid {
         return pane;
     }
 
+    private void arrangeBorders(int numNotes, int numMeasures) {
+        for (int row = 0; row < numNotes; row++) {
+            for(int col = 0; col < numMeasures*16; col++) {
+                //System.out.println("arrangeBorders(): row: " + row + " col: " + col);
+                Integer[] indexes = {col + 1, row + 1};
+                IntegerArray arr = new IntegerArray(indexes);
+
+                MidiPane midiPane = cells.get(arr);
+
+                if (midiPane == null) {
+                    System.out.println("NULL!!");
+                }
+                arrangeBorder(numNotes, numMeasures, col, midiPane, noteLength);
+            }
+        }
+    }
+
+    private void arrangeBorder(int numNotes, int numMeasures, int col, MidiPane midiPane, int noteLength) {
+        if (noteLength > 7) {
+            arrangeBorderLess(numNotes, numMeasures, col, midiPane);
+        } else if (noteLength > 1) {
+            arrangeBorderSome(numNotes, numMeasures, col, midiPane);
+        } else {
+            arrangeBorderMost(numNotes, numMeasures, col, midiPane);
+        }
+//        if (noteLength == 1) {
+//            // Start and End of border
+//            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+//                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
+//                    CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
+//        } else if (col % noteLength == 0) {
+//            // Start of border
+//            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+//                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
+//                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+//        } else if ((col % noteLength) == (noteLength-1)) {
+//            // End of border
+//            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+//                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+//                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+//        } else {
+//            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+//                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+//                    CornerRadii.EMPTY, new BorderWidths(1,0,1,0), Insets.EMPTY)));
+//            // Middle of border
+//        }
+    }
+
+    private void arrangeBorderMost(int numNotes, int numMeasures, int col, MidiPane midiPane) {
+        // noteLength is 1
+
+        System.out.println("arrangeBorderMost(): col: " + col);
+        if (col % 16 == 0) {
+            //Start Measure, Left Solid
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 16 == 15) {
+            //End Measure, Right Solid
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+        } else if (col % 4 == 0) {
+            //Left side Dashed
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 4 == 3) {
+            //Right side Dashed with left side single dotted
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
+        } else if (col % 2 == 0) {
+            //Left side Dotted
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 2 == 1) {
+            //Right side Dotted with left side single dotted
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
+        } else {
+            // No Border! (Also should never be here!)
+            System.out.println("Wrong place! arrangeBorderMost()");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,0), Insets.EMPTY)));
+        }
+    }
+
+    private void arrangeBorderSome(int numNotes, int numMeasures, int col, MidiPane midiPane) {
+        // noteLength is 4 or 2
+
+        System.out.println("arrangeBorderSome(): col: " + col);
+        if (col % 16 == 0) {
+            //Start Measure, Left Solid
+            System.out.println("Left Solid");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 16 == 15) {
+            //End Measure, Right Solid
+            System.out.println("Right Solid");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+        } else if (col % 4 == 0) {
+//            Left side Dashed
+            System.out.println("Left Dashed");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 4 == 3) {
+            //Right side Dashed
+            System.out.println("Right Dashed");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+//        } else if (col % 2 == 0) {
+//            //Left side Dotted (COMMENTED OUT FOR MORE SINGLE DOTTED ON ONLY RIGHT SIDE)
+//            System.out.println("Left Dotted");
+//            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+//                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
+//                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 2 == 1) {
+            //Right side Dotted
+            System.out.println("Right Dotted");
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+        } else {
+            // No Border!
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,0), Insets.EMPTY)));
+        }
+    }
+
+    private void arrangeBorderLess(int numNotes, int numMeasures, int col, MidiPane midiPane) {
+        // noteLength is 32, 16, or 8.
+
+        System.out.println("arrangeBorderLess(): col: " + col);
+//        System.out.println("from pane: col: " + midiPane.getCol());
+        if (col % 16 == 0) {
+            //Start Measure, Left Solid
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 16 == 15) {
+            //End Measure, Right Solid
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+        } else if (col % 4 == 0) {
+            //Left side Dashed
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+        } else if (col % 4 == 3) {
+            //Right side Dashed
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+        } else {
+            // No Border!
+            midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,0), Insets.EMPTY)));
+        }
+    }
+
     // Example:
     // https://docs.oracle.com/javafx/2/drag_drop/HelloDragAndDrop.java.html
-    private void setPane(Pane pane) {
+    private void setPane(MidiPane pane) {
         pane.setOnMouseClicked(e -> {
             //TODO: Fix duplicate notes and different length notes
             switch(mode) {
@@ -279,10 +461,9 @@ public class MidiGrid {
 
     }
 
-    private void addNote(Pane pane) {
-        int[] location = cells.get(pane);
-        int col = location[0];
-        int row = location[1];
+    private void addNote(MidiPane pane) {
+        int col = pane.getCol();
+        int row = pane.getRow();
         System.out.println("col: " + col + ". row: " + row);
         Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
         r.setFill(Color.RED);
@@ -294,10 +475,9 @@ public class MidiGrid {
         phase.addNote(note, noteLength, col-1);
     }
 
-    private void deleteNote(Pane pane) {
-        int[] location = cells.get(pane);
-        int col = location[0];
-        int row = location[1];
+    private void deleteNote(MidiPane pane) {
+        int col = pane.getCol();
+        int row = pane.getRow();
         System.out.println("col: " + col + ". row: " + row);
         Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
         r.setFill(Color.WHITESMOKE);
