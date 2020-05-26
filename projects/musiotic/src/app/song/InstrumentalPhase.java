@@ -38,16 +38,17 @@ public abstract class InstrumentalPhase extends Phase {
         manager.addPart(part);
     }
 
-    public void addNote(String noteName, double noteLength, int notePosition) {
+    public void addNote(int note, double noteLength, int notePosition) {
+        //System.out.println("InstrumentalPhase(): noteName: " + noteName + " noteLength: " + noteLength + " notePosition: " + notePosition);
         noteLength /= 4;
-        int note = KeyPhase.roots.get(noteName.substring(0, 1));
-        String sign = noteName.length() > 1 ? noteName.substring(1) : "";
-        switch (sign) {
-            case "\uD834\uDD2A" -> note += 2; // Double Sharp
-            case "♯" -> note++;
-            case "\uD834\uDD2B" -> note -= 2;
-            case "♭" -> note--;
-        }
+//        int note = KeyPhase.roots.get(noteName.substring(0, 1));
+//        String sign = noteName.length() > 1 ? noteName.substring(1) : "";
+//        switch (sign) {
+//            case "\uD834\uDD2A" -> note += 2; // Double Sharp
+//            case "♯" -> note++;
+//            case "\uD834\uDD2B" -> note -= 2;
+//            case "♭" -> note--;
+//        }
 
         Phrase measure = part.getPhrase(notePosition / 16);
         if (measure == null) {
@@ -78,7 +79,8 @@ public abstract class InstrumentalPhase extends Phase {
                 newNote.setMyPhrase(measure);
                 iter.add(newNote);
                 int nextMeasureNum = notePosition / 16 + 1;
-                addNote(noteName, nextMeasure, nextMeasureNum * 16);
+                addNote(note, nextMeasure, nextMeasureNum * 16);
+//                addNote(noteName, nextMeasure, nextMeasureNum * 16);
                 connectedMeasures.add(new Pair<>(measure, part.getPhrase(nextMeasureNum)));
 
             } else {
@@ -94,7 +96,7 @@ public abstract class InstrumentalPhase extends Phase {
         }
     }
 
-    public void deleteNote(String noteName, int noteLength, int notePosition){
+    public void deleteNote(int note, int noteLength, int notePosition){
 
     }
 

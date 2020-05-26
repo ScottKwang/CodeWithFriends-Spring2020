@@ -1,10 +1,12 @@
 package song;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import jm.JMC;
 import ui.KeyScreen;
+import util.Scale;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class KeyPhase extends Phase {
     private final KeyScreen screen;
-    private List<StringProperty> scale;
+    private Scale scale;
 
     public KeyPhase(SongManager manager) {
         super(manager);
@@ -68,6 +70,7 @@ public class KeyPhase extends Phase {
 
     private void setScale(char newTonic, int[] mode) {
         var noteList = new ArrayList<String>();
+        var noteValues = new ArrayList<Integer>();
 
         for(char current = newTonic; current < newTonic + manager.numNotes; current++){
             var noteVal = (char) (((current - 'A') % 7) + 'A');
@@ -91,18 +94,22 @@ public class KeyPhase extends Phase {
                     break;
             }
             noteList.add(noteName.toString());
+            noteValues.add(jmVal);
         }
 
-        if(scale == null){
-            scale = noteList.stream().map(SimpleStringProperty::new).collect(Collectors.toList());
+        if(scale == null) {
+            scale = new Scale(noteList.stream().map(SimpleStringProperty::new).collect(Collectors.toList())
+                    , noteValues.stream().map(SimpleIntegerProperty::new).collect(Collectors.toList()));
+
         } else{
             for(int i = 0; i < noteList.size(); i++){
-                scale.get(i).setValue(noteList.get(i));
+                scale.getValues().get(i).setValue(noteValues.get(i));
+                scale.getNames().get(i).setValue(noteList.get(i));
             }
         }
     }
 
-    protected List<StringProperty> getScale() {
+    protected Scale getScale() {
         return scale;
     }
 }

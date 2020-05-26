@@ -1,5 +1,9 @@
 package ui;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,6 +31,7 @@ import javafx.scene.shape.Rectangle;
 import song.InstrumentalPhase;
 import song.Phase;
 import util.IntegerArray;
+import util.Scale;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -171,11 +176,21 @@ public class MidiGrid {
             // or better yet, if the functionality is significantly different then abstract out the commonalities
         } else {
             // Left Side Horizontal Bar
-            List<StringProperty> scale = phase.manager.getScale();
+            Scale scale = phase.manager.getScale();
+            List<SimpleStringProperty> scaleNames = scale.getNames();
+            List<SimpleIntegerProperty> scaleValues = scale.getValues();
+
             for(int j = 0; j < phase.manager.numNotes; j++) {
                 Label noteLabel = new Label();
-                noteLabel.textProperty().bind(scale.get(j));
-                gridPane.add(noteLabel, 0, j+1, 1, 1);
+                noteLabel.textProperty().bind(scaleNames.get(j));
+                Label noteValue = new Label();
+
+                //Sum of 0 + scaleValues.get(j)
+                NumberBinding noteVal = Bindings.add(0,scaleValues.get(j));
+                noteValue.textProperty().setValue(noteVal.getValue().toString());
+                noteValue.setVisible(false);
+                HBox note = new HBox(noteLabel, noteValue);
+                gridPane.add(note, 0, phase.manager.numNotes - j, 1, 1);
             }
             for(int i = 1; i < phase.manager.numMeasures*16 + 1; i++) {
                 for(int j = 1; j < phase.manager.numNotes + 1; j++) {
@@ -639,7 +654,7 @@ public class MidiGrid {
                     tempMidiPane.setRight(true);
                 }
             }
-            String note = getNote(row);
+            int note = getNote(row);
             System.out.println(note + " Added!");
             phase.addNote(note, noteLength, col);
         }
@@ -667,28 +682,32 @@ public class MidiGrid {
 //        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
 //        r.setFill(Color.WHITESMOKE);
 //        pane.getStyleClass().add("grid-cell-off");
-        String note = getNote(row);
+        int note = getNote(row);
         System.out.println(note + " Deleted!");
 
         phase.deleteNote(note, noteLength, col);
     }
 
-    private String getNote(int row) {
-        String note = "";
+    private int getNote(int row) {
+        String noteName = "";
+        String noteValue = "";
         // i is 1 here so we don't check the cell at 0,0.
         for (int i = 1; i < gridPane.getChildren().size(); i++) {
             Node node = gridPane.getChildren().get(i);
             if (node != null) {
                 try {
-                    if (gridPane.getColumnIndex(node) == 0 && gridPane.getRowIndex(node) == row) {
-                        note = ((Label) node).getText();
+                    if (gridPane.getColumnIndex(node) == 0 && (gridPane.getRowIndex(node)-1) == row) {
+                        Label labelName = (Label) (((HBox) node).getChildren().get(0));
+                        noteName = labelName.getText();
+                        Label labelValue = (Label) (((HBox) node).getChildren().get(1));
+                        noteValue = labelValue.getText();
                     }
                 } catch(NullPointerException e) {
                     System.out.println(e.getMessage());
                 }
             }
         }
-        return note;
+        return Integer.valueOf(noteValue);
     }
 
 

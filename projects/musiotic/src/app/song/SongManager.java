@@ -15,6 +15,7 @@ import jm.music.tools.Mod;
 import jm.util.Play;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
+import util.Scale;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,7 +141,7 @@ public class SongManager {
         }
     }
 
-    public List<StringProperty> getScale() {
+    public Scale getScale() {
         var keyPhase = (KeyPhase) phaseMap.get(Phase.Type.Key);
         if(keyPhase == null) return null;
         return keyPhase.getScale();
