@@ -43,13 +43,16 @@ public class MidiGrid {
     //TODO: Set up Add measures for left and right side (add buttons as well)
 
     // Variables for horizontal scrolling
-    int scrollPos = 0;
-    final int scrollMinPos = 0;
-    final int scrollMaxPos = 20;
+    private int scrollPos = 0;
+    private final int scrollMinPos = 0;
+    private final int scrollMaxPos = 20;
     String mode = "ADD";
 
+    // For MODE "EDIT"
+    private MidiPane editPane = null;
+
     // 1 is sixteenth, 2 is eighth, 4 is quarter etc:...
-    int noteLength = 4;
+    private int noteLength = 4;
 
     public MidiGrid(Phase phase) {
         this.phase = phase;
@@ -82,9 +85,9 @@ public class MidiGrid {
     }
 
     private HBox initializeModeButtons() {
-        Button add = new Button("ADD NOTE");
-        Button edit = new Button("EDIT NOTE");
-        Button delete = new Button("DELETE NOTE");
+        Button add = new Button("Add Note");
+        Button edit = new Button("Extend/Shrink Note");
+        Button delete = new Button("Delete Note");
         add.setOnMouseClicked(e -> {
             System.out.println("MODE: ADD");
             mode = "ADD";
@@ -158,10 +161,10 @@ public class MidiGrid {
             }
             for(int i = 1; i < phase.manager.numMeasures*16 + 1; i++) {
                 for(int j = 1; j < phase.manager.numNotes + 1; j++) {
-                    Integer[] indexes = {i, j};
+                    Integer[] indexes = {i-1, j-1};
                     IntegerArray arr = new IntegerArray(indexes);
 
-                    cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i, j));
+                    cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i-1, j-1));
                     System.out.println("CELLS.PUT: row: " + j + " col: " + i);
 
                 }
@@ -176,7 +179,7 @@ public class MidiGrid {
     private MidiPane createCell(Color c, GridPane gridPane, int col, int row) {
         MidiPane pane = new MidiPane(row, col);
         pane.getStyleClass().add("grid-cell-off");
-        Rectangle rectangle = new Rectangle(40, 40, c);
+        Rectangle rectangle = new Rectangle(20, 40, c);
         rectangle.setY(1);
         rectangle.setX(1);
 //        rectangle.setFill(c);
@@ -188,7 +191,7 @@ public class MidiGrid {
 //        pane.setBorder(new Border(new BorderStroke(Color.BLACK,
 //                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT, Insets.EMPTY)));
         setPane(pane);
-        gridPane.add(pane, col, row);
+        gridPane.add(pane, col+1, row+1);
         return pane;
     }
 
@@ -196,7 +199,7 @@ public class MidiGrid {
         for (int row = 0; row < numNotes; row++) {
             for(int col = 0; col < numMeasures*16; col++) {
                 //System.out.println("arrangeBorders(): row: " + row + " col: " + col);
-                Integer[] indexes = {col + 1, row + 1};
+                Integer[] indexes = {col, row};
                 IntegerArray arr = new IntegerArray(indexes);
 
                 MidiPane midiPane = cells.get(arr);
@@ -210,7 +213,7 @@ public class MidiGrid {
     }
 
     private void arrangeBorder(int numNotes, int numMeasures, int col, MidiPane midiPane, int noteLength) {
-        if (noteLength > 7) {
+        if (noteLength > 3) {
             arrangeBorderLess(numNotes, numMeasures, col, midiPane);
         } else if (noteLength > 1) {
             arrangeBorderSome(numNotes, numMeasures, col, midiPane);
@@ -252,8 +255,8 @@ public class MidiGrid {
         } else if (col % 16 == 15) {
             //End Measure, Right Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
-                    BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
-                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+                    BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
+                    CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
         } else if (col % 4 == 0) {
             //Left side Dashed
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
@@ -372,14 +375,71 @@ public class MidiGrid {
             switch(mode) {
                 case "ADD":
                     System.out.println("ADD");
-                    addNote(pane);
+                    addNote(pane, noteLength);
                     break;
                 case "EDIT":
                     System.out.println("EDIT");
+                    if (editPane == null) {
+                        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+                        if (r.getFill() == Color.WHITESMOKE) {
+                            // Do nothing!
+                            editPane = null;
+                        } else {
+                            editPane = pane;
+                        }
+                    } else {
+                        if (editPane.getRow() == pane.getRow()) {
+                            // Same row! Let's check for extend/shrink
+                            ArrayList<Integer> list = findConnectedMidiPanes(editPane.getCol(), editPane.getRow());
+                            MidiPane editPaneStart = cells.get(new IntegerArray(new Integer[] {list.get(0), editPane.getRow()}));
+                            int editPaneStartCol = editPaneStart.getCol();
+                            int editPaneEndCol = editPaneStartCol + list.get(1);
+                            int newPaneCol = pane.getCol();
+                            if (editPaneStartCol + list.get(1) < newPaneCol) {
+                                // Extend to the right!
+                                int newLength = newPaneCol - editPaneStartCol + 1;
+                                deleteNote(editPaneStart, list.get(1));
+                                addNote(editPaneStart, newLength);
+                            } else if (newPaneCol < editPaneStartCol) {
+                                // Extend to the left!
+                                int newLength = editPaneEndCol-newPaneCol;
+                                deleteNote(editPaneStart, list.get(1));
+                                addNote(pane, newLength);
+                            } else {
+                                // Shrink in between!
+                                if (Math.abs(editPaneEndCol - newPaneCol + 1) <= Math.abs(newPaneCol - editPaneStartCol + 1)) {
+                                    // Picking which side to shrink from
+                                    // From right side to middle
+                                    int newLength = editPaneEndCol-newPaneCol;
+                                    deleteNote(editPaneStart, list.get(1));
+                                    addNote(pane, newLength);
+                                } else {
+                                    // From left side to middle
+                                    int newLength = newPaneCol-editPaneStartCol+1;
+                                    deleteNote(editPaneStart, list.get(1));
+                                    addNote(editPaneStart, newLength);
+                                }
+                            }
+                            editPane = null;
+                        } else {
+                            // Not the same row! Can't extend/shrink
+                            // Set editPane to this new Pane.
+                            editPane = pane;
+                        }
+                    }
                     break;
                 case "DELETE":
                     System.out.println("DELETE");
-                    deleteNote(pane);
+                    ArrayList<Integer> list = findConnectedMidiPanes(pane.getCol(), pane.getRow());
+                    if (list == null) {
+                        System.out.println("Nothing to Delete!");
+                    } else {
+                        MidiPane deletePane = cells.get(new IntegerArray(new Integer[] {list.get(0), pane.getRow()}));
+                        if (deletePane == null) {
+                            System.out.println("NULL!!!!");
+                        }
+                        deleteNote(deletePane, list.get(1));
+                    }
                     break;
                 default:
                     System.out.println("Don't be here.");
@@ -435,14 +495,45 @@ public class MidiGrid {
             /* data dropped */
             System.out.println("onDragDropped");
             /* if there is a string data on dragboard, read it and use it */
-            Pane oldPane = (Pane) event.getGestureSource();
-            Rectangle oldR = (Rectangle) oldPane.getChildren().toArray()[0];
-            Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
-            r.setFill(oldR.getFill());
-            /* let the source know whether the string was successfully
-             * transferred and used */
-            event.setDropCompleted(true);
+            MidiPane oldPane = (MidiPane) event.getGestureSource();
 
+            int oldCol = oldPane.getCol();
+            int oldRow = oldPane.getRow();
+            ArrayList<Integer> oldStartData = findConnectedMidiPanes(oldCol, oldRow);
+            if (oldStartData == null) {
+                // Trying to move a rest! Don't do that!
+            } else {
+                int oldColStart = oldStartData.get(0);
+                int oldNoteLength = oldStartData.get(1);
+                MidiPane startOfOldPane = cells.get(new IntegerArray(new Integer[] {oldColStart, oldRow}));
+                if (startOfOldPane == null) {
+                    System.out.println("NULL!!!!");
+                }
+                deleteNote(startOfOldPane, oldNoteLength);
+                addNote(pane, oldNoteLength);
+
+//                Rectangle oldR = (Rectangle) oldPane.getChildren().toArray()[0];
+//                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+//
+//                if (r.getFill() != Color.WHITESMOKE && oldR.getFill() == Color.WHITESMOKE) {
+//                    pane.getStyleClass().remove("grid-cell-on");
+//                    pane.getStyleClass().add("grid-cell-off");
+//                } else if (oldR.getFill() == Color.RED) {
+//                    pane.getStyleClass().remove("grid-cell-off");
+//                    pane.getStyleClass().add("grid-cell-on");
+//                    oldPane.getStyleClass().remove("grid-cell-on");
+//                    oldPane.getStyleClass().add("grid-cell-off");
+//                }
+//                r.setFill(oldR.getFill());
+
+                // TODO: Be able to move groups only
+
+
+                /* let the source know whether the string was successfully
+                 * transferred and used */
+                event.setDropCompleted(true);
+
+            }
             event.consume();
         });
 
@@ -450,10 +541,10 @@ public class MidiGrid {
             /* the drag-and-drop gesture ended */
             System.out.println("onDragDone");
             /* if the data was successfully moved, clear it */
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
-                r.setFill(Color.WHITESMOKE);
-            }
+//            if (event.getTransferMode() == TransferMode.MOVE) {
+//                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+//                r.setFill(Color.WHITESMOKE);
+//            }
 
             event.consume();
         });
@@ -461,31 +552,107 @@ public class MidiGrid {
 
     }
 
-    private void addNote(MidiPane pane) {
-        int col = pane.getCol();
-        int row = pane.getRow();
-        System.out.println("col: " + col + ". row: " + row);
-        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
-        r.setFill(Color.RED);
-        pane.getStyleClass().remove("grid-cell-off");
-        pane.getStyleClass().add("grid-cell-on");
-        String note = getNote(row);
-        System.out.println(note + " Added!");
+    private ArrayList<Integer> findConnectedMidiPanes(int col, int row) {
+        int startCol = col;
+        int endCol = col;
 
-        phase.addNote(note, noteLength, col-1);
+
+        MidiPane node = cells.get(new IntegerArray(new Integer[] {startCol, row}));
+        Rectangle check = (Rectangle) node.getChildren().toArray()[0];
+        if (check.getFill() == Color.WHITESMOKE) {
+            return null;
+        }
+
+        while (node.isLeft() == true) {
+            startCol--;
+            node = cells.get(new IntegerArray(new Integer[] {startCol, row}));
+        }
+        node = cells.get(new IntegerArray(new Integer[] {endCol, row}));
+        while (node.isRight() == true) {
+            endCol++;
+            node = cells.get(new IntegerArray(new Integer[] {endCol, row}));
+        }
+
+        ArrayList<Integer> res = new ArrayList<>();
+        res.add(startCol);
+        res.add(endCol-startCol+1);
+        //Returns column start and it's note length.
+        int tempLength = endCol-startCol+1;
+        System.out.println("findConnectedMidiPanes(): temp length: " + tempLength);
+        return res;
+
     }
 
-    private void deleteNote(MidiPane pane) {
+    private void addNote(MidiPane pane, int noteLength) {
         int col = pane.getCol();
         int row = pane.getRow();
         System.out.println("col: " + col + ". row: " + row);
-        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
-        r.setFill(Color.WHITESMOKE);
-        pane.getStyleClass().add("grid-cell-off");
+        boolean canPlace = true;
+        for (int i = 0; i < noteLength; i++) {
+            Integer[] indexes = {col + i, row};
+            IntegerArray arr = new IntegerArray(indexes);
+            MidiPane tempMidiPane = cells.get(arr);
+            Rectangle tempR = (Rectangle) tempMidiPane.getChildren().toArray()[0];
+            if (tempR.getFill() != Color.WHITESMOKE) {
+                canPlace = false;
+                break;
+            }
+        }
+        if (!canPlace) {
+            System.out.println("Can't place Note! Incorrect size for empty space.");
+        } else {
+            //can Place!
+            for (int i = 0; i < noteLength; i++) {
+                Integer[] indexes = {col + i, row};
+                IntegerArray arr = new IntegerArray(indexes);
+                MidiPane tempMidiPane = cells.get(arr);
+                Rectangle tempR = (Rectangle) tempMidiPane.getChildren().toArray()[0];
+                tempR.setFill(Color.RED);
+                tempMidiPane.getStyleClass().remove("grid-cell-off");
+                tempMidiPane.getStyleClass().add("grid-cell-on");
+                if (i == 0) {
+                    tempMidiPane.setLeft(false);
+                    tempMidiPane.setRight(true);
+                } else if (i == noteLength-1) {
+                    tempMidiPane.setLeft(true);
+                    tempMidiPane.setRight(false);
+                } else {
+                    tempMidiPane.setLeft(true);
+                    tempMidiPane.setRight(true);
+                }
+            }
+            String note = getNote(row);
+            System.out.println(note + " Added!");
+            phase.addNote(note, noteLength, col);
+        }
+    }
+
+    private void deleteNote(MidiPane pane, int noteLength) {
+        int col = pane.getCol();
+        int row = pane.getRow();
+        System.out.println("col: " + col + ". row: " + row);
+
+
+        for (int i = 0; i < noteLength; i++) {
+            Integer[] indexes = {col + i, row};
+            IntegerArray arr = new IntegerArray(indexes);
+            MidiPane tempMidiPane = cells.get(arr);
+            Rectangle tempR = (Rectangle) tempMidiPane.getChildren().toArray()[0];
+            tempR.setFill(Color.WHITESMOKE);
+            tempMidiPane.getStyleClass().remove("grid-cell-on");
+            tempMidiPane.getStyleClass().add("grid-cell-off");
+            tempMidiPane.setLeft(false);
+            tempMidiPane.setRight(false);
+        }
+
+
+//        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
+//        r.setFill(Color.WHITESMOKE);
+//        pane.getStyleClass().add("grid-cell-off");
         String note = getNote(row);
         System.out.println(note + " Deleted!");
 
-        phase.deleteNote(note, noteLength, col-1);
+        phase.deleteNote(note, noteLength, col);
     }
 
     private String getNote(int row) {
