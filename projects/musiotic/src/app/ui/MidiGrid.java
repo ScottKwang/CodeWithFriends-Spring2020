@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Bloom;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
@@ -26,6 +28,8 @@ import song.InstrumentalPhase;
 import song.Phase;
 import util.IntegerArray;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,11 +81,25 @@ public class MidiGrid {
 
         HBox modeButtons = initializeModeButtons();
         HBox lengthButtons = initializeNoteLengthButtons();
+        Button playButton = initializePlayButton();
 
-        actionButtons = new HBox(modeButtons, lengthButtons);
+        actionButtons = new HBox(modeButtons, lengthButtons, playButton);
 
         String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
         gridPane.getStylesheets().add(styleSheet);
+    }
+
+    private Button initializePlayButton() {
+        String playImage = getClass().getResource("/images/play.png").toExternalForm();
+
+        ImageView imageView = new ImageView(new Image(playImage));
+
+        Button button = new Button("Play", imageView);
+        button.setOnMouseClicked(e -> {
+            phase.manager.play(0);
+            //TODO: Create a function that will play the number measure from starting slider.
+        });
+        return button;
     }
 
     private HBox initializeModeButtons() {
