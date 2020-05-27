@@ -18,7 +18,7 @@ But what really got me thinking about this is C\# which is really similar to Jav
 
 So first of all the language technically has functions. The thing that makes it dysfunctional is that any function can be instantiated (although this has changed to only void functions can be instantiated). So every function is a class... Or every class is a function. Or perhaps it's more correct to say there are neither *classes* nor *functions*, only *containers*.
 
-Syntax wise it's very similar to Python because Python is simple. But I also made sure to add some custom flourishes. First of all you can start a variable name with a number. I always wanted to do that. Also when accessing a variable in a parent container, a 'global' variable, you have to use unix directory syntax like ../var1. Because why oh why do modern languages use the same syntax to access global and local variables.
+Syntax wise it's very similar to Python because Python is simple. But I also made sure to add some custom flourishes. First of all you can start a variable name with a number. I always wanted to do that. Also when accessing a variable in a parent container, a 'global' variable, you have to use unix directory syntax like ../var1. Because why oh why do modern languages use the same syntax to access global and local variables. And return types have a name. This is mostly for bools where I have no idea what the returned value means until I read the comment. IE: "Oh, it returns if the operation succeeded."
 
 Also there's [this license](https://gitlab.com/azuredown/muse/-/blob/master/LICENSE) I wrote for the project. I really like it. It's based off of MIT with two additional clauses that I really like.
 
