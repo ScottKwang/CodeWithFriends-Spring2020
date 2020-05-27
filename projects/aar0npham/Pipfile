@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+matplotlib = "*"
+torch = "*"
+torchvision = "*"
+scikit-image = "*"
+numpy = "*"
+scipy = "*"
+nltk = "*"
+six = "*"
+colour = "*"
+onnx = "*"
+onnxruntime-gpu = "*"
+Flask = "*"
+Pillow = "*"
+PyYAML = "*"
+
+[requires]
+python_version = "3.8"
