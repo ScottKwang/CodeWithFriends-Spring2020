@@ -62,7 +62,10 @@ public class KeyPhase extends Phase {
             manager.changeMode(newMode);
         }
         setScale(tonic.toCharArray()[0], this.mode);
-        completed.setValue(true);
+        if(!completed.getValue()){
+            manager.forInstrumentalPhase(InstrumentalPhase::initialize);
+            completed.setValue(true);
+        }
         manager.goToPhase(manager.phaseMap.getNext(getType()));
     }
 

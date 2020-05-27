@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
 import jm.JMC;
 import jm.music.data.Note;
 import jm.music.data.Part;
@@ -20,15 +19,18 @@ import util.Scale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class SongManager {
     public final StylePhase stylePhase;
     private SongEditorScreen screen;
     public MappedLinkedList<Phase.Type, Phase> phaseMap;
-    private Property<Phase> currentPhase;
+    private final Property<Phase> currentPhase;
     private final BooleanProperty nextAvailable;
     private final BooleanProperty prevAvailable;
-    private Score score;
+    private final Score score;
     private int tonic;
     private int[] mode;
 
@@ -65,7 +67,6 @@ public class SongManager {
         var phases = stylePhase.getPhases();
         phaseMap = new MappedLinkedList<>(phases);
         screen.populate(phases.values());
-        addMeasuresRight();
     }
 
     public void goToPhase(Phase phase){
@@ -118,27 +119,12 @@ public class SongManager {
     public void addMeasures(boolean right) {
         this.numMeasures += 4;
         System.out.println("The number of Measures this MIDI has is: " + numMeasures);
-        if (right) addMeasuresRight();
-        else addMeasuresLeft();
-    }
-
-    private void addMeasuresLeft() {
-        Score rest = score.copy();
-        for(Part part : rest.getPartArray()){
-            part.clean();
-            for(int i = 0; i < 4; i++){
-                part.addNote(
-                        new Note(JMC.REST, JMC.WHOLE_NOTE), part.getEndTime()
-                );
-            }
-        }
-        Mod.merge(rest, score);
-    }
-
-    private void addMeasuresRight() {
-        for(Part part : score.getPartArray()){
-            part.addNote(new Note(JMC.REST, JMC.WHOLE_NOTE), part.getEndTime());
-        }
+        forInstrumentalPhase(phase -> {
+            phase.addMeasure(right);
+            phase.addMeasure(right);
+            phase.addMeasure(right);
+            phase.addMeasure(right);
+        });
     }
 
     public Scale getScale() {
@@ -152,24 +138,31 @@ public class SongManager {
     }
 
     public void play(int measureNum){
-        Phase curr = phaseMap.getNext(Phase.Type.Style);
         List<Part> oldParts = new ArrayList<>();
-        while(curr != null){
-            if(curr instanceof InstrumentalPhase){
-                Part part = ((InstrumentalPhase) curr).part;
-                Part oldPart = part.copy();
-                var currPhrases = part.getPhraseList();
-                currPhrases.removeAll(currPhrases.subList(0, measureNum));
-                ((InstrumentalPhase) curr).connectMeasures(); // Prepare part for playing
-                ((InstrumentalPhase) curr).part = oldPart; // Reset phase's part for continued editing
-                oldParts.add(oldPart);
-                Mod.consolidate(part);
-            }
-            curr = phaseMap.getNext(curr.getType());
-        }
+        forInstrumentalPhase(phase -> {
+            Part part = phase.part;
+            var currPhrases = part.getPhraseList();
+            var tooEarly = ((Vector<Phrase>)currPhrases)
+                    .stream()
+                    .filter(phrase -> phrase.getStartTime() < measureNum * 4)
+                    .collect(Collectors.toList());
+            currPhrases.removeAll(tooEarly);
+            var oldPart = phase.consolidatePart();// Prepare part for playing
+            oldParts.add(oldPart);
+        });
 
         Play.midi(score);
         score.removeAllParts();
         for(Part part : oldParts) score.addPart(part);
+    }
+
+    protected void forInstrumentalPhase(Consumer<InstrumentalPhase> consumer){
+        Phase curr = phaseMap.getNext(Phase.Type.Style);
+        while(curr != null){
+            if(curr instanceof InstrumentalPhase){
+                consumer.accept((InstrumentalPhase) curr);
+            }
+            curr = phaseMap.getNext(curr.getType());
+        }
     }
 }
