@@ -1,7 +1,7 @@
 # Fitbit Clock Face
 
-Created by Juan Garcia, (link to Github Profile, and any other social links)
-Source code: (Source code link)
+Created by Juan Garcia, https://github.com/jgarcia45
+Source code: https://github.com/jgarcia45/FitbitOS-Developer/tree/master/Fitbit%20Clock%20Faces/Yosemite(Half%20Dome)
 
 ## Summary
 
@@ -11,6 +11,7 @@ Source code: (Source code link)
 
 ## Inspiration
 
+What inspired me to work on this project was that I myself own a fitbit watch.
 (What inspired, motivated, or urged you to work on this project specifically?)
 
 ## Challenges
