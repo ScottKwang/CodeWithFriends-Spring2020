@@ -1,0 +1,3 @@
+[submodule "projects/outdoor-inspiration"]
+	path = projects/outdoor-inspiration
+	url = https://github.com/luisaugusto/outdoor-inspiration
