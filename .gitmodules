@@ -1,0 +1,4 @@
+[submodule "projects/harisont/SpesApp"]
+	path = projects/harisont/SpesApp
+	url = https://github.com/Disorganizzazione/SpesApp
+	branch = master
