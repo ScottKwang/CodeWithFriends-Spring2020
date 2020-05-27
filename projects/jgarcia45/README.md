@@ -1,6 +1,6 @@
 # Fitbit Clock Face
 
-Created by Juan Garcia, https://github.com/jgarcia45
+Created by Juan Garcia, https://github.com/jgarcia45 <br >
 Source code: https://github.com/jgarcia45/FitbitOS-Developer/tree/master/Fitbit%20Clock%20Faces/Yosemite(Half%20Dome)
 
 ## Summary
