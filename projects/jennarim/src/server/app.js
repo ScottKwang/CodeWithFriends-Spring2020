@@ -109,6 +109,14 @@ function getRoom(roomId) {
 	return null;
 }
 
+function removeRoom(roomId) {
+	for (let i=0; i < rooms.length; i++) {
+		if (rooms[i].id === roomId) {
+			rooms.splice(i, 1);
+		}
+	}
+}
+
 io.on('connection', function(socket) {
 	console.log(socket.id, " connected!");
 
@@ -185,7 +193,7 @@ io.on('connection', function(socket) {
 			});
 		}
 
-		console.log(rooms);
+		// console.log(rooms);
 	});
 
 	socket.on('disconnecting', function() {
@@ -193,13 +201,30 @@ io.on('connection', function(socket) {
 		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
 		const currentRoom = getRoom(roomId);
 		if (currentRoom) {
-			delete currentRoom.playerPaddles[socket.id];
-			let index = 1;
-			// Update playerNo
-			for (const playerPaddle in currentRoom.playerPaddles) {
-				playerPaddle.playerNo = index++;
+			socket.to(roomId).emit("restart");
+			// console.log(currentRoom);
+			const socketsInRoom = io.sockets.adapter.rooms[roomId].sockets;
+			// console.log(socketsInRoom);
+			let firstSocket;
+			while (firstSocket = Object.keys(socketsInRoom)[0]) {
+				console.log("leave");
+				removeRoom(roomId);
+				io.sockets.connected[firstSocket].leave(roomId);
 			}
-			// emit end game
+			// for (const socketId in socketsInRoom) {
+			// 	console.log("leave");
+			// 	io.sockets.connected[socketId].leave(roomId);
+			// }
+			
+			// for (const socketId in socketsInRoom) {
+			// 	if (socketId !== socket.id) {
+			// 		io.sockets.connected[socketId].disconnect();
+			// 		console.log("restarting...");
+			// 		socket.emit('restart');
+			// 	}
+			// }
+			// currentRoom.playerPaddles = {};
+			// delete currentRoom.playerPaddles[socket.id];
 		}
 	});
 
@@ -397,7 +422,7 @@ io.on('connection', function(socket) {
 			const ball = currentRoom.ball;
 			const walls = currentRoom.walls;
 			const playerScores = currentRoom.playerScores;
-			console.log(currentRoom.playerScores);
+			// console.log(currentRoom.playerScores);
 			io.sockets.in(roomId).emit('state', {playerPaddles, ball, walls, playerScores});
 		}
 	}, 1000 / 60);

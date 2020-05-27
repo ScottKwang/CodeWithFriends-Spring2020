@@ -29,6 +29,8 @@ function handleRestart(event) {
     }
 }
 
+let gameActive = true;
+
 class Canvas extends React.Component {
     componentDidMount() {
         const socket = this.props.socket;
@@ -48,7 +50,24 @@ class Canvas extends React.Component {
             document.addEventListener("keydown", handleRestart);
         });
 
+        socket.on('restart', function() {
+            console.log("restarting...");
+            gameActive = false;
+
+            // Black background
+            ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
+
+            // Show someone disconnected
+            ctx.font = '25px serif';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = "center";
+            ctx.fillText("Someone disconnected... Please leave the room!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
+        });
+
         socket.on('state', function(data) {
+            if (!gameActive) return;
             // Draw background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = "black";
