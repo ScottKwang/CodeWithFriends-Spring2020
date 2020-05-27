@@ -74,6 +74,28 @@ class Canvas extends React.Component {
                 Object.setPrototypeOf(ball, Ball.prototype);
                 ball.render(ctx);
             }
+
+            // Draw each score
+            const playerScores = data.playerScores;
+            for (const playerNo in playerScores) {
+                const score = playerScores[playerNo];
+                ctx.font = '30px serif';
+                ctx.fillStyle = 'white';
+                switch (playerNo) {
+                    case '1':
+                        ctx.fillText(score, 20, c.HEIGHT/2);
+                        break;
+                    case '2':
+                        ctx.fillText(score, c.WIDTH - 40, c.HEIGHT/2);
+                        break;
+                    case '3':
+                        ctx.fillText(score, c.WIDTH/2, 40);
+                        break;
+                    case '4':
+                        ctx.fillText(score, c.WIDTH/2, c.HEIGHT - 40);
+                        break;
+                }
+            }
         });
 
         document.addEventListener("mousemove", function(event) {

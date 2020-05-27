@@ -4,6 +4,8 @@ class Room {
         this.playerPaddles = {};
         this.walls = [];
         this.ball = {};
+        this.playerGoals = {};
+        this.playerScores = {};
     }
 
     setWalls(walls) {

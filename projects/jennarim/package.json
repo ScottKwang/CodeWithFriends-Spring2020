@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/server/app.js",
   "scripts": {
-    "start": "node /src/server/app.js",
+    "start": "node ./src/server/app.js",
     "build": "webpack --mode production",
     "dev": "webpack --mode development && node ./src/server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
