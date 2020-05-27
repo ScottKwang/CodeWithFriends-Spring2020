@@ -7,11 +7,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -19,6 +24,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
@@ -26,6 +32,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import song.InstrumentalPhase;
@@ -70,6 +77,12 @@ public class MidiGrid {
         scrollPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
         scrollPane.setContent(gridPane);
 
+        String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
+        gridPane.getStylesheets().add(styleSheet);
+        String scrollStyle = getClass().getResource("/css/scroll.css").toExternalForm();
+        scrollPane.getStylesheets().add(scrollStyle);
+        //gridPane.setStyle("-fx-font-size: 11px;");
+
         // https://stackoverflow.com/questions/32544574/javafx-scrollpane-horizontal-panning-with-scroll-wheel
         scrollPane.setOnScroll(event -> {
             if (event.getDeltaY() > 0)
@@ -84,82 +97,117 @@ public class MidiGrid {
 
 //        initializeCells(gridPane);
 
-        HBox modeButtons = initializeModeButtons();
-        HBox lengthButtons = initializeNoteLengthButtons();
+        BorderPane modeButtons = initializeModeButtons();
+        modeButtons.getStyleClass().add("mode-buttons");
+        BorderPane lengthButtons = initializeNoteLengthButtons();
+        lengthButtons.getStyleClass().add("length-buttons");
         Button playButton = initializePlayButton();
+        playButton.getStyleClass().add("play-buttons");
 
         actionButtons = new HBox(modeButtons, lengthButtons, playButton);
-
-        String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
-        gridPane.getStylesheets().add(styleSheet);
+        actionButtons.getStyleClass().add("buttons");
     }
 
     private Button initializePlayButton() {
         String playImage = getClass().getResource("/images/play.png").toExternalForm();
 
         ImageView imageView = new ImageView(new Image(playImage));
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
 
         Button button = new Button("Play", imageView);
         button.setOnMouseClicked(e -> {
             phase.manager.play(0);
             //TODO: Create a function that will play the number measure from starting slider.
         });
+
         return button;
     }
 
-    private HBox initializeModeButtons() {
+    private BorderPane initializeModeButtons() {
         Button add = new Button("Add Note");
         Button edit = new Button("Extend/Shrink Note");
         Button delete = new Button("Delete Note");
+        changeEffects(new Lighting(), add, new Button[]{edit, delete});
         add.setOnMouseClicked(e -> {
             System.out.println("MODE: ADD");
             mode = "ADD";
+            changeEffects(new Lighting(), add, new Button[]{edit, delete});
         });
         edit.setOnMouseClicked(e -> {
             System.out.println("MODE: EDIT");
             mode = "EDIT";
+            changeEffects(new Lighting(), edit, new Button[]{add, delete});
         });
         delete.setOnMouseClicked(e -> {
             System.out.println("MODE: DELETE");
             mode = "DELETE";
+            changeEffects(new Lighting(), delete, new Button[]{add, edit});
         });
-
-        return new HBox(add, edit, delete);
+        HBox buttons = new HBox(add, edit, delete);
+        buttons.setSpacing(10);
+        Label label = new Label("Modes");
+        BorderPane pane = new BorderPane();
+        pane.setCenter(buttons);
+        pane.setTop(label);
+        pane.setAlignment(label, Pos.CENTER);
+        return pane;
     }
 
-    private HBox initializeNoteLengthButtons() {
+    private BorderPane initializeNoteLengthButtons() {
         Button sixteenthNote = new Button("¼");
         Button eighthNote = new Button("½");
         Button quarterNote = new Button("1");
         Button halfNote = new Button("2");
         Button wholeNote = new Button("4");
         Button doubleWholeNote = new Button("8");
-
+        changeEffects(new Lighting(), quarterNote, new Button[]{sixteenthNote, eighthNote, halfNote, wholeNote, doubleWholeNote});
         sixteenthNote.setOnMouseClicked(e -> {
             noteLength = 1;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), sixteenthNote, new Button[]{eighthNote, quarterNote, halfNote, wholeNote, doubleWholeNote});
         });
         eighthNote.setOnMouseClicked(e -> {
             noteLength = 2;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), eighthNote, new Button[]{sixteenthNote, quarterNote, halfNote, wholeNote, doubleWholeNote});
         });
         quarterNote.setOnMouseClicked(e -> {
             noteLength = 4;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), quarterNote, new Button[]{sixteenthNote, eighthNote, halfNote, wholeNote, doubleWholeNote});
         });
         halfNote.setOnMouseClicked(e -> {
             noteLength = 8;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), halfNote, new Button[]{sixteenthNote, eighthNote, quarterNote, wholeNote, doubleWholeNote});
         });
         wholeNote.setOnMouseClicked(e -> {
             noteLength = 16;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), wholeNote, new Button[]{sixteenthNote, eighthNote, quarterNote, halfNote, doubleWholeNote});
         });
         doubleWholeNote.setOnMouseClicked(e -> {
             noteLength = 32;
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+            changeEffects(new Lighting(), doubleWholeNote, new Button[]{sixteenthNote, eighthNote, quarterNote, halfNote, wholeNote});
         });
-        return new HBox(sixteenthNote, eighthNote, quarterNote, halfNote, wholeNote, doubleWholeNote);
+
+        HBox buttons = new HBox(sixteenthNote, eighthNote, quarterNote, halfNote, wholeNote, doubleWholeNote);
+        buttons.setSpacing(10);
+        Label label = new Label("Note Lengths");
+        BorderPane pane = new BorderPane();
+        pane.setCenter(buttons);
+        pane.setTop(label);
+        pane.setAlignment(label, Pos.CENTER);
+        return pane;
+    }
+
+    private void changeEffects(Effect effect, Button change, Button ... buttons) {
+        change.setEffect(effect);
+        for (Button button : buttons) {
+            button.setEffect(null);
+        }
     }
 
     public void initializeCells() {
@@ -198,7 +246,7 @@ public class MidiGrid {
                     IntegerArray arr = new IntegerArray(indexes);
 
                     cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i-1, j-1));
-                    System.out.println("CELLS.PUT: row: " + j + " col: " + i);
+//                    System.out.println("CELLS.PUT: row: " + j + " col: " + i);
 
                 }
             }
@@ -279,7 +327,7 @@ public class MidiGrid {
     private void arrangeBorderMost(int numNotes, int numMeasures, int col, MidiPane midiPane) {
         // noteLength is 1
 
-        System.out.println("arrangeBorderMost(): col: " + col);
+//        System.out.println("arrangeBorderMost(): col: " + col);
         if (col % 16 == 0) {
             //Start Measure, Left Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
@@ -322,7 +370,7 @@ public class MidiGrid {
     private void arrangeBorderSome(int numNotes, int numMeasures, int col, MidiPane midiPane) {
         // noteLength is 4 or 2
 
-        System.out.println("arrangeBorderSome(): col: " + col);
+//        System.out.println("arrangeBorderSome(): col: " + col);
         if (col % 16 == 0) {
             //Start Measure, Left Solid
             System.out.println("Left Solid");
@@ -370,7 +418,7 @@ public class MidiGrid {
     private void arrangeBorderLess(int numNotes, int numMeasures, int col, MidiPane midiPane) {
         // noteLength is 32, 16, or 8.
 
-        System.out.println("arrangeBorderLess(): col: " + col);
+//        System.out.println("arrangeBorderLess(): col: " + col);
 //        System.out.println("from pane: col: " + midiPane.getCol());
         if (col % 16 == 0) {
             //Start Measure, Left Solid
@@ -640,7 +688,7 @@ public class MidiGrid {
                 IntegerArray arr = new IntegerArray(indexes);
                 MidiPane tempMidiPane = cells.get(arr);
                 Rectangle tempR = (Rectangle) tempMidiPane.getChildren().toArray()[0];
-                tempR.setFill(Color.RED);
+                tempR.setFill(Color.BLUE);
                 tempMidiPane.getStyleClass().remove("grid-cell-off");
                 tempMidiPane.getStyleClass().add("grid-cell-on");
                 if (i == 0) {

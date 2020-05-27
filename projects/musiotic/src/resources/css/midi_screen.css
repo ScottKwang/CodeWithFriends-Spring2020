@@ -1,0 +1,36 @@
+.buttons {
+    -fx-background-color: D5CAD6;
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+    -fx-padding: 10 5 10 5;
+}
+
+.button {
+    -fx-background-color: C9F0FF;
+    -fx-alignment: center;
+    -fx-pref-width: 150;
+    -fx-pref-height: 75;
+    -fx-max-width: 200;
+    -fx-max-height: 100;
+    /*-fx-padding: 5 10 5 10;*/
+}
+
+.mode-buttons {
+    -fx-padding: 0 10 0 10;
+}
+.mode-buttons .label {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+}
+
+.length-buttons {
+    -fx-padding: 0 10 0 10;
+}
+.length-buttons .label {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+}
+
+.play-buttons {
+    -fx-padding: 0 10 0 10;
+}

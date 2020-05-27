@@ -1,28 +1,7 @@
 .grid-cell-on {
-    -fx-background-color: red;
+    -fx-background-color: blue;
 }
 
 .grid-cell-off {
     -fx-background-color: whitesmoke;
-}
-
-.grid-cell-top-bot {
-    -fx-background-color: white;
-    -fx-border-style: solid none solid none;
-    -fx-border-width: 1;
-    -fx-border-color: black;
-}
-
-.grid-cell-all {
-    -fx-background-color: white;
-    -fx-border-style: solid none solid none;
-    -fx-border-width: 1;
-    -fx-border-color: black;
-}
-
-.grid-cell-all {
-    -fx-background-color: white;
-    -fx-border-style: solid none solid none;
-    -fx-border-width: 1;
-    -fx-border-color: black;
 }
