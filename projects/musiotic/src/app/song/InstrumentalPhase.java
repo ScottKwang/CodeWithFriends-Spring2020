@@ -209,6 +209,7 @@ public abstract class InstrumentalPhase extends Phase {
         }
         phraseMap = phraseMapCopy;
         connectedMeasures = connectedCopy;
+        part = oldPart;
         return oldPart;
     }
 }
