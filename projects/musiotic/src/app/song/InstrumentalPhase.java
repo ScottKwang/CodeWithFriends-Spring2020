@@ -108,7 +108,25 @@ public abstract class InstrumentalPhase extends Phase {
     }
 
     public void deleteNote(int note, int noteLength, int notePosition){
-
+        noteLength /= 4;
+        var phraseList = phraseMap.get(note);
+        Phrase measure = phraseList.get(notePosition / 16);
+        double position = 0;
+        double offset = (notePosition % 16) / 4.0;
+        for(var existing : measure.getNoteArray()){
+            if(position + existing.getRhythmValue() <= offset){
+                position += existing.getRhythmValue();
+                continue;
+            }
+            assert existing.getRhythmValue() == Math.min(noteLength,
+                    measure.getEndTime() - measure.getStartTime() - offset); // for connected measures
+            existing.setPitch(JMC.REST);
+            if(connectedMeasures.containsKey(measure)){
+                connectedMeasures.get(measure).getNoteArray()[0].setPitch(JMC.REST);
+                connectedMeasures.remove(measure);
+            }
+            return;
+        }
     }
 
     private void connectMeasures(){
@@ -191,6 +209,7 @@ public abstract class InstrumentalPhase extends Phase {
         }
         phraseMap = phraseMapCopy;
         connectedMeasures = connectedCopy;
+        part = oldPart;
         return oldPart;
     }
 }
