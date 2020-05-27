@@ -1,5 +1,3 @@
-This is an example README for a CWF Project Submission. Everything below is optional, but feel free to brag about what you worked on here!
-
 # Unwind
 
 Created by Alan Cao, [GitHub](github.com/Alacau), [LinkedIn](linkedin.com/in/caoalan)   
