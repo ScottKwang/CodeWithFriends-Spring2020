@@ -2,14 +2,12 @@ package song;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import jm.JMC;
 import ui.KeyScreen;
 import util.Scale;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -75,8 +73,10 @@ public class KeyPhase extends Phase {
         for(char current = newTonic; current < newTonic + manager.numNotes; current++){
             var noteVal = (char) (((current - 'A') % 7) + 'A');
             var noteName = new StringBuilder(String.valueOf(noteVal));
-            var jmVal = roots.get(String.valueOf(noteVal)) % 12 + this.tonic;
-            var realVal = (this.tonic + mode[(current - newTonic) % 7]) % 12 + this.tonic;
+            var jmVal = roots.get(String.valueOf(noteVal));
+            if(jmVal < this.tonic) jmVal += 12;
+            var realVal = this.tonic + mode[(current - newTonic) % 7];
+            if(current > newTonic && realVal == this.tonic) realVal += 12;
             switch (realVal - jmVal){
                 case 2:
                     noteName.append(Character.toChars(0x1D12A));
@@ -94,7 +94,7 @@ public class KeyPhase extends Phase {
                     break;
             }
             noteList.add(noteName.toString());
-            noteValues.add(jmVal);
+            noteValues.add(realVal);
         }
 
         if(scale == null) {
