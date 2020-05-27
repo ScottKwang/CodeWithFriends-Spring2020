@@ -1,28 +1,25 @@
 This is an example README for a CWF Project Submission. Everything below is optional, but feel free to brag about what you worked on here!
 
-# (Project Title)
+# Unwind
 
-Created by (name), (link to Github Profile, and any other social links)
-Source code: (Source code link)
+Created by Alan Cao, [GitHub](github.com/Alacau), [LinkedIn](linkedin.com/in/caoalan)   
+Source code: [Link](github.com/Alacau/Unwind)
 
 ## Summary
 
-(Write a short, 1-2 paragraph summary of what you did for Code With Friends this month)
+Unwind is a personal project that I've been planning to do for awhile. Although it is currently unfinished at the time of submission, I'm going to continue working on it and hopefully submit it to the AppStore this summer! 
 
-(Insert any pictures or screenshots of your final project here)
+<img src="https://imgur.com/pwA7WZC.png" height=700, width=400>  
+<img src="https://imgur.com/ABZ26CT.png" height=700, width=400>
 
 ## Inspiration
 
-(What inspired, motivated, or urged you to work on this project specifically?)
+I love to make apps and this is one of the apps I've been planning to do for awhile.
 
 ## Challenges
 
-(What challenges did you encounter - technical, mental, logistical, physical - while working on your project?)
+It was hard balancing school, extracurriculars, family, and this project. I had a lot going on at once but I managed to get everything done by sacrificing some leisure time to myself.
 
 ## Reflections
 
-(1. What did you learn during this process (whether that be technical skills, or new things you learned about yourself, time management, etc?)
-
-(2. What would you have done differently if you could do it again?)
-
-(3. What resources did you find most helpful in working on your project?)
+I learned a lot about what I can do on my own without the need of tutorials all that much. I also learned that I'm capable of being productive and I should watch out for when I need to take breaks and practice self care.
