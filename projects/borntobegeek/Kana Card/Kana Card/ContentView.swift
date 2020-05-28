@@ -40,9 +40,15 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            VStack{
+            VStack(){
+                HStack(){
+                    Text("Hiragana")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
                 HStack{
-                    Text("Hiragana Gojūon")
+                    Text("Gojūon")
                         .font(.headline)
                     Spacer()
                     Button(
@@ -55,7 +61,7 @@ struct ContentView: View {
                     }
                 }
                 HStack{
-                    Text("Hiragana Dakuten")
+                    Text("Dakuten")
                     .font(.headline)
                     Spacer()
                     Button(
@@ -68,7 +74,7 @@ struct ContentView: View {
                         }
                 }
                 HStack{
-                    Text("Hiragana Yōon")
+                    Text("Yōon")
                     .font(.headline)
                     Spacer()
                     Button(
@@ -80,8 +86,14 @@ struct ContentView: View {
 
                         }
                 }
+                HStack(){
+                    Text("Katakana")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    Spacer()
+                }
                 HStack{
-                    Text("Katakana Gojūon")
+                    Text("Gojūon")
                     .font(.headline)
                     Spacer()
                     Button(
@@ -94,7 +106,7 @@ struct ContentView: View {
                         }
                 }
                 HStack{
-                    Text("Katakana Dakuten")
+                    Text("Dakuten")
                     .font(.headline)
                     Spacer()
                     Button(
@@ -107,7 +119,7 @@ struct ContentView: View {
                         }
                 }
                 HStack{
-                    Text("Katakana Yōon")
+                    Text("Yōon")
                     .font(.headline)
                     Spacer()
                     Button(
@@ -123,8 +135,11 @@ struct ContentView: View {
                 NavigationLink(destination: CardView()) {
                     Text("Next").font(.title).bold()
                 }
+                
             }.padding()
-            .navigationBarTitle(Text("Categories"))
+                .navigationBarTitle(Text("Categories")
+                    .font(.largeTitle)
+                    )
                 .onDisappear(perform: kana.buildMasterArray)
         }
         .padding(0.0)
