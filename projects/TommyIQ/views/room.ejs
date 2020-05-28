@@ -1,0 +1,67 @@
+<% include ./partials/header.ejs %>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<div class="container">
+  <h1 id="DMuser-name" data-id="<%= id %>" data-name="<%= DMuser %>"><%= DMuser %></h1>
+  <span id="user-id" data-userId="<%= user._id %>"></span>
+
+  <div class="messages scrollbar" id="style-7">
+
+    <div class="insertMessages">
+
+      <% if(typeof msgs != 'undefined' ) { %>
+
+        <% msgs.forEach(msg => { %>
+          
+          <div class="element-msg">
+            <% if(msg.from == user._id) { %>
+            <div class="message message__user">
+            <% } else { %>
+              <div class="message">
+            <% } %>
+              <p class="message__parag"><%= msg.content %></p>
+            </div>
+          </div> 
+          
+        <% }); %>
+
+      
+      <% } %>
+
+    </div>
+
+  </div>
+
+  <div class="sending-msg-form">
+
+    <div class="row">
+      <div class="col">
+        
+        <!-- account/<%=user._id%> -->
+        <form class="form" action="" method="POST">
+          <div class="form-group">
+            <div class="send-msg">
+              <label>Type your message:</label>
+              <button type="submit" class="btn btn-primary send-msg-btn">Send</button>
+              
+              <a href="/direct/" class="btn btn-warning link-leave">Leave</a>
+            </div>
+            <div class="textarea-container">            
+              <textarea class="form-control textarea" name="message"></textarea>
+            </div>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- axios for sending to server -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="../public/assets/socketClient.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+  <% include ./partials/nav.ejs %>
+</div>
+
+  <div class="container">
+    <div class="rooms">
+
+      <% if(typeof DMs != 'undefined') { %>
+
+        <% DMs.forEach((DM) => { %>
+      
+        <div class="room">
+          <div>
+            <span class="room__name"><%= DM.name %></span>
+          </div>
+      
+          <a href="/direct/<%= DM.id %>" class="room__link btn btn-info">Message</a>
+        </div>
+        
+        <% }); %>
+      
+      <% } %>
+
+    </div>
+
+    
+    <div class="lobby-button"><a href="/account" class="btn btn-warning">Back</a></div>
+  </div>
+
+
+  
+  <!-- <script src="/socket.io/socket.io.js"></script>
+  <script>
+
+    const socketConnection = () => {
+      const userId = document.querySelector('#user-id').getAttribute('data-userId');
+      const socket = io.connect("/direct");
+
+      socket.emit('userId', userId);
+      socket.on('chatMessage', (data) => console.log(data));
+
+    };
+    socketConnection();
+
+  </script> -->
+</body>
+</html>
