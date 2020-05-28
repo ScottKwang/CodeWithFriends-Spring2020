@@ -47,3 +47,7 @@ The resources that I found most useful was the fitbit documentation provided by 
   <li>https://dev.fitbit.com/build/guides/</li>
   <li>https://github.com/Fitbit/ossapps</li>
 </ul>
+
+## Message
+
+I would like to say thank you to Mayuko Inoue and Scott Kwang for hosting this event. I really enjoyed the event and it helped motivate me to work on my project. Hope everyone else enjoyed Coding with Friends and good luck to those that are competing. :D
