@@ -2,8 +2,10 @@ import React from 'react';
 
 import c from './../../../lib/constants.js';
 import Paddle from './../../../lib/Paddle.js';
+import Player from './../../../lib/Player.js';
 import Ball from './../../../lib/Ball.js';
-import Wall from '../../../lib/Wall.js';
+import Wall from './../../../lib/Wall.js';
+import Score from './../../../lib/Score.js';
 
 function handleMouseMove(event, socket, ctx) {
     const bounds = document.querySelector('canvas').getBoundingClientRect();
@@ -62,14 +64,6 @@ class Canvas extends React.Component {
                 wall.render(ctx);
             });
 
-            // Draw each paddle
-            const playerPaddles = data.playerPaddles;
-            for (const socketID in playerPaddles) {
-                const playerPaddle = playerPaddles[socketID];
-                Object.setPrototypeOf(playerPaddle, Paddle.prototype);
-                playerPaddle.render(ctx);
-            }
-
             // Draw ball
             const ball = data.ball;
             if (ball) {
@@ -77,25 +71,21 @@ class Canvas extends React.Component {
                 ball.render(ctx);
             }
 
-            // Draw each score
-            const playerScores = data.playerScores;
-            for (const playerNo in playerScores) {
-                const score = playerScores[playerNo];
-                ctx.font = '30px serif';
-                ctx.fillStyle = 'white';
-                switch (playerNo) {
-                    case '1':
-                        ctx.fillText(score, 20, c.HEIGHT/2);
-                        break;
-                    case '2':
-                        ctx.fillText(score, c.WIDTH - 40, c.HEIGHT/2);
-                        break;
-                    case '3':
-                        ctx.fillText(score, c.WIDTH/2, 40);
-                        break;
-                    case '4':
-                        ctx.fillText(score, c.WIDTH/2, c.HEIGHT - 40);
-                        break;
+            const players = data.players;
+            for (const socketID in players) {
+                if (players.hasOwnProperty(socketID)) {
+                    const player = players[socketID];
+                    Object.setPrototypeOf(player, Player.prototype);
+
+                    // Draw each paddle
+                    const paddle = player.getPaddle();
+                    Object.setPrototypeOf(paddle, Paddle.prototype);
+                    paddle.render(ctx);
+
+                    // Draw each score
+                    const score = player.getScore();
+                    Object.setPrototypeOf(score, Score.prototype);
+                    score.render(ctx);
                 }
             }
         });
