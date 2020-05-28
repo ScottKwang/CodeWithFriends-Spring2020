@@ -15,5 +15,9 @@ module.exports = Object.freeze({
     PADDLE_SHORT_LENGTH: 10,
     PADDLE_LONG_LENGTH: 100,
 
-    GOAL_POST_LENGTH: 300, 
+    GOAL_POST_LENGTH: 300,
+
+    BALL_INITIAL_VX: 4,
+    BALL_INITIAL_VY: 5,
+    BALL_RADIUS: 6
 });

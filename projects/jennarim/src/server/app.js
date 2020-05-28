@@ -10,97 +10,10 @@ const c = require('./../lib/constants.js');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const MAX_NUM_OF_PLAYERS = 4;
-
 const rooms = [];
 
-const PADDING = 10;
-
-function withinBottomGoal(ball) {
-	// const [lowerLeftWall, lowerRightWall] = [walls[1], walls[3]];
-	// const b = (!lowerLeftWall.ballIsAbove(ball) && lowerLeftWall.ballIsRight() && 
-	// 		!lowerRightWall.ballIsAbove(ball) && lowerRightWall.ballIsLeft());
-	// console.log("within bottom", b);
-	// const b = lowerLeftWall.touchedBy(ball) || 
-	// return b;
-	return (ball.x > (c.WALL_WIDTH - PADDING) && ball.x < (c.WIDTH-c.WALL_WIDTH+PADDING) && ball.y >= (c.HEIGHT - c.WALL_HEIGHT) && ball.y <= c.HEIGHT);
-	// 0 < x < width of canvas
-	// height of canvas - height of wall < y < height of canvas
-}
-
-function withinTopGoal(ball) {
-	// const [upperLeftWall, upperRightWall] = [walls[0], walls[2]];
-	// const b = (!upperLeftWall.ballIsBelow(ball) && upperLeftWall.ballIsRight() &&
-	// 		!upperRightWall.ballIsBelow(ball) && upperRightWall.ballIsLeft());
-	// console.log("within top", b);
-	// return b;
-	// 0 < x < width of canvas
-	// 0 < y < width of wall
-	return (ball.x > (c.WALL_WIDTH - PADDING) && ball.x < (c.WIDTH-c.WALL_WIDTH+PADDING) && ball.y > 0 && ball.y < c.WALL_WIDTH);
-}
-
-function withinLeftGoal(ball) {
-	// const [upperLeftWall, lowerLeftWall] = [walls[0], walls[1]];
-	// return (!upperLeftWall.ballIsRight(ball) && upperLeftWall.ballIsBelow() && 
-	// !lowerLeftWall.ballIsRight(ball));
-	// const upperLeftWall = walls[0];
-	// return upperLeftWall.ballIsRight();
-	return (ball.x > 0 && ball.x <= c.WALL_WIDTH && ball.y > (c.WALL_HEIGHT - PADDING) && ball.y < (c.HEIGHT - c.WALL_HEIGHT + PADDING));
-}
-
-function withinRightGoal(ball) {
-	// const [upperRightWall, lowerRightWall] = [walls[2], walls[3]];
-	// return (!upperRightWall.ballIsLeft(ball) && !lowerRightWall.ballIsLeft(ball));
-	return (ball.x > (c.WIDTH - c.WALL_WIDTH) && ball.x < c.WIDTH && ball.y > (c.WALL_HEIGHT - PADDING) && ball.y < (c.HEIGHT - c.WALL_HEIGHT + PADDING));
-}
-
-function getDistance(x1, x2, y1, y2) {
-	const xDistance = x1-x2;
-	const yDistance = y1-y2;
-	return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-}
-
-function ballCollidesWithWall(ball, wall) {
-	const res = {collides: false, atCorner: false};
-
-	const distX = Math.abs(ball.x - (wall.x + wall.width/2));
-	const distY = Math.abs(ball.y - (wall.y + wall.height/2));
-	if (distX > (wall.width/2 + ball.radius)) {
-		res.collides = false;
-	} else if (distY > (wall.height/2 + ball.radius)) {
-		res.collides = false;
-	} else if (distX <= (wall.width/2)) {
-		res.collides = true;
-	} else if (distY <= (wall.height/2)) {
-		res.collides = true;
-	}
-	const dx = distX - wall.width/2;
-	const dy = distY - wall.height/2;
-	if (dx*dx+dy*dy<=(ball.radius*ball.radius)) {
-		res.collides = true;
-		res.atCorner = true;
-	}
-	return res;
-}
-
-function ballCollidesWithPaddle(ball, paddle) {
-	const distX = Math.abs(ball.x - (paddle.x + paddle.width/2));
-	const distY = Math.abs(ball.y - (paddle.y + paddle.height/2));
-	if (distX > (paddle.width/2 + ball.radius)) {
-		return false;
-	} else if (distY > (paddle.height/2 + ball.radius)) {
-		return false;
-	} else if (distX <= (paddle.width/2)) {
-		return true;
-	} else if (distY <= (paddle.height/2)) {
-		return true;
-	}
-	const dx = distX - paddle.width/2;
-	const dy = distY - paddle.height/2;
-	return (dx*dx+dy*dy<=(ball.radius*ball.radius));
-}
-
-function getRoom(roomId) {
+function getCurrentRoomOfSocket(socket) {
+	const roomId = socket.rooms[Object.keys(socket.rooms)[1]]; // socket.room contains [<id of room 1>, <name of room 1>, ...]
 	for (const room of rooms) {
 		if (room.id === roomId) {
 			return room;
@@ -118,22 +31,21 @@ function removeRoom(roomId) {
 }
 
 io.on('connection', function(socket) {
-	console.log(socket.id, " connected!");
+	console.log(socket.id, "connected!");
 
 	socket.on('join', function(roomName) {
 		// Socket joins room
 		socket.join(roomName);
 
-		// Create new room if it's the first one
-		if (!getRoom(roomName)) {
-			// Create the room
+		// Add a new room to the local list of Rooms if connected socket is the first player to join
+		if (!getCurrentRoomOfSocket(socket)) {
 			const newRoom = new Room(roomName);
 			
 			// Initialize walls
 			const upperLeftWall  = new Wall(0, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				lowerLeftWall  = new Wall(0, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT),
-				upperRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				lowerRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT);
+				  lowerLeftWall  = new Wall(0, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT),
+				  upperRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
+				  lowerRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT);
 			const walls = [upperLeftWall, lowerLeftWall, upperRightWall, lowerRightWall];
 			newRoom.setWalls(walls);
 			
@@ -143,9 +55,8 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new player', function() {
-		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
-		const currentRoom = getRoom(roomId);
-		if (!currentRoom || !roomId) {
+		const currentRoom = getCurrentRoomOfSocket(socket);
+		if (!currentRoom) {
 			console.log("error: cannot find currentroom");
 		}
 
@@ -182,55 +93,34 @@ io.on('connection', function(socket) {
 		currentRoom.playerGoals[socket.id] = new Goal(playerNo);
 		currentRoom.playerScores[playerNo] = 0;
 
-		if (Object.keys(currentRoom.playerPaddles).length === MAX_NUM_OF_PLAYERS) {
+		if (Object.keys(currentRoom.playerPaddles).length === 4) {
 			console.log("four players now. making ball.");
-			currentRoom.ball = new Ball(c.WIDTH/2, c.HEIGHT/2, 4, 5, 6);
-			currentRoom.ball.touchedPaddle = false;
+			currentRoom.ball = new Ball(c.WIDTH/2, c.HEIGHT/2, c.BALL_INITIAL_VX, c.BALL_INITIAL_VX, c.BALL_RADIUS);
 			currentRoom.ball.alreadyPastGoal = false;
-			socket.in(roomId).emit('game start');
-			socket.on('restart', function() {
-				socket.in(roomId).emit('game start');
-			});
+			socket.in(currentRoom.id).emit('game start');
 		}
-
-		// console.log(rooms);
 	});
 
 	socket.on('disconnecting', function() {
 		console.log(socket.id, "disconnecting!");
-		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
-		const currentRoom = getRoom(roomId);
+		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
-			socket.to(roomId).emit("restart");
-			// console.log(currentRoom);
-			const socketsInRoom = io.sockets.adapter.rooms[roomId].sockets;
-			// console.log(socketsInRoom);
+			// Tell client to redisplay everyone's screen in this room
+			socket.to(currentRoom.id).emit("restart");
+
+			// Remove this room and force everyone to leave
+			const socketsInRoom = io.sockets.adapter.rooms[currentRoom.id].sockets;
 			let firstSocket;
 			while (firstSocket = Object.keys(socketsInRoom)[0]) {
-				console.log("leave");
-				removeRoom(roomId);
-				io.sockets.connected[firstSocket].leave(roomId);
+				console.log("client leaves room");
+				io.sockets.connected[firstSocket].leave(currentRoom.id);
+				removeRoom(currentRoom.id);
 			}
-			// for (const socketId in socketsInRoom) {
-			// 	console.log("leave");
-			// 	io.sockets.connected[socketId].leave(roomId);
-			// }
-			
-			// for (const socketId in socketsInRoom) {
-			// 	if (socketId !== socket.id) {
-			// 		io.sockets.connected[socketId].disconnect();
-			// 		console.log("restarting...");
-			// 		socket.emit('restart');
-			// 	}
-			// }
-			// currentRoom.playerPaddles = {};
-			// delete currentRoom.playerPaddles[socket.id];
 		}
 	});
 
 	socket.on('player move', function(mousePos) {
-		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
-		const currentRoom = getRoom(roomId);
+		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
 			const playerPaddle = currentRoom.playerPaddles[socket.id];
 			if (playerPaddle) {
@@ -268,26 +158,26 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('ball move', function(timeDifference) {
-		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
-		const currentRoom = getRoom(roomId);
+		const currentRoom = getCurrentRoomOfSocket(socket);
+
 		if (currentRoom) {
 			const ball = currentRoom.ball;
 			if (ball) {
 				const walls = currentRoom.walls;
+
+				// Change ball direction if ball collides with wall
 				for (const wall of walls) {
-					const res = ballCollidesWithWall(ball, wall);
-					const collides = res.collides;
+					const collides = ball.collidesWithWall(wall);
 					if (collides) {
 						console.log("ball collides with wall");
-						const atCorner = res.atCorner;
-						if (atCorner) {
+						if (ball.collidesAtCorner) {
 							console.log("ball collides at corner");
 							ball.vx *= -1;
 							ball.vy *= -1;
-						} else if (withinBottomGoal(ball) || withinTopGoal(ball)) {
+						} else if (ball.isInBottomGoal() || ball.isInTopGoal()) {
 							console.log("ball in bottom or top goal");
 							ball.vx *= -1;
-						} else if (withinLeftGoal(ball) || withinRightGoal(ball)) {
+						} else if (ball.isInLeftGoal() || ball.isInRightGoal()) {
 							console.log("ball in left or right goal");
 							ball.vy *= -1;
 						} else {
@@ -296,12 +186,14 @@ io.on('connection', function(socket) {
 						break;
 					}
 				}
+
+				// Change ball direction if ball collides with paddle
 				const playerPaddles = currentRoom.playerPaddles;
 				for (const key in playerPaddles) {
 					const paddle = playerPaddles[key];
-					if (ballCollidesWithPaddle(ball, paddle)) {
-						if (ball.touchedPaddle === false) {
-							console.log("ball collides with paddle", paddle.playerNo);
+					if (ball.collidesWithPaddle(paddle)) {
+						if (!ball.currentlyCollidedWithPaddle) {
+							console.log("ball collides with paddle for the first time", paddle.playerNo);
 							switch (paddle.playerNo) {
 								case 1:
 								case 2:
@@ -311,37 +203,35 @@ io.on('connection', function(socket) {
 								case 4:
 									ball.vy *= -1;
 							}
-							ball.touchedPaddle = true;
-							ball.paddleTouched = paddle.playerNo;
-						} else {
-							console.log("already touched");
+							ball.currentlyCollidedWithPaddle = true;
+							ball.playerNoOfPaddleCollidedWith = paddle.playerNo;
 						}
 						break;
 					} else {
-						if (paddle.playerNo === ball.paddleTouched) {
-							ball.touchedPaddle = false;
+						if (paddle.playerNo === ball.playerNoOfPaddleCollidedWith) {
+							ball.currentlyCollidedWithPaddle = false;
 						}
 					}
 				}
 
+				// Increment score if ball passed goal
 				const playerGoals = currentRoom.playerGoals;
 				const playerScores = currentRoom.playerScores;
 				for (const key in playerGoals) {
 					const goal = playerGoals[key];
-					if (goal.ballScoresAtGoal(ball)) {
+					if (ball.outOfBounds(goal)) {
 						if (ball.alreadyPastGoal) {
-							// reset the ball
+							// Reset the ball
 							ball.x = c.WIDTH/2;
 							ball.y = c.HEIGHT/2;
 							const angle = (360 * Math.random()) * (Math.PI/180);
-							ball.vx = 4 * Math.sin(angle);
-							ball.vy = 5 * Math.cos(angle);
+							ball.vx = c.BALL_INITIAL_VX * Math.sin(angle);
+							ball.vy = c.BALL_INITIAL_VY * Math.cos(angle);
 							ball.alreadyPastGoal = false;
 						} else {
-							// playerScores[socket.id]++;
-							if (ball.paddleTouched) {
-								playerScores[ball.paddleTouched]++;
-								ball.paddleTouched = undefined;
+							if (ball.playerNoOfPaddleCollidedWith) {
+								playerScores[ball.playerNoOfPaddleCollidedWith]++;
+								ball.playerNoOfPaddleCollidedWith = undefined;
 							}
 							ball.alreadyPastGoal = true;
 						}
@@ -415,23 +305,19 @@ io.on('connection', function(socket) {
 	});
 
 	setInterval(function() {
-		const roomId = socket.rooms[Object.keys(socket.rooms)[1]];
-		const currentRoom = getRoom(roomId);
+		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
 			const playerPaddles = currentRoom.playerPaddles;
 			const ball = currentRoom.ball;
 			const walls = currentRoom.walls;
 			const playerScores = currentRoom.playerScores;
-			// console.log(currentRoom.playerScores);
-			io.sockets.in(roomId).emit('state', {playerPaddles, ball, walls, playerScores});
+			io.sockets.in(currentRoom.id).emit('state', {playerPaddles, ball, walls, playerScores});
 		}
 	}, 1000 / 60);
 });
 
-
 const port = process.env.PORT || 3000;
 const DIST_DIR = path.join(__dirname, '../../dist');
-// const DIST_PUBLIC_DIR = path.join(__dirname, DIST_DIR, 'src/client/public');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
 app.use(express.static(DIST_DIR));
@@ -440,52 +326,6 @@ app.get('/', (req, res) => {
 	res.sendFile(HTML_FILE);
 });
 
-server.listen(3000, function() {
+server.listen(port, function() {
 	console.log('App listening on port: ' + port);
 });
-
-// app.listen(port, function () {
-//  console.log('App listening on port: ' + port);
-// });
-
-// var createError = require('http-errors');
-// var express = require('express');
-// var path = require('path');
-// var cookieParser = require('cookie-parser');
-// var logger = require('morgan');
-
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
-// var app = express();
-
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
-// app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-
-// module.exports = app;
