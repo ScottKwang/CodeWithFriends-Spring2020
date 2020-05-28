@@ -174,6 +174,7 @@ function get_cards() {
     xhr.open("GET", api_url)
     xhr.send()
     xhr.onreadystatechange = function() {
+
         if (this.status == 200 && this.readyState == 4) {
 
             var res = JSON.parse(this.response)
@@ -182,7 +183,9 @@ function get_cards() {
                 add_card(i, "#main")
             })
         } else if (this.status == 0) {
+
             document.querySelector("#main").innerHTML = '<img class="offline" src="offline.png">';
+
             setTimeout("location.reload()", 5000);
         }
     }

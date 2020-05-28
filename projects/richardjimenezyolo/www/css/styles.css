@@ -73,3 +73,18 @@ body,html{
 .user_name{
 	color: #800080;
 }
+.loading{
+	width: 100px;
+	height: 100px;
+	margin-left: 35%;
+	animation: load 2s infinite;
+}
+
+@keyframes load{
+	from{
+		transform: rotateZ(0deg);
+	}
+	to{
+		transform: rotateZ(360deg);
+	}
+}
