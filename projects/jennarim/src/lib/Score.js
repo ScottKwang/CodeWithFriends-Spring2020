@@ -6,6 +6,10 @@ class Score {
         this.value = value;
     }
 
+    getValue() {
+        return this.value;
+    }
+
     incr() {
         this.value++;
     }

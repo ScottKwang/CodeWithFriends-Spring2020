@@ -242,7 +242,8 @@ io.on('connection', function(socket) {
 				currentRoom.updateTime();
 				if (currentRoom.currentTime <= 0) {
 					currentRoom.stopGame();
-					io.sockets.in(currentRoom.id).emit('game over');
+					const winner = currentRoom.getWinner();
+					io.sockets.in(currentRoom.id).emit('game over', winner);
 					for (const interval of intervals) {
 						clearInterval(interval);
 					}

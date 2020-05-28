@@ -45,7 +45,7 @@ class Canvas extends React.Component {
             ctx.fillText("Someone disconnected... Please leave the room!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
         });
 
-        socket.on('game over', function() {
+        socket.on('game over', function(winner) {
             // Black background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = "black";
@@ -54,8 +54,11 @@ class Canvas extends React.Component {
             // Show someone disconnected
             ctx.font = '25px serif';
             ctx.fillStyle = 'white';
-            ctx.textAlign = "center";
-            ctx.fillText("Game over. Thanks for playing!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
+            ctx.textAlign = 'center';
+            let msg = "Game over. ";
+            msg += (winner === "tie" ? "All players tied. " : "Player " + winner + " won. ");
+            msg += "Thanks for playing!";
+            ctx.fillText(msg, c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
         });
 
         socket.on('state', function(data) {

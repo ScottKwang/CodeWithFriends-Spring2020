@@ -65,6 +65,26 @@ class Room {
     updateTime() {
         this.currentTime = parseInt(c.START_TIME_IN_SEC - ((new Date() - this.startTime)/1000));
     }
+
+    getWinner() {
+        let playerWithMaxScore;
+        let maxScore = 0; 
+        for (const key in this.players) {
+            if (this.players.hasOwnProperty(key)) {
+                const player = this.players[key];
+                const playerScore = player.getScore().getValue();
+                if (playerScore > maxScore) {
+                    playerWithMaxScore = player;
+                    maxScore = playerScore;
+                }
+            }
+        }
+
+        if (!playerWithMaxScore) {
+            return "tie";
+        }
+        return playerWithMaxScore.playerNo;
+    }
 }
 
 module.exports = Room;
