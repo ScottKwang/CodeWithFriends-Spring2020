@@ -22,7 +22,7 @@ This was my final product that I produced for the fitbit watches. On the top lef
 
 *(What inspired, motivated, or urged you to work on this project specifically?)*
 
-What inspired me to work on this project was that I myself own a fitbit watch. When I would scroll through the fitbit store to look at the different clock faces, I was fascinated with the different designs that people were creating. I thought that it would be really cool to make one myself for personal use and for others to have. I wanted others to enjoy the fitbit clock faces as much I do. So I decided to look up on how to create my own clock face. 
+What inspired me to work on this project was that I myself own a fitbit watch. When I would scroll through the fitbit store to look at the different clock faces, I was fascinated with the different designs that people were creating. I thought that it would be really cool to make one for myself and for others to have. I wanted others to enjoy the fitbit clock faces as much I do, so I decided to look up on how to create my own clock face. 
 
 ## Challenges
 
