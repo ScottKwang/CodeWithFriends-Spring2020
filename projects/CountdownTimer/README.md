@@ -5,8 +5,8 @@
 This project was made for submission to the CWF-Spring 2020.
 Check out CWF's [github page](https://scottkwang.github.io/CodeWithFriends-Spring2020/) to learn more!
 
-Created by [L4TTiCe](https://github.com/L4TTiCe)
-Source code: [CountdownTimer-Angular](https://github.com/L4TTiCe/CountdownTimer-Angular)
+Created by [L4TTiCe](https://github.com/L4TTiCe)</br>
+Source code: [CountdownTimer-Angular](https://github.com/L4TTiCe/CountdownTimer-Angular)</br>
 Hosted at: [countdowntimer-angular.web.app](https://countdowntimer-angular.web.app/)
 
 ## Summary
