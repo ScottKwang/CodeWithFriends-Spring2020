@@ -9,9 +9,10 @@ Source code: https://github.com/jgarcia45/FitbitOS-Developer/tree/master/Fitbit%
 
 ## Summary
 
-What I did this month for Code With Friends, was that I created a Fitbit Clock Face for Fitbit watches. 
+What I did this month for Code With Friends, was that I created a Fitbit Clock Face for Fitbit watches. I used my personal fitibt ionic to display my project. I used the Fitbit Developer software provided on the Fitbit website to program my ionic watch. The code I used to develop the fitbit watch was JavaScript, CSS, and Scalable Vector Graphics. <br>
 
-![Yosemite](yosemite-screenshot(V1.1).png)
+![Yosemite](yosemite-screenshot(V1.1).png) <br>
+This was my final product that I produced for the fitbit watches.
 (Write a short, 1-2 paragraph summary of what you did for Code With Friends this month)
 
 (Insert any pictures or screenshots of your final project here)
