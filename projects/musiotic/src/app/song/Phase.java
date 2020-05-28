@@ -22,7 +22,7 @@ public abstract class Phase {
 
     public enum Type {
         Style("Style", StylePhase.class),
-        Key("Key", KeyPhase.class, Style),
+        Key("Key and Tempo", KeyPhase.class, Style),
         Melody1("Melody", Melody1Phase.class, Style, Key),
         Melody2("Countermelody", null, Style, Key),
         Bass("Bass", BassPhase.class, Style, Key),

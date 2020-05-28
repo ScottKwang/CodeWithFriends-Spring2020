@@ -19,6 +19,9 @@ public abstract class InstrumentalPhase extends Phase {
     protected Part part;
     private Map<Integer, List<Phrase>> phraseMap = new HashMap<>();
     private Map<Phrase, Phrase> connectedMeasures = new HashMap<>();
+    private HashMap<Integer, List<Phrase>> backupPhraseMap;
+    private HashMap<Phrase, Phrase> backupConnectedMeasures;
+    private Part backupPart;
 
     public InstrumentalPhase(SongManager manager) {
         super(manager);
@@ -43,8 +46,14 @@ public abstract class InstrumentalPhase extends Phase {
         for(var pitch : manager.getScale().getValues()){
             var phraseList = new ArrayList<Phrase>();
             phraseMap.put(pitch.get(), phraseList);
+            var newPhraseMap = new HashMap<Integer, List<Phrase>>();
             pitch.addListener((e, oldV, newV) -> {
-                phraseMap.put(newV.intValue(), phraseList);
+                newPhraseMap.put(newV.intValue(), newPhraseMap.get(oldV.intValue()));
+                if(newPhraseMap.size() == phraseMap.size()){
+                    phraseMap.clear();
+                    phraseMap.putAll(newPhraseMap);
+                    newPhraseMap.clear();
+                }
             });
             for(int i = 0; i < manager.numMeasures; i++){
                 var phrase = new Phrase();
@@ -166,8 +175,7 @@ public abstract class InstrumentalPhase extends Phase {
         }
     }
 
-    public Part consolidatePart() {
-        // Deep copy fields for restoration
+    public void backupPart(){
         Part oldPart = part.copy();
         oldPart.removeAllPhrases();
         var phraseMapCopy = new HashMap<Integer, List<Phrase>>();
@@ -198,6 +206,15 @@ public abstract class InstrumentalPhase extends Phase {
             }
             phraseMapCopy.put(pair.getKey(), listCopy);
         }
+
+        backupPhraseMap = phraseMapCopy;
+        backupConnectedMeasures = connectedCopy;
+        backupPart = oldPart;
+    }
+
+    public Part consolidatePart() {
+        // Deep copy fields for restoration
+
         // Prepare phrases for being played
         connectMeasures();
         for(var phrases : phraseMap.values()){
@@ -207,9 +224,9 @@ public abstract class InstrumentalPhase extends Phase {
                 part.removePhrase(after);
             }
         }
-        phraseMap = phraseMapCopy;
-        connectedMeasures = connectedCopy;
-        part = oldPart;
-        return oldPart;
+        phraseMap = backupPhraseMap;
+        connectedMeasures = backupConnectedMeasures;
+        part = backupPart;
+        return part;
     }
 }
