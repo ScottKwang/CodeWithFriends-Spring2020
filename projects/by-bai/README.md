@@ -1,8 +1,11 @@
 # Fitness Bud
-![home](/images/fitnessbud-home.png)
+<img src="https://github.com/by-bai/generate-workouts/blob/master/images/fitnessbud-home.png">
 
 
 Created by: Bai ( [Github](https://github.com/by-bai), [Linkedin](https://www.linkedin.com/in/baihe/) )
+
+Source code: [link](https://github.com/by-bai/generate-workouts)
+
 Demo: [by-bai.github.io/fitnessbud](https://by-bai.github.io/fitnessbud/) 
 
 
@@ -12,12 +15,12 @@ Fitness Bud is (currently, a client-side only) web application that generates a 
 
 Random video generated:
 
-![video](/images/fitnessbud-video.png)
+<img src="https://github.com/by-bai/generate-workouts/blob/master/images/fitnessbud-video.png">
 
 <p align="center">
   It has a responsive design :)<br><br>
   
-  <img src="/images/fitnessbud-mobile.png" width="500">
+  <img src="https://github.com/by-bai/generate-workouts/blob/master/images/fitnessbud-mobile.png" width="500">
 </p>
 
 
@@ -28,7 +31,7 @@ Code With Friends Spring 2020's theme of **Quarantine Improvement** inspired me 
 ## Challenges
 As there are limited calls that can be made to Youtube's API per day, I decided to use two API keys, one as backup and add an error message: 
 
-![error](/images/fitnessbud-error.png)
+<img src="https://github.com/by-bai/generate-workouts/blob/master/images/fitnessbud-error.png">
 
 Furthermore, being a client-side only application, the API keys are not protected. I hope to improve this application in the future by developing a backend server. For now, I have restricted key usage requests to my demo site. 
 
