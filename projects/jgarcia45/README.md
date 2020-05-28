@@ -16,7 +16,7 @@ What I did this month for Code With Friends, was that I developed a Fitbit Clock
 *(Insert any pictures or screenshots of your final project here)*
 
 ![Yosemite](yosemite-screenshot(V1.1).png) <br>
-This was my final product that I produced for the fitbit watches. On the top left corner is the battery status, the middle is the date and time. On the right side is the number of steps taken. In the center of the clock face is the time. The photo background is an actually photo I took during my visit to Yosemite. The photo is displaying the mountain known as Half Dome.
+This was my final product that I produced for the fitbit watches. On the top left corner is the battery status, the middle is the date. On the right side is the number of steps taken. In the center of the clock face is the time. The photo background is an actually photo I took during my visit to Yosemite. The photo is displaying the mountain known as Half Dome.
 
 ## Inspiration
 
