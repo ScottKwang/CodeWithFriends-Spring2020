@@ -2,13 +2,21 @@ package ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import song.Phase;
 import song.SongManager;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,6 +45,7 @@ public class SongEditorScreen extends BorderPane {
 
         var menu = new AnchorPane();
         menu.getChildren().add(menuButtons);
+        menu.setId("menu");
 
         ToolBar toolbar = new ToolBar();
 
@@ -52,7 +61,32 @@ public class SongEditorScreen extends BorderPane {
             var prevPhase = manager.phaseMap.getPrev(currentPhase.getType());
             goToPhase(prevPhase);
         });
-        HBox actions = new HBox(previous, next);
+
+        //Created for spacing previous to left, right to right
+        Region region1 = new Region();
+        HBox.setHgrow(region1, Priority.ALWAYS);
+        Region region2 = new Region();
+        HBox.setHgrow(region2, Priority.ALWAYS);
+
+        String playImage = getClass().getResource("/images/GitHub-Mark-120px-plus.png").toExternalForm();
+        ImageView discordImage = new ImageView(new Image(playImage));
+        Button discordButton = new Button("", discordImage);
+        discordImage.setFitWidth(75);
+        discordImage.setFitHeight(75);
+        discordButton.setOnMouseClicked(e -> {
+            try {
+                System.out.println("Going to github");
+                Desktop.getDesktop().browse(new URI("https://github.com/bitasy/CodeWithFriends-Spring2020"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+            e.consume();
+        });
+        discordButton.setId("discord-button");
+
+        HBox actions = new HBox(previous, region1, discordButton, region2, next);
         actions.setId("actions"); // For future styling
 
         setTop(toolbar);

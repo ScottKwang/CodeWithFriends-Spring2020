@@ -46,6 +46,7 @@ public class KeyScreen implements Screen{
         confirm.setOnMouseClicked(e ->
                 this.phase.setChoices(tonicChoice.getValue(), modeChoice.getValue()));
 
+
         screen = new VBox(
                 description,
                 new HBox(tonic, tonicChoice),

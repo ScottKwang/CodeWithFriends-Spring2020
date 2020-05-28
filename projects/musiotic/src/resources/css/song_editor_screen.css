@@ -6,15 +6,45 @@
 .menu-buttons {
     -fx-alignment: center;
     -fx-spacing: 20;
-    -fx-pref-width: 75;
-    -fx-max-width: 75;
+    -fx-pref-width: 100;
+    -fx-max-width: 100;
     -fx-padding: 5 2 5 2;
     -fx-max-height: inherit;
 }
 
 .button {
-    -fx-background-color: gray;
     -fx-max-width: inherit;
-    -fx-font-size: 12;
+    -fx-pref-width: inherit;
+    -fx-font-size: 18;
     -fx-text-fill: black;
+    -fx-background-color: C9F0FF;
+    -fx-alignment: center;
+    -fx-pref-height: 75;
+    -fx-max-height: 75;
+    -fx-font-family: Garamond;
+    /*-fx-padding: 5 10 5 10;*/
+}
+.button:hover {
+    -fx-cursor: hand;
+}
+
+#menu {
+    -fx-background-color: #364652;
+}
+
+#actions {
+    -fx-spacing: 10;
+    -fx-background-color: #364652;
+    -fx-padding: 10 10 10 10;
+}
+
+#discord-button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+#discord-button:hover {
+    -fx-cursor: hand;
 }

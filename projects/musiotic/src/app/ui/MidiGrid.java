@@ -126,7 +126,7 @@ public class MidiGrid {
 
     private BorderPane initializeModeButtons() {
         Button add = new Button("Add Note");
-        Button edit = new Button("Extend/Shrink Note");
+        Button edit = new Button("Extend/Shrink\nNote");
         Button delete = new Button("Delete Note");
         changeEffects(new Lighting(), add, edit, delete);
         add.setOnMouseClicked(e -> {

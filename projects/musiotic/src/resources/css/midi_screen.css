@@ -3,7 +3,7 @@
 }
 
 .buttons {
-    -fx-background-color: D5CAD6;
+    -fx-background-color: #364652;
     -fx-alignment: center-left;
     -fx-spacing: 10;
     -fx-padding: 10 5 10 5;
@@ -28,24 +28,36 @@
 }
 .mode-buttons .label {
     -fx-alignment: center;
-    -fx-font-size: 20;
+    -fx-font-size: 30;
     -fx-font-family: Garamond;
+    -fx-text-fill: whitesmoke;
     -fx-font-weight: bold;
+}
+.mode-buttons .button {
+    -fx-font-size: 18;
+    -fx-font-weight: 500;
+    -fx-text-alignment: center;
 }
 
 .length-buttons {
     -fx-padding: 0 10 0 10;
     -fx-font-family: Garamond;
-    -fx-font-size: 14;
+    -fx-font-size: 25;
 }
 .length-buttons .label {
     -fx-alignment: center;
-    -fx-font-size: 20;
+    -fx-font-size: 30;
     -fx-font-family: Garamond;
+    -fx-text-fill: whitesmoke;
     -fx-font-weight: bold;
+}
+.length-buttons .button {
+    -fx-font-size: 25;
+    -fx-font-weight: 500;
 }
 
 .play-buttons {
     -fx-padding: 0 10 0 10;
     -fx-font-family: Garamond;
+    -fx-font-size: 20;
 }
