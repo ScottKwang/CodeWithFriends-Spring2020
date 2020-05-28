@@ -49,7 +49,7 @@ Also I did find [this resource](https://medium.com/@davethomas_9528/writing-hell
 
 ## What Would You Have done Differently?
 
-I would have used a parser other than ANTLR. ANTLR is just terrible. It has like no debugging output and it just gets so confused by the weirdest things. The best thing I could find for it is this IntelliJ ANTLR plugin although the plugin apparently caused IntelliJ to crash occasionally when it was open.
+I would have used a parser other than ANTLR. ANTLR is just terrible. It has like no debugging output and it just gets so confused by the weirdest things. Especially comments. When it's clear as day that something is a comment ANTLR will go, "Nope, I don't think so." The best thing I could find for it is this IntelliJ ANTLR plugin although the plugin apparently caused IntelliJ to crash occasionally when it was open.
 
 And ANTLR is buggy too. Every time something went wrong I had to check if it was actually ANTLR causing problems because it got confused between an assignment and a print again. Plus all the tutorials for it are complete garbage.
 
