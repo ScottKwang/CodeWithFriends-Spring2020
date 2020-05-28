@@ -28,18 +28,20 @@ What inspired me to work on this project was that I myself own a fitbit watch. W
 
 *(What challenges did you encounter - technical, mental, logistical, physical - while working on your project?)*
 
-Some of the challenges that I encountered was that I did not really know where to start. I had trouble displaying the steps the watch counted as well how to read the input of steps your watch counted. I had to read the documentation that fitbit provided to get a better understanding on reading data and displaying it on the clock face.
+Some of the challenges that I encountered was that I did not really know where to start. I had trouble displaying the steps the watch counted as well as how to read the input of steps your watch counted. I had to read the documentation that fitbit provided to get a better understanding on reading data and displaying it on the clock face. Another encounter was when I was also tyring to display the battery status. Once I figured out the challenge of displaying the data on my watch, it became easier to design the clock face to my imagination.
 
 ## Reflections
 
 *(1. What did you learn during this process (whether that be technical skills, or new things you learned about yourself, time management, etc?)*
 
-What I learned in this process when it came to technical skills was JavaScript, some CSS, and how SVG files worked. Working on this project also taught me how to managed time. I would dedicate 3-4 hours a day working on the project as well as reading documentation on how to code for the fitbit clockfaces. <br>
+What I learned in this process when it came to technical skills was JavaScript, some CSS, and how SVG files worked. I am still tyring to get a better understanding on how to use JavaScript so that was a learning process for me. As for new things about myself, I learned on how to managed time. I would dedicate 3-4 hours a day working on the project as well as reading documentation on how to code for the fitbit clockfaces. I as well did small sample problems to get a grasp on JavaScript.<br>
 
 *(2. What would you have done differently if you could do it again?)*
 
-I don't think I would have done anything differently considering that I will continue to work on creating many different fitbit clock faces. This project was for me to get an idea on how to create one and where to begin creating them. I hope to create better clock faces as I will continue to come up with different ideas.
+I don't think I would have done anything differently considering that I created what I had in mind. I as well will continue to work on creating many different fitbit clock faces. This project was for me to get an idea on how to create one and where to begin creating them. I hope to create better clock faces as I will continue to come up with different ideas. One thing I still want to do is release this fitbit clock face onto the store and I also hope to release many other clock faces in the fitbit store for others to enjoy.
 
 *(3. What resources did you find most helpful in working on your project?)*
 
-The resources that I found most useful was the fitbit documentation provided by fitbit themselves, as well as some github respositories that explained on how to access certain data on the fitbit watches.
+The resources that I found most useful was the fitbit documentation provided by fitbit themselves, as well as some github respositories that explained on how to access certain data on the fitbit watches. I would constantly use these sources to get a better understanding on developing my clock face. These were the resources that I used:
+*https://dev.fitbit.com/build/guides/
+*https://github.com/Fitbit/ossapps
