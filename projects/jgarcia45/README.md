@@ -9,6 +9,9 @@ Source code: https://github.com/jgarcia45/FitbitOS-Developer/tree/master/Fitbit%
 
 ## Summary
 
+What I did this month for Code With Friends, was that I created a Fitbit Clock Face for Fitbit watches. 
+
+![Yosemite](
 (Write a short, 1-2 paragraph summary of what you did for Code With Friends this month)
 
 (Insert any pictures or screenshots of your final project here)
