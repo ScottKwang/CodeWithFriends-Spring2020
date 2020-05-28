@@ -21,5 +21,5 @@ module.exports = Object.freeze({
     BALL_INITIAL_VY: 5,
     BALL_RADIUS: 6,
 
-    START_TIME_IN_SEC: 10
+    START_TIME_IN_SEC: 20
 });
