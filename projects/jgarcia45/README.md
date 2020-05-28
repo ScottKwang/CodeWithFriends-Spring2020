@@ -42,6 +42,8 @@ I don't think I would have done anything differently considering that I created 
 
 *(3. What resources did you find most helpful in working on your project?)*
 
-The resources that I found most useful was the fitbit documentation provided by fitbit themselves, as well as some github respositories that explained on how to access certain data on the fitbit watches. I would constantly use these sources to get a better understanding on developing my clock face. These were the resources that I used:
-..*https://dev.fitbit.com/build/guides/
-..*https://github.com/Fitbit/ossapps
+The resources that I found most useful was the fitbit documentation provided by fitbit themselves, as well as some github respositories that explained on how to access certain data on the fitbit watches. I would constantly use these sources to get a better understanding on developing my clock face. These were the resources that I used: <br>
+<ul>
+  <li>https://dev.fitbit.com/build/guides/</li>
+  <li>https://github.com/Fitbit/ossapps</li>
+</ul>
