@@ -11,12 +11,12 @@ Source code: https://github.com/jgarcia45/FitbitOS-Developer/tree/master/Fitbit%
 
 *(Write a short, 1-2 paragraph summary of what you did for Code With Friends this month)*
 
-What I did this month for Code With Friends, was that I created a Fitbit Clock Face for Fitbit watches. I used my personal fitibt ionic to display my project. I used the Fitbit Developer software provided on the Fitbit website to program my ionic watch. The code I used to develop the fitbit watch was JavaScript, CSS, and Scalable Vector Graphics. <br>
+What I did this month for Code With Friends, was that I developed a Fitbit Clock Face called Yosemite. The clock face is meant for Fitbit watches to decorate your watch. The clock face displays your steps, time, date, and battery status. I used my own personal fitibt ionic to test and display my clock face. I developed the clock face under the Fitbit Developer software provided on the Fitbit website. The code I used to develop the fitbit watch was JavaScript, CSS, and Scalable Vector Graphics. <br>
 
 *(Insert any pictures or screenshots of your final project here)*
 
 ![Yosemite](yosemite-screenshot(V1.1).png) <br>
-This was my final product that I produced for the fitbit watches.
+This was my final product that I produced for the fitbit watches. On the top left corner is the battery status, the middle is the date and time. On the right side is the number of steps taken. In the center of the clock face is the time. The photo background is an actually photo I took during my visit to Yosemite. The photo is displaying the mountain known as Half Dome.
 
 ## Inspiration
 
