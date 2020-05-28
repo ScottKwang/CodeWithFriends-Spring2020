@@ -1,5 +1,7 @@
 package ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
@@ -35,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import song.InstrumentalPhase;
 import song.Phase;
 import util.IntegerArray;
@@ -42,6 +46,7 @@ import util.Scale;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +60,7 @@ public class MidiGrid {
     // Setting to each pane which {col, row} it's in.
     private HashMap<IntegerArray, MidiPane> cells;
 
-    //TODO: CSS them borders.
+    //TODO: CSS measure borders THICCER
     //TODO: Set up Add measures for left and right side (add buttons as well)
 
     // Variables for horizontal scrolling
@@ -73,6 +78,7 @@ public class MidiGrid {
     public MidiGrid(InstrumentalPhase phase) {
         this.phase = phase;
         gridPane = new GridPane();
+//        gridPane.setId("grid-pane");
         scrollPane = new ScrollPane();
         scrollPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
         scrollPane.setContent(gridPane);
@@ -128,6 +134,11 @@ public class MidiGrid {
         Button add = new Button("Add Note");
         Button edit = new Button("Extend/Shrink\nNote");
         Button delete = new Button("Delete Note");
+
+        makeToolTip(add, "Click anywhere to add a note.");
+        makeToolTip(edit, "Click on an existing note, then click again on another spot on that same row to extend/shrink your note.");
+        makeToolTip(delete, "Click on any note to delete that note.");
+
         changeEffects(new Lighting(), add, edit, delete);
         add.setOnMouseClicked(e -> {
             System.out.println("MODE: ADD");
@@ -161,6 +172,14 @@ public class MidiGrid {
         Button halfNote = new Button("2");
         Button wholeNote = new Button("4");
         Button doubleWholeNote = new Button("8");
+
+        makeToolTip(sixteenthNote, "Add Sixteenth Notes");
+        makeToolTip(eighthNote, "Add Eighth Notes");
+        makeToolTip(quarterNote, "Add Quarter Notes");
+        makeToolTip(halfNote, "Add Half Notes");
+        makeToolTip(wholeNote, "Add Whole Notes");
+        makeToolTip(doubleWholeNote, "Add Double Whole Notes");
+
         changeEffects(new Lighting(), quarterNote, sixteenthNote, eighthNote, halfNote, wholeNote, doubleWholeNote);
         sixteenthNote.setOnMouseClicked(e -> {
             noteLength = 1;
@@ -231,15 +250,20 @@ public class MidiGrid {
             for(int j = 0; j < phase.manager.numNotes; j++) {
                 Label noteLabel = new Label();
                 noteLabel.textProperty().bind(scaleNames.get(j));
-                Label noteValue = new Label();
+                noteLabel.setStyle("-fx-padding: 0 0 0 15");
 
+                Label noteValue = new Label();
                 //Sum of 0 + scaleValues.get(j)
                 NumberBinding noteVal = Bindings.add(0,scaleValues.get(j));
                 noteValue.textProperty().setValue(noteVal.getValue().toString());
                 noteValue.setVisible(false);
                 HBox note = new HBox(noteLabel, noteValue);
+                note.setId("note-label");
+                note.setAlignment(Pos.CENTER);
                 gridPane.add(note, 0, phase.manager.numNotes - j, 1, 1);
             }
+
+            // The GRID
             for(int i = 1; i < phase.manager.numMeasures*16 + 1; i++) {
                 for(int j = 1; j < phase.manager.numNotes + 1; j++) {
                     Integer[] indexes = {i-1, j-1};
@@ -260,7 +284,7 @@ public class MidiGrid {
     private MidiPane createCell(Color c, GridPane gridPane, int col, int row) {
         MidiPane pane = new MidiPane(row, col);
         pane.getStyleClass().add("grid-cell-off");
-        Rectangle rectangle = new Rectangle(20, 40, c);
+        Rectangle rectangle = new Rectangle(25, 50, c);
         rectangle.setY(1);
         rectangle.setX(1);
 //        rectangle.setFill(c);
@@ -333,12 +357,12 @@ public class MidiGrid {
             //Start Measure, Left Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,3), Insets.EMPTY)));
         } else if (col % 16 == 15) {
             //End Measure, Right Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED,
-                    CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
+                    CornerRadii.EMPTY, new BorderWidths(1,3,1,1), Insets.EMPTY)));
         } else if (col % 4 == 0) {
             //Left side Dashed
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
@@ -378,13 +402,13 @@ public class MidiGrid {
             System.out.println("Left Solid");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+                    CornerRadii.EMPTY, new BorderWidths(1,0,1,3), Insets.EMPTY)));
         } else if (col % 16 == 15) {
             //End Measure, Right Solid
             System.out.println("Right Solid");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
-                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+                    CornerRadii.EMPTY, new BorderWidths(1,3,1,0), Insets.EMPTY)));
         } else if (col % 4 == 0) {
 //            Left side Dashed
             System.out.println("Left Dashed");
@@ -427,12 +451,12 @@ public class MidiGrid {
             //Start Measure, Left Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                 BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
+                CornerRadii.EMPTY, new BorderWidths(1,0,1,3), Insets.EMPTY)));
         } else if (col % 16 == 15) {
             //End Measure, Right Solid
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
-                    CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
+                    CornerRadii.EMPTY, new BorderWidths(1,3,1,0), Insets.EMPTY)));
         } else if (col % 4 == 0) {
             //Left side Dashed
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
@@ -455,7 +479,6 @@ public class MidiGrid {
     // https://docs.oracle.com/javafx/2/drag_drop/HelloDragAndDrop.java.html
     private void setPane(MidiPane pane) {
         pane.setOnMouseClicked(e -> {
-            //TODO: Fix duplicate notes and different length notes
             switch(mode) {
                 case "ADD":
                     System.out.println("ADD");
@@ -464,6 +487,7 @@ public class MidiGrid {
                     break;
                 case "EDIT":
                     System.out.println("EDIT");
+                    //TODO: I believe there's still a bug that if a note is extended over another (consuming it), it doesnt delete that note.
                     if (editPane == null) {
                         Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
                         if (r.getFill() == Color.WHITESMOKE) {
@@ -597,23 +621,6 @@ public class MidiGrid {
                 deleteNote(startOfOldPane, oldNoteLength);
                 addNote(pane, oldNoteLength);
 
-//                Rectangle oldR = (Rectangle) oldPane.getChildren().toArray()[0];
-//                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
-//
-//                if (r.getFill() != Color.WHITESMOKE && oldR.getFill() == Color.WHITESMOKE) {
-//                    pane.getStyleClass().remove("grid-cell-on");
-//                    pane.getStyleClass().add("grid-cell-off");
-//                } else if (oldR.getFill() == Color.RED) {
-//                    pane.getStyleClass().remove("grid-cell-off");
-//                    pane.getStyleClass().add("grid-cell-on");
-//                    oldPane.getStyleClass().remove("grid-cell-on");
-//                    oldPane.getStyleClass().add("grid-cell-off");
-//                }
-//                r.setFill(oldR.getFill());
-
-                // TODO: Be able to move groups only
-
-
                 /* let the source know whether the string was successfully
                  * transferred and used */
                 event.setDropCompleted(true);
@@ -695,7 +702,6 @@ public class MidiGrid {
                 tempR.setFill(Color.BLUE);
                 tempMidiPane.getStyleClass().remove("grid-cell-off");
                 tempMidiPane.getStyleClass().add("grid-cell-on");
-                //TODO: add here
                 if (i == 0) {
                     tempMidiPane.setLeft(false);
                     tempMidiPane.setRight(true);
@@ -773,6 +779,11 @@ public class MidiGrid {
         return Integer.valueOf(noteValue);
     }
 
+    public void makeToolTip(Node node, String message) {
+        Tooltip tooltip = new Tooltip(message);
+        tooltip.setShowDelay(Duration.seconds(0.05));
+        Tooltip.install(node, tooltip);
+    }
 
     public Node getActionButtons() {
         return actionButtons;

@@ -1,6 +1,8 @@
 package ui;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,17 +64,12 @@ public class SongEditorScreen extends BorderPane {
             goToPhase(prevPhase);
         });
 
-        //Created for spacing previous to left, right to right
-        Region region1 = new Region();
-        HBox.setHgrow(region1, Priority.ALWAYS);
-        Region region2 = new Region();
-        HBox.setHgrow(region2, Priority.ALWAYS);
 
         String playImage = getClass().getResource("/images/GitHub-Mark-120px-plus.png").toExternalForm();
         ImageView discordImage = new ImageView(new Image(playImage));
         Button discordButton = new Button("", discordImage);
-        discordImage.setFitWidth(75);
-        discordImage.setFitHeight(75);
+        discordImage.setFitWidth(70);
+        discordImage.setFitHeight(70);
         discordButton.setOnMouseClicked(e -> {
             try {
                 System.out.println("Going to github");
@@ -86,7 +83,8 @@ public class SongEditorScreen extends BorderPane {
         });
         discordButton.setId("discord-button");
 
-        HBox actions = new HBox(previous, region1, discordButton, region2, next);
+        HBox actions = new HBox(previous, discordButton, next);
+        actions.setAlignment(Pos.CENTER);
         actions.setId("actions"); // For future styling
 
         setTop(toolbar);
@@ -99,16 +97,52 @@ public class SongEditorScreen extends BorderPane {
 
     public void populate(Collection<Phase> phases){
         System.out.println("SongEditorScreen: populate(phases)");
-        var buttons = new ArrayList<Button>();
-        for(var phase : phases){
-            if(phase == manager.stylePhase) continue;
+        var buttons = new ArrayList<VBox>();
+
+        for (var phase : phases) {
+            if (phase == manager.stylePhase) continue;
             Button button = new Button(phase.getType().name);
             button.setOnMouseClicked(e -> {
                 System.out.println("currentPhase: " + currentPhase.getType().name);
                 goToPhase(phase);
             });
             button.disableProperty().bind(phase.disabled);
-            buttons.add(button);
+            VBox box;
+            if (phase == manager.stylePhase || phase.getType() == Phase.Type.Key) {
+                //TODO: Add more phases to get rid of in if statement.
+                //No mute button
+                box = new VBox(button);
+            } else {
+                //Add mute button
+                var mute = new ToggleButton("");
+                var soundOn = new ImageView(new Image(getClass().getResource("/images/sound_on.png").toExternalForm()));
+                soundOn.setFitHeight(25);
+                soundOn.setFitWidth(25);
+                mute.setGraphic(soundOn);
+                mute.setSelected(true);
+                mute.setOnAction(e -> {
+                    //TODO: Brian Set mute / nonMute for each them here. isSelected means it should be on!
+                    // I'm using toggle buttons bc I don't want to store the state of each button.
+                    if (mute.isSelected()) {
+                        var image = new ImageView(new Image(getClass().getResource("/images/sound_on.png").toExternalForm()));
+                        image.setFitWidth(25);
+                        image.setFitHeight(25);
+                        mute.setGraphic(image);
+                    } else {
+                        var image = new ImageView(new Image(getClass().getResource("/images/sound_off.png").toExternalForm()));
+                        image.setFitWidth(25);
+                        image.setFitHeight(25);
+                        mute.setGraphic(image);
+                    }
+                });
+                // Set mute to right side
+                var muteBox = new HBox(mute);
+                muteBox.setAlignment(Pos.BASELINE_RIGHT);
+
+                box = new VBox(button, muteBox);
+                box.setSpacing(5);
+            }
+            buttons.add(box);
         }
         menuButtons.getChildren().addAll(buttons);
         if (currentPhase == manager.stylePhase) {

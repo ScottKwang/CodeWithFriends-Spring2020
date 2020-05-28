@@ -6,3 +6,12 @@
     -fx-background-color: whitesmoke;
 }
 
+.grid-pane {
+
+}
+
+.label {
+    -fx-font-size: 20;
+    -fx-font-family: Garamond;
+    -fx-font-weight: 500;
+}
