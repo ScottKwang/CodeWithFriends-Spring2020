@@ -12,6 +12,7 @@ const Player = require('./../lib/Player.js');
 const c = require('./../lib/constants.js');
 
 const rooms = [];
+const intervals = [];
 
 function getRoomWithId(roomId) {
 	for (const room of rooms) {
@@ -55,59 +56,24 @@ io.on('connection', function(socket) {
 
 			const newRoom = new Room(roomName);
 			
-			// Initialize walls
-			const upperLeftWall  = new Wall(0, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  lowerLeftWall  = new Wall(0, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  upperRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  lowerRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT);
-			const walls = [upperLeftWall, lowerLeftWall, upperRightWall, lowerRightWall];
-			newRoom.setWalls(walls);
-			
 			// Add room to list of rooms
 			rooms.push(newRoom);
 		}
 	});
 
-	/*
-		socket.on('join', function(roomName) {
-		const roomToJoin = getRoomWithId(roomName);
-		if (roomToJoin && roomToJoin.isFull()) {
-			socket.emit('room is full');
-			return;
-		}
-
-		// Socket joins room
-		socket.join(roomName);
-
-		// Add a new room to the local list of Rooms if connected socket is the first player to join
-		if (!getCurrentRoomOfSocket(socket)) {
-			const newRoom = new Room(roomName);
-			
-			// Initialize walls
-			const upperLeftWall  = new Wall(0, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  lowerLeftWall  = new Wall(0, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  upperRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
-				  lowerRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT);
-			const walls = [upperLeftWall, lowerLeftWall, upperRightWall, lowerRightWall];
-			newRoom.setWalls(walls);
-			
-			// Add room to list of rooms
-			rooms.push(newRoom);
-		}
-	});
-	*/
 	socket.on('new player', function() {
 		const currentRoom = getCurrentRoomOfSocket(socket);
 
+		// Create a new player 
 		const playerNo = currentRoom.getNumberOfPlayers() + 1;
 		const newPlayer = new Player(playerNo);
 
+		// Add player to the room's list of players
 		currentRoom.players[socket.id] = newPlayer;
 
+		// Start the game when the room has 4 players
 		if (currentRoom.getNumberOfPlayers() === 4) {
-			console.log("four players now. making ball.");
-			currentRoom.ball = new Ball(c.WIDTH/2, c.HEIGHT/2, c.BALL_INITIAL_VX, c.BALL_INITIAL_VX, c.BALL_RADIUS);
-			currentRoom.ball.alreadyPastGoal = false;
+			currentRoom.startGame();
 			socket.in(currentRoom.id).emit('game start');
 		}
 	});
@@ -116,8 +82,14 @@ io.on('connection', function(socket) {
 		console.log(socket.id, "disconnecting!");
 		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
+			// Game in room is no longer valid
+			currentRoom.stopGame();
+
 			// Tell client to redisplay everyone's screen in this room
-			socket.to(currentRoom.id).emit("restart");
+			socket.to(currentRoom.id).emit('restart');
+
+			// Stop sending state
+			clearInterval(interval);
 
 			// Remove this room and force everyone to leave
 			const socketsInRoom = io.sockets.adapter.rooms[currentRoom.id].sockets;
@@ -259,16 +231,31 @@ io.on('connection', function(socket) {
 		}
 	});
 
-	setInterval(function() {
+	let interval = setInterval(function() {
 		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
 			const ball = currentRoom.ball;
 			const walls = currentRoom.walls;
-
 			const players = currentRoom.players;
-			io.sockets.in(currentRoom.id).emit('state', {ball, walls, players});
+
+			if (currentRoom.gameActive) {
+				currentRoom.updateTime();
+				if (currentRoom.currentTime <= 0) {
+					currentRoom.stopGame();
+					io.sockets.in(currentRoom.id).emit('game over');
+					for (const interval of intervals) {
+						clearInterval(interval);
+					}
+					return;
+				}
+			}
+
+			const time = currentRoom.currentTime;
+			io.sockets.in(currentRoom.id).emit('state', {ball, walls, players, time});
 		}
 	}, 1000 / 60);
+
+	intervals.push(interval);
 });
 
 const port = process.env.PORT || 3000;

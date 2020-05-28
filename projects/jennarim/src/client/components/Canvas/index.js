@@ -16,8 +16,6 @@ function handleMouseMove(event, socket, ctx) {
     socket.emit('player move', {x: mouseX, y: mouseY});
 }
 
-let gameActive = true;
-
 class Canvas extends React.Component {
     componentDidMount() {
         const socket = this.props.socket;
@@ -35,8 +33,6 @@ class Canvas extends React.Component {
         });
 
         socket.on('restart', function() {
-            gameActive = false;
-
             // Black background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = "black";
@@ -49,8 +45,21 @@ class Canvas extends React.Component {
             ctx.fillText("Someone disconnected... Please leave the room!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
         });
 
+        socket.on('game over', function() {
+            // Black background
+            ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
+
+            // Show someone disconnected
+            ctx.font = '25px serif';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = "center";
+            ctx.fillText("Game over. Thanks for playing!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
+        });
+
         socket.on('state', function(data) {
-            if (!gameActive) return;
+            console.log("state received!");
             // Draw background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = "black";
@@ -69,6 +78,7 @@ class Canvas extends React.Component {
                 ball.render(ctx);
             }
 
+            // Display paddle and score
             const players = data.players;
             for (const socketID in players) {
                 if (players.hasOwnProperty(socketID)) {
@@ -86,6 +96,12 @@ class Canvas extends React.Component {
                     score.render(ctx);
                 }
             }
+
+            // Display remaining time
+            const time = data.time;
+            ctx.font = '20px serif';
+            ctx.fillStyle = 'white';
+            ctx.fillText('Time: ' + time, 20, 40);
         });
 
         document.addEventListener("mousemove", function(event) {
