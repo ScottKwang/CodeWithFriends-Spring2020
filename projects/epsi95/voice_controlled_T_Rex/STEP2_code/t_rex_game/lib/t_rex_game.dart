@@ -23,6 +23,9 @@ class TRexGame extends Game with TapDetector {
   Size screenSize;
   double tileSize;
   Sprite bgSprite;
+  Sprite mouthOpen;
+  Sprite mouthClosed;
+  bool isVoiceEnabled = false;
   double gameSpeed = 5.5;
   List<Grass> grasses = [];
   List<Cloud> clouds = [];
@@ -43,10 +46,47 @@ class TRexGame extends Game with TapDetector {
   double relaxation;
   bool isHitSoundPlayable = true;
   SharedPreferences score;
+  bool _isRecording = false;
+  StreamSubscription<NoiseReading> _noiseSubscription;
+  NoiseMeter _noiseMeter = NoiseMeter();
 
   TRexGame() {
     bgSprite = Sprite("bg/ground.png");
+    mouthOpen = Sprite("bg/mouth_open.png");
+    mouthClosed = Sprite("bg/mouth_closed.png");
     initialize();
+  }
+
+  void start() async {
+    try {
+      _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
+    } catch (exception) {
+      print(exception);
+    }
+  }
+
+  void onData(NoiseReading noiseReading) {
+    if (!_isRecording) {
+      _isRecording = true;
+    }
+
+    /// Do someting with the noiseReading object
+    //print(noiseReading.toString());
+    if (noiseReading.maxDecibel >= 85.0) {
+      tapOccurred();
+    }
+  }
+
+  void stopRecorder() async {
+    try {
+      if (_noiseSubscription != null) {
+        _noiseSubscription.cancel();
+        _noiseSubscription = null;
+      }
+      _isRecording = false;
+    } catch (err) {
+      print('stopRecorder error: $err');
+    }
   }
 
   void initialize() async {
@@ -124,7 +164,9 @@ class TRexGame extends Game with TapDetector {
     //print("game speed " + gameSpeed.toString());
     // check for multiple for 100 score
     if (currentScore != 0 && currentScore % 1000 == 0) {
-      Flame.audio.play('score-reached.mp3');
+      if (!isVoiceEnabled) {
+        Flame.audio.play('score-reached.mp3');
+      }
     }
     // check for collision detection
     trees.forEach((element) {
@@ -330,10 +372,20 @@ class TRexGame extends Game with TapDetector {
     }
 
     // showing score
-    config.render(
-        canvas,
-        "HI ${highScore.toString().padLeft(6, "0")}  ${currentScore.toString().padLeft(6, "0")}",
-        Position(screenSize.width / 2, 10));
+    if (config != null) {
+      config.render(
+          canvas,
+          "HI ${highScore.toString().padLeft(6, "0")}  ${currentScore.toString().padLeft(6, "0")}",
+          Position(screenSize.width / 2, 10));
+    }
+
+    // drawing mouth
+    Rect mouth = Rect.fromLTWH(10, 10, 40, 40);
+    if (isVoiceEnabled) {
+      mouthOpen.renderRect(canvas, mouth);
+    } else {
+      mouthClosed.renderRect(canvas, mouth);
+    }
 
     // handle collision scenario
     if (isCollisionHappened) {
@@ -349,7 +401,7 @@ class TRexGame extends Game with TapDetector {
     }
   }
 
-  void onTapDown(TapDownDetails details) {
+  void tapOccurred() {
     if (!tapped && !isCollisionHappened) {
       Flame.audio.play('button-press.mp3');
       tapped = true;
@@ -361,5 +413,21 @@ class TRexGame extends Game with TapDetector {
       isHitSoundPlayable = true;
       resetGame();
     }
+  }
+
+  void onTapDown(TapDownDetails details) {
+    double x = details.globalPosition.dx;
+    double y = details.globalPosition.dy;
+
+    if (x >= 10 && x <= 50 && y >= 10 && y <= 50) {
+      if (isVoiceEnabled) {
+        stopRecorder();
+      } else {
+        start();
+      }
+      isVoiceEnabled = !isVoiceEnabled;
+      return;
+    }
+    tapOccurred();
   }
 }

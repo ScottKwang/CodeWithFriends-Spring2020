@@ -14,6 +14,8 @@ void main() async {
     "bg/grass_3.png",
     "bg/grass_4.png",
     "bg/grass_5.png",
+    "bg/mouth_closed.png",
+    "bg/mouth_open.png",
     "cloud/cloud_1.png",
     "cloud/cloud_2.png",
     "cloud/cloud_3.png",
@@ -28,7 +30,7 @@ void main() async {
     "tree/tree_8.png",
     "tree/tree_9.png",
   ]);
-  Flame.audio.loadAll(["button-press.mp3", "hit.mp3", " score-reached.mp3"]);
+  Flame.audio.loadAll(["button-press.mp3", "hit.mp3", "score-reached.mp3"]);
   Util gameUtil = Util();
   await gameUtil.setOrientation(DeviceOrientation.landscapeLeft);
   await gameUtil.fullScreen();

@@ -26,6 +26,7 @@ dependencies:
   flame: ^0.20.2
   flare_flutter: ^2.0.3
   shared_preferences: ^0.5.7+3
+  noise_meter: ^1.2.0+1
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,8 @@ flutter:
     - assets/images/bg/grass_3.png
     - assets/images/bg/grass_4.png
     - assets/images/bg/grass_5.png
+    - assets/images/bg/mouth_open.png
+    - assets/images/bg/mouth_closed.png
     - assets/images/cloud/cloud_1.png
     - assets/images/cloud/cloud_2.png
     - assets/images/cloud/cloud_3.png
