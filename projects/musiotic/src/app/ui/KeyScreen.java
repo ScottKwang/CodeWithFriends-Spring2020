@@ -101,6 +101,7 @@ public class KeyScreen implements Screen{
             Play.stopMidi();
         });
 
+
         screen = new VBox(
                 description,
                 new HBox(tonic, tonicChoice),

@@ -12,6 +12,8 @@ public abstract class MidiScreen implements Screen {
     protected MidiScreen(InstrumentalPhase phase){
         this.phase = phase;
         screen = new BorderPane();
+        String styleSheet = getClass().getResource("/css/midi_screen.css").toExternalForm();
+        screen.getStylesheets().add(styleSheet);
     }
 
     protected void setBottom(Node bottom){

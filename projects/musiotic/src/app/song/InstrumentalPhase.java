@@ -130,7 +130,7 @@ public abstract class InstrumentalPhase extends Phase {
             assert existing.getRhythmValue() == Math.min(noteLength,
                     measure.getEndTime() - measure.getStartTime() - offset); // for connected measures
             existing.setPitch(JMC.REST);
-            if(connectedMeasures.containsKey(measure)){
+            if(connectedMeasures.containsKey(measure)) {
                 connectedMeasures.get(measure).getNoteArray()[0].setPitch(JMC.REST);
                 connectedMeasures.remove(measure);
             }
