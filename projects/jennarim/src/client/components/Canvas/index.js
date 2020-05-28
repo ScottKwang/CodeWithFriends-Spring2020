@@ -1,5 +1,4 @@
 import React from 'react';
-
 import c from './../../../lib/constants.js';
 import Paddle from './../../../lib/Paddle.js';
 import Player from './../../../lib/Player.js';
@@ -26,7 +25,6 @@ class Canvas extends React.Component {
         const ctx = canvas.getContext('2d');
 
         socket.on('game start', function() {
-            // 
             let lastUpdateTime = (new Date()).getTime();
             setInterval(function() {
                 const currentTime = (new Date()).getTime();

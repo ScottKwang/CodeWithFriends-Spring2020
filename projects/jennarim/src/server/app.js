@@ -1,26 +1,30 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const Paddle = require('./../lib/Paddle.js');
-const Ball = require('./../lib/Ball.js');
-const Wall = require('./../lib/Wall.js');
-const Room = require('./../lib/Room.js');
-const Goal = require('./../lib/Goal.js');
-const Player = require('./../lib/Player.js');
-const c = require('./../lib/constants.js');
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+const Ball = require('./../lib/Ball.js');
+const Wall = require('./../lib/Wall.js');
+const Room = require('./../lib/Room.js');
+const Player = require('./../lib/Player.js');
+const c = require('./../lib/constants.js');
+
 const rooms = [];
 
-function getCurrentRoomOfSocket(socket) {
-	const roomId = socket.rooms[Object.keys(socket.rooms)[1]]; // socket.room contains [<id of room 1>, <name of room 1>, ...]
+function getRoomWithId(roomId) {
 	for (const room of rooms) {
 		if (room.id === roomId) {
 			return room;
 		}
 	}
 	return null;
+}
+
+function getCurrentRoomOfSocket(socket) {
+	const roomId = socket.rooms[Object.keys(socket.rooms)[1]]; // socket.room contains [<id of room 1>, <name of room 1>, ...]
+	return getRoomWithId(roomId);
 }
 
 function removeRoom(roomId) {
@@ -34,7 +38,44 @@ function removeRoom(roomId) {
 io.on('connection', function(socket) {
 	console.log(socket.id, "connected!");
 
-	socket.on('join', function(roomName) {
+	socket.on('join pending', function(roomName) {
+		const roomToJoin = getRoomWithId(roomName);
+		
+		if (roomToJoin && roomToJoin.isFull()) { // Room exists
+			if (roomToJoin.isFull()) {
+				console.log('someone tried to join full room');
+				socket.emit('join failure');
+			} else {
+				socket.emit('join success');
+				socket.join(roomName);
+			}
+		} else { // Room does not exist
+			socket.emit('join success');
+			socket.join(roomName);
+
+			const newRoom = new Room(roomName);
+			
+			// Initialize walls
+			const upperLeftWall  = new Wall(0, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
+				  lowerLeftWall  = new Wall(0, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT),
+				  upperRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
+				  lowerRightWall = new Wall(c.WALL_WIDTH + c.GOAL_POST_LENGTH, c.WALL_HEIGHT + c.GOAL_POST_LENGTH, c.WALL_WIDTH, c.WALL_HEIGHT);
+			const walls = [upperLeftWall, lowerLeftWall, upperRightWall, lowerRightWall];
+			newRoom.setWalls(walls);
+			
+			// Add room to list of rooms
+			rooms.push(newRoom);
+		}
+	});
+
+	/*
+		socket.on('join', function(roomName) {
+		const roomToJoin = getRoomWithId(roomName);
+		if (roomToJoin && roomToJoin.isFull()) {
+			socket.emit('room is full');
+			return;
+		}
+
 		// Socket joins room
 		socket.join(roomName);
 
@@ -54,7 +95,7 @@ io.on('connection', function(socket) {
 			rooms.push(newRoom);
 		}
 	});
-
+	*/
 	socket.on('new player', function() {
 		const currentRoom = getCurrentRoomOfSocket(socket);
 
@@ -186,32 +227,6 @@ io.on('connection', function(socket) {
 						}
 					}
 				}
-				/*
-				for (const key in playerPaddles) {
-					const paddle = playerPaddles[key];
-					if (ball.collidesWithPaddle(paddle)) {
-						if (!ball.currentlyCollidedWithPaddle) {
-							console.log("ball collides with paddle for the first time", paddle.playerNo);
-							switch (paddle.playerNo) {
-								case 1:
-								case 2:
-									ball.vx *= -1;
-									break;
-								case 3:
-								case 4:
-									ball.vy *= -1;
-							}
-							ball.currentlyCollidedWithPaddle = true;
-							ball.playerNoOfPaddleCollidedWith = paddle.playerNo;
-						}
-						break;
-					} else {
-						if (paddle.playerNo === ball.playerNoOfPaddleCollidedWith) {
-							ball.currentlyCollidedWithPaddle = false;
-						}
-					}
-				}
-				*/
 
 				// Increment score if ball passed goal
 				for (const key in players) {
@@ -237,30 +252,6 @@ io.on('connection', function(socket) {
 						}
 					}
 				}
-				/*
-					const playerGoals = currentRoom.playerGoals;
-					const playerScores = currentRoom.playerScores;
-					for (const key in playerGoals) {
-						const goal = playerGoals[key];
-						if (ball.outOfBounds(goal)) {
-							if (ball.alreadyPastGoal) {
-								// Reset the ball
-								ball.x = c.WIDTH/2;
-								ball.y = c.HEIGHT/2;
-								const angle = (360 * Math.random()) * (Math.PI/180);
-								ball.vx = c.BALL_INITIAL_VX * Math.sin(angle);
-								ball.vy = c.BALL_INITIAL_VY * Math.cos(angle);
-								ball.alreadyPastGoal = false;
-							} else {
-								if (ball.playerNoOfPaddleCollidedWith) {
-									playerScores[ball.playerNoOfPaddleCollidedWith]++;
-									ball.playerNoOfPaddleCollidedWith = undefined;
-								}
-								ball.alreadyPastGoal = true;
-							}
-						}
-					}
-				*/
 
 				ball.x += ball.vx;
 				ball.y += ball.vy;

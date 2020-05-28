@@ -3,12 +3,7 @@ class Room {
         this.id = id;
         this.walls = [];
         this.ball = {};
-
-        // Instead, have an object of players with keys as socketid, value as Player objects
         this.players = {};
-        // this.playerPaddles = {};
-        // this.playerGoals = {};
-        // this.playerScores = {};
     }
 
     setWalls(walls) {
@@ -41,6 +36,10 @@ class Room {
             }
         }
         return null;
+    }
+
+    isFull() {
+        return this.getNumberOfPlayers() === 4;
     }
 }
 

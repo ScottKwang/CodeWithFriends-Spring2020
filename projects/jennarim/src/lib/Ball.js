@@ -1,5 +1,6 @@
 const c = require('./constants.js');
-const PADDING = 10; // padding to detect whether ball is in a goal
+
+const PADDING = 10; // used to to extend the hitbox of the goal
 
 class Ball {
     constructor(x, y, vx, vy, radius) {
@@ -85,6 +86,7 @@ class Ball {
     }
 
     render(ctx) {
+        ctx.fillStyle = "white";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
