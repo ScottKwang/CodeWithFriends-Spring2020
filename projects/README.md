@@ -1,8 +1,8 @@
 Code With Friends - Spring 2020
 
 by Hamzah Fayad
-Github Link: https://github.com/HamzahFayad
-Portfolio Link: https://hamzahfayad.github.io/mywebsite/
+Github Link: 
+[Github](https://github.com/HamzahFayad)
 
 I created a little drawing & todo WebApp
 - You can add rectangles/circles on a canvas
