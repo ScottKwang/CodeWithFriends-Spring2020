@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+</head>
+<body>
+    <h1>Log In</h1>
+    <p></p>
+    <form>
+        <label>Email<input name = "email" type = "text"></label>
+        <label>Password<input name = "password" type = "password"></label>
+        <input value = "Log In" type = "submit">
+    </form>
+    <script>
+        const form = document.querySelector("form")
+
+        form.onsubmit = (e) =>{
+            e.preventDefault()
+            const data = {
+                    email:form.elements["email"].value,
+                    password:form.elements["password"].value
+                }
+            form.elements["password"].value = ""
+            fetch("/login",{
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                'Content-Type': 'application/json'
+                },
+            }).then((response)=>{
+                // response.status
+                if(response.status == 200){
+                    window.location = "/account"
+                }
+                else{
+                    document.querySelector("p").innerText = "*incorrect email or password"
+                }
+            })
+        }
+    </script>
+</body>
+</html>
