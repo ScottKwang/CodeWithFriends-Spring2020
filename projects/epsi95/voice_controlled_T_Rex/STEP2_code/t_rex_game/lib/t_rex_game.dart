@@ -50,7 +50,7 @@ class TRexGame extends Game with TapDetector {
   StreamSubscription<NoiseReading> _noiseSubscription;
   NoiseMeter _noiseMeter = NoiseMeter();
 
-  TRexGame() {
+  TRexGame({this.screenSize, this.tileSize, this.score}) {
     bgSprite = Sprite("bg/ground.png");
     mouthOpen = Sprite("bg/mouth_open.png");
     mouthClosed = Sprite("bg/mouth_closed.png");
@@ -90,10 +90,10 @@ class TRexGame extends Game with TapDetector {
   }
 
   void initialize() async {
-    score = await SharedPreferences.getInstance();
+    //score = await SharedPreferences.getInstance();
     highScore = score.getInt('dinoScore') ?? 0;
-    resize(await Flame.util.initialDimensions());
-    config = TextConfig(fontSize: tileSize, fontFamily: 'pizzadudedotdk');
+    //resize(await Flame.util.initialDimensions());
+    print(screenSize);
     relaxation = tileSize * 0.6;
     dinoX = tileSize;
     dinoY = screenSize.height - tileSize * 4;
@@ -146,6 +146,7 @@ class TRexGame extends Game with TapDetector {
 
   @override
   void resize(Size size) {
+    print("resize gets called. After resize: " + size.toString());
     screenSize = size;
     tileSize = size.height / 9;
   }
@@ -268,6 +269,8 @@ class TRexGame extends Game with TapDetector {
       }
 
       // handling dino
+//      tRex.width = tileSize * 2;
+//      tRex.height = tileSize * 2;
       if (animationLoaded) {
         tRex.update((gameSpeed / 2) * t);
       }
@@ -372,6 +375,7 @@ class TRexGame extends Game with TapDetector {
     }
 
     // showing score
+    config = TextConfig(fontSize: tileSize, fontFamily: 'pizzadudedotdk');
     if (config != null) {
       config.render(
           canvas,

@@ -3,6 +3,7 @@ import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
 import 't_rex_game.dart';
 import 'package:flame/flame.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +33,19 @@ void main() async {
   ]);
   Flame.audio.loadAll(["button-press.mp3", "hit.mp3", "score-reached.mp3"]);
   Util gameUtil = Util();
-  await gameUtil.setOrientation(DeviceOrientation.landscapeLeft);
-  await gameUtil.fullScreen();
+//  await gameUtil.setOrientation(DeviceOrientation.landscapeLeft);
+//  await gameUtil.fullScreen();
+  await Flame.util.fullScreen();
+  await Flame.util.setLandscape();
+  Size size = await Flame.util.initialDimensions();
+  print("size first time-->>" + size.toString());
+  while (size.width < size.height) {
+    size = await Flame.util.initialDimensions();
+  }
+  print("size-->>" + size.toString());
+  SharedPreferences score = await SharedPreferences.getInstance();
 
-  TRexGame game = TRexGame();
+  TRexGame game =
+      TRexGame(screenSize: size, tileSize: size.height / 9, score: score);
   runApp(game.widget);
 }
