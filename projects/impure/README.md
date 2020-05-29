@@ -41,7 +41,7 @@ Apart from this I didn't have many problems. Mostly due to the various tools for
 
 ## Tools And Resources
 
-Without a doubt the most useful resource was Oracle's documentation on the JVM class file format. Most notably the actual assembly instructions found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html) and the class file specification found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4). There's some other resources but I mostly just used those two.
+Without a doubt the most useful resource was Oracle's documentation on the JVM class file format. Most notably the actual assembly instructions found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html) and the class file specification found [here](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.4).
 
 Then there's the tool for viewing the class file: `javap`. Although the way to properly run it is `javap -v CLASS_FILE_NAME`. This provides a readout of exactly what is in your class file. It's pretty useful for debugging things like a jump instruction that is pointing to the wrong location or if you run out of stack space.
 
