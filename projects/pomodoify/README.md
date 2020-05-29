@@ -8,6 +8,8 @@
 Pomodoify is my submission for CodeWithFriends! It's a relaxing and simple productivity app to boost your efficiency through the Pomodoro Technique and a rewarding progression system to make it fun and engaging.
 
 ## Upcoming changes
+There was a lot of things I didn't have time to implement before the deadline, so I will continue to work on the project!
+
 - More achievements and new forms of progression
 - User page streaks/latest achievement
 - Firebase integration
