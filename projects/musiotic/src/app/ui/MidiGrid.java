@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -35,12 +36,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import song.InstrumentalPhase;
 import song.Phase;
+import util.CustomTimerTask;
 import util.IntegerArray;
 import util.Scale;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MidiGrid {
     private final InstrumentalPhase phase;
@@ -50,6 +57,11 @@ public class MidiGrid {
 
     // Setting to each pane which {col, row} it's in.
     private HashMap<IntegerArray, MidiPane> cells;
+
+    // True if currently playing
+    private boolean playing = false;
+    Timer playingTimer;
+
 
     //TODO: CSS measure borders THICCER
     //TODO: Set up Add measures for left and right side (add buttons as well)
@@ -74,6 +86,7 @@ public class MidiGrid {
         mainPane = new ScrollPane();
         mainPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
         mainPane.setContent(gridPane);
+
 
         String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
         gridPane.getStylesheets().add(styleSheet);
@@ -141,18 +154,76 @@ public class MidiGrid {
         imageView.setFitWidth(75);
         Label label = new Label("Play");
         Button button = new Button("", imageView);
-        button.setOnMouseClicked(e -> {
-            phase.manager.play(0);
-            //TODO: Create a function that will play the number measure from starting slider.
-        });
-        button.setPadding(Insets.EMPTY);
 
+        button.setPadding(Insets.EMPTY);
         BorderPane pane = new BorderPane();
         pane.setTop(label);
         pane.setAlignment(label, Pos.CENTER);
         pane.setCenter(button);
 
+        playingTimer = new Timer();
+
+
+        button.setOnMouseClicked(e -> {
+            BorderPane tempPane = (BorderPane) button.getParent();
+            setPlayButton(tempPane, false);
+        });
+
         return pane;
+    }
+
+    private void setPlayButton(BorderPane tempPane, boolean fromTimer) {
+        if (!playing) {
+            //START PLAYING
+//            System.out.println("START PLAYING");
+            playing = true;
+            phase.manager.play(0);
+            //TODO: Create a function that will play the number measure from starting slider.
+
+            Label label = (Label) tempPane.getChildren().get(0);
+            Button button = (Button) tempPane.getChildren().get(1);
+
+            label.setText("Stop");
+
+            String playImage = getClass().getResource("/images/stop.png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(playImage));
+            imageView.setFitHeight(75);
+            imageView.setFitWidth(75);
+            button.setGraphic(imageView);
+
+            double time = (double)(phase.manager.numMeasures*4) * 60 * 1000 / phase.manager.getTempo();
+            time += 200;
+            System.out.println("Playing for ms: " + time);
+            playingTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        setPlayButton(tempPane, true);
+                    });
+                }
+            }, (int) time);
+
+        } else {
+            //STOP PLAYING
+            playingTimer.cancel();
+            playingTimer = new Timer();
+//            System.out.println("STOP PLAYING");
+            playing = false;
+            if (!fromTimer) {
+                phase.manager.stop();
+            }
+
+            Label label = (Label) tempPane.getChildren().get(0);
+            Button button = (Button) tempPane.getChildren().get(1);
+
+            label.setText("Play");
+
+            String playImage = getClass().getResource("/images/play.png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(playImage));
+            imageView.setFitHeight(75);
+            imageView.setFitWidth(75);
+            button.setGraphic(imageView);
+        }
     }
 
     private BorderPane initializeModeButtons() {

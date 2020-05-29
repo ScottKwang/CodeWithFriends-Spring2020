@@ -156,6 +156,14 @@ public class SongManager {
         for(Part part : oldParts) score.addPart(part);
     }
 
+    public void stop() {
+        try {
+            Play.stopMidi();
+        } catch (StackOverflowError e) {
+            System.out.println(e.toString());
+        }
+    }
+
     protected void forInstrumentalPhase(Consumer<InstrumentalPhase> consumer){
         Phase curr = phaseMap.getNext(Phase.Type.Style);
         while(curr != null){
@@ -168,6 +176,10 @@ public class SongManager {
 
     public void setTempo(double tempo) {
         score.setTempo(tempo);
+    }
+
+    public double getTempo() {
+        return score.getTempo();
     }
 
     public void writeScore(String filename) {
