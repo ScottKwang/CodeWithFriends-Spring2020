@@ -49,7 +49,7 @@ Then there's the tool for viewing the class file: `javap`. Although the way to p
 
 Also if you don't know how to do something you can just use `javap` to see how Java does it and copy that. It's actually how I did the majority of this project.
 
-Although it's not perfect (for example the reserved names `\<init\>` and `\<clinit\>` do not show up in `javap` and I had to manually figure out that they were there) so I did occasionally need to view the file in a hex editor. I didn't have to do this too often though.
+Although it's not perfect (for example the reserved names `<init>` and `<clinit>` do not show up in `javap` and I had to manually figure out that they were there) so I did occasionally need to view the file in a hex editor. I didn't have to do this too often though.
 
 Also I did find [this resource](https://medium.com/@davethomas_9528/writing-hello-world-in-java-byte-code-34f75428e0ad) on creating a hello world program in JVM bytecode helpful, but only at the start. There's also some other resources listed [here](https://gitlab.com/azuredown/muse/-/blob/master/Notes/Other%20Notes.txt), although I didn't find any of the other ones particularly useful.
 
