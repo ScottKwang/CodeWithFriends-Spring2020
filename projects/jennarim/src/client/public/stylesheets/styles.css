@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
 	background-color: gainsboro;
 }
@@ -8,6 +12,50 @@ canvas {
 	border: 5px solid black;
 }
 
+.form-group {
+	margin-bottom: 25px;
+	padding: 15px;
+}
+
+label {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: 700;
+}
+
+.text-lobby {
+	font-family: Helvetica, "sans-serif";
+	color: #333;
+}
+
+.input-lobby {
+	display: block;
+	background-color: white;
+	@apply border border-gray-300 rounded-lg w-full py-2 px-4;
+	@apply appearance-none leading-normal;
+}
+
+.input-lobby:focus {
+	@apply outline-none;
+}
+
 .hide {
 	display: none;
+}
+
+button {
+	display: block;
+	text-align: center;
+	padding: 0px 15px;
+	box-sizing: border-box;
+	height: 48px;
+	font-weight: 700;
+	color: white;
+	@apply bg-indigo-600;
+	@apply rounded-lg w-full border-b-4 border-indigo-900;
+}
+
+button:disabled {
+	@apply bg-gray-600 border-gray-900;
 }

@@ -114,7 +114,9 @@ class Canvas extends React.Component {
 
     render() {
         return (
-            <canvas ref="canvas" width={c.WIDTH} height={c.HEIGHT} className="hide" />
+            <canvas ref="canvas" width={c.WIDTH} height={c.HEIGHT} className="hide">
+                Sorry, your browser is not supported.
+            </canvas>
         );
     }
 }
