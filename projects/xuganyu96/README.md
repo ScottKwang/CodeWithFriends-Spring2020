@@ -2,7 +2,7 @@
 Created by Bruce Xu:
 * My GitHub Profile: https://github.com/xuganyu96
 * Project source code: https://github.com/xuganyu96/PyArchive
-* Watch video demo here: https://youtu.be/OxYqd7Sc_kI
+* **Watch video demo here**: https://youtu.be/OxYqd7Sc_kI
 
 ## Introduction
 PyArchive is an integrated file backup solution with a web GUI that provides a number of features 
