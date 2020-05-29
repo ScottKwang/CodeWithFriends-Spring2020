@@ -10,5 +10,7 @@ public class BassScreen extends MidiScreen {
     public BassScreen(BassPhase phase){
         super(phase);
         this.phase = phase;
+        setBottom(new Label("Bass Screen")); // For example
+
     }
 }

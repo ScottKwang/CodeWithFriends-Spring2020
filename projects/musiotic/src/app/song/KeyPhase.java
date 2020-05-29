@@ -74,11 +74,18 @@ public class KeyPhase extends Phase {
         var noteList = new ArrayList<String>();
         var noteValues = new ArrayList<Integer>();
 
+        var startVal = (char) (((newTonic - 'A') % 7) + 'A');
+        var startJmVal = roots.get(String.valueOf(startVal));
+        var count = 0;
+
         for(char current = newTonic; current < newTonic + manager.numNotes*2-1; current++){
             var noteVal = (char) (((current - 'A') % 7) + 'A');
+            if(noteVal == startVal) count++;
             var noteName = new StringBuilder(String.valueOf(noteVal));
             var jmVal = roots.get(String.valueOf(noteVal));
             if(jmVal < this.tonic) jmVal += 12;
+            if(jmVal > startJmVal+12) jmVal += 12;
+            if(count == 2) jmVal += 12;
             var realVal = this.tonic + mode[(current - newTonic) % 7];
             if(current > newTonic && realVal == this.tonic) realVal += 12;
             switch (realVal - jmVal){
@@ -98,8 +105,8 @@ public class KeyPhase extends Phase {
                     break;
             }
             noteList.add(noteName.toString());
-            System.out.println(noteName.toString());
             noteValues.add(realVal);
+            System.out.println(noteName.toString() + " with value: " + realVal);
         }
 
         if(scale == null) {
