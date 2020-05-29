@@ -153,7 +153,7 @@ public class MidiGrid {
 
     private BorderPane initializeModeButtons() {
         Button add = new Button("Add Note");
-        Button edit = new Button("Extend/Shrink\nNote");
+        Button edit = new Button("Resize Note");
         Button delete = new Button("Delete Note");
 
         makeToolTip(add, "Click anywhere to add a note.");

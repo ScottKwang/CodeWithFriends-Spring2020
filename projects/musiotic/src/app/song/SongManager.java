@@ -139,6 +139,7 @@ public class SongManager {
     }
 
     public void play(int measureNum){
+        Play.stopMidi();
         List<Part> oldParts = new ArrayList<>();
         forInstrumentalPhase(phase -> {
             Part part = phase.part;
