@@ -2,14 +2,14 @@
   <img src="documentation/pics/logo.png" alt="Four Player Pong logo"> 
 </p>
 
-# Four Player Pong
+# Four Player Pong Online
 An online remote version of the classic arcade game Pong — but with four players. Built with Node.js, Express, React, and SocketIO. 
 
 Play the game here: https://four-player-pong.herokuapp.com/
 
 ## Summary
 Four people verse amongst each other on who gets the highest score in Pong.
-<img src="documentation/pics/example.png" alt="example screenshot">
+<img src="documentation/gifs/demo.gif" alt="example screenshot">
 
 ## Inspiration
 Based off a minigame from Pokemon Stadium 2!
