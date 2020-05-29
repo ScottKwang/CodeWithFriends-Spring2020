@@ -106,7 +106,8 @@ io.on('connection', function(socket) {
 		const currentRoom = getCurrentRoomOfSocket(socket);
 		if (currentRoom) {
 			const player = currentRoom.players[socket.id];
-			const paddle = player.getPaddle();
+			if (player) {
+				const paddle = player.getPaddle();
 			if (paddle) {
 				let paddlePosX, paddlePosY;
 				switch (paddle.playerNo) {
@@ -137,6 +138,7 @@ io.on('connection', function(socket) {
 						paddle.setX(paddlePosX);
 						break;
 				}
+			}	
 			}
 		}
 	});
