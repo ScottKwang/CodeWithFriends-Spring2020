@@ -64,6 +64,10 @@ class Player {
         return this.score;
     }
 
+    getScoreValue() {
+        return this.score.getValue();
+    }
+
     incrScore() {
         this.score.incr();
     }

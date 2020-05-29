@@ -18,8 +18,8 @@ module.exports = Object.freeze({
 
     GOAL_POST_LENGTH: 300,
 
-    BALL_INITIAL_VX: 4,
-    BALL_INITIAL_VY: 5,
+    BALL_INITIAL_VX: 6,
+    BALL_INITIAL_VY: 6,
     BALL_RADIUS: 6,
 
     START_TIME_IN_SEC: 20

@@ -16,6 +16,8 @@ function handleMouseMove(event, socket, ctx) {
     socket.emit('player move', {x: mouseX, y: mouseY});
 }
 
+let intervals = [];
+
 class Canvas extends React.Component {
     componentDidMount() {
         const socket = this.props.socket;
@@ -24,15 +26,20 @@ class Canvas extends React.Component {
 
         socket.on('game start', function() {
             let lastUpdateTime = (new Date()).getTime();
-            setInterval(function() {
+            let interval = setInterval(function() {
                 const currentTime = (new Date()).getTime();
                 const timeDifference = currentTime - lastUpdateTime;
                 socket.emit('ball move', {timeDifference});
                 lastUpdateTime = currentTime;
             }, 1000 / 60);
+            intervals.push(interval);
         });
 
         socket.on('restart', function() {
+            for (const interval of intervals) {
+                clearInterval(interval);
+            }
+
             // Black background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = c.BG_COLOR;
@@ -45,20 +52,32 @@ class Canvas extends React.Component {
             ctx.fillText("Someone disconnected... Please leave the room!", c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
         });
 
-        socket.on('game over', function(winner) {
-            // Black background
-            // ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
-            // ctx.fillStyle = c.BG_COLOR;
-            // ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
+        socket.on('game over', function(winnerList) {
+            for (const interval of intervals) {
+                clearInterval(interval);
+            }
 
             // Show someone disconnected
             ctx.font = '25px serif';
-            ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            let msg = "Game over. ";
-            msg += (winner === "tie" ? "All players tied. " : "Player " + winner + " won. ");
-            msg += "Thanks for playing!";
-            ctx.fillText(msg, c.WIDTH/2 - 10, c.HEIGHT/2 - 20);
+
+            ctx.fillStyle = 'white';
+            let msg = "WINNER";
+            ctx.fillText(msg, c.WIDTH/2 - 10, c.HEIGHT/2 - 75);
+
+            let offset = 50;
+            for (const winner of winnerList) {
+                const playerNo = winner.playerNo;
+                const color = winner.color;
+                ctx.fillStyle = color;
+                msg = playerNo + " ";
+                ctx.fillText(msg, c.WIDTH/2 - 10, c.HEIGHT/2 - offset);
+                offset -= 25;
+            }
+           
+            ctx.fillStyle = 'white';
+            msg = "Thanks for playing!";
+            ctx.fillText(msg, c.WIDTH/2 - 10, c.HEIGHT/2 + 50);
         });
 
         socket.on('state', function(data) {

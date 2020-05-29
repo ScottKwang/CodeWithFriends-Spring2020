@@ -12,6 +12,9 @@ class Room {
         // Initialize ball
         this.ball = new Ball(c.WIDTH/2, c.HEIGHT/2, c.BALL_INITIAL_VX, c.BALL_INITIAL_VX, c.BALL_RADIUS);
         this.ball.alreadyPastGoal = false; // flag that indicates whether ball passed a goal
+        const angle = (360 * Math.random()) * (Math.PI/180);
+        this.ball.vx = c.BALL_INITIAL_VX * Math.sin(angle);
+        this.ball.vy = c.BALL_INITIAL_VY * Math.cos(angle);
 
         // Initialize walls
         const upperLeftWall  = new Wall(0, 0, c.WALL_WIDTH, c.WALL_HEIGHT),
@@ -66,24 +69,23 @@ class Room {
         this.currentTime = parseInt(c.START_TIME_IN_SEC - ((new Date() - this.startTime)/1000));
     }
 
-    getWinner() {
-        let playerWithMaxScore;
-        let maxScore = 0; 
+    getWinners() {
+        let maxScore = 0;
+        let listofWinners = []; // objects with playerNo : playerColor
         for (const key in this.players) {
             if (this.players.hasOwnProperty(key)) {
                 const player = this.players[key];
-                const playerScore = player.getScore().getValue();
+                const playerScore = player.getScoreValue();
                 if (playerScore > maxScore) {
-                    playerWithMaxScore = player;
                     maxScore = playerScore;
+                    listofWinners = [];
+                    listofWinners.push({playerNo: player.playerNo, color: player.paddle.color});
+                } else if (playerScore === maxScore) {
+                    listofWinners.push({playerNo: player.playerNo, color: player.paddle.color});
                 }
             }
         }
-
-        if (!playerWithMaxScore) {
-            return "tie";
-        }
-        return playerWithMaxScore.playerNo;
+        return listofWinners;
     }
 }
 
