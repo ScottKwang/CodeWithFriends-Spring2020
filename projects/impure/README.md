@@ -67,3 +67,13 @@ I would use LLVM because that's what the big kids use. Big kids as in Apple, Ora
 
 Also I have no idea how to do garbage collection in the JVM or if I even need to do it at all and it's really bothering me.
 
+## Compiling
+
+Additional details can be viewed in the README in the [Muse repo](https://gitlab.com/azuredown/muse).
+
+First install ANTLR using the [getting started](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md) section in the ANTLR repo.
+
+Then compile all the Java files in the `muse/src/` directory. Finally you can use `MuseMain` (eg: `java MuseMain SOURCE_FILE.muse`) to compile and run a muse file. Or use the `-c` flag to only compile and not run.
+
+Alternately you can also run `muse/tests/RunTests.py`.
+
