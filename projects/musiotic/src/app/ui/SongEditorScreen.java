@@ -9,9 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import song.InstrumentalPhase;
 import song.Phase;
 import song.SongManager;
 
@@ -108,8 +107,7 @@ public class SongEditorScreen extends BorderPane {
             });
             button.disableProperty().bind(phase.disabled);
             VBox box;
-            if (phase == manager.stylePhase || phase.getType() == Phase.Type.Key) {
-                //TODO: Add more phases to get rid of in if statement.
+            if (!(phase instanceof InstrumentalPhase) ) {
                 //No mute button
                 box = new VBox(button);
             } else {
@@ -120,15 +118,16 @@ public class SongEditorScreen extends BorderPane {
                 soundOn.setFitWidth(25);
                 mute.setGraphic(soundOn);
                 mute.setSelected(true);
+                mute.disableProperty().bind(phase.completed.not());
                 mute.setOnAction(e -> {
-                    //TODO: Brian Set mute / nonMute for each them here. isSelected means it should be on!
-                    // I'm using toggle buttons bc I don't want to store the state of each button.
                     if (mute.isSelected()) {
+                        ((InstrumentalPhase)phase).setMute(false);
                         var image = new ImageView(new Image(getClass().getResource("/images/sound_on.png").toExternalForm()));
                         image.setFitWidth(25);
                         image.setFitHeight(25);
                         mute.setGraphic(image);
                     } else {
+                        ((InstrumentalPhase)phase).setMute(true);
                         var image = new ImageView(new Image(getClass().getResource("/images/sound_off.png").toExternalForm()));
                         image.setFitWidth(25);
                         image.setFitHeight(25);
@@ -144,11 +143,12 @@ public class SongEditorScreen extends BorderPane {
             }
             buttons.add(box);
         }
+        menuButtons.getChildren().remove(1, menuButtons.getChildren().size());
         menuButtons.getChildren().addAll(buttons);
         if (currentPhase == manager.stylePhase) {
-            var keyPhase = manager.phaseMap.get(Phase.Type.Key); // Does every type have a key? this may return null
-            if(keyPhase != null){
-                goToPhase(keyPhase);
+            var next = manager.phaseMap.getNext(Phase.Type.Style);
+            if(next != null){
+                goToPhase(next);
             }
         }
     }

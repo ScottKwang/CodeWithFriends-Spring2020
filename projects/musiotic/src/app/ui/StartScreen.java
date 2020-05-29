@@ -4,10 +4,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import song.SongManager;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class StartScreen extends BorderPane {
     public StartScreen(){
@@ -23,6 +28,7 @@ public class StartScreen extends BorderPane {
         });
 
         var currSongsBtn = new Button("View Existing Songs");
+        currSongsBtn.setOnMouseClicked(StartScreen::openMusioticDir);
         var buttons = new VBox();
         buttons.getStyleClass().add("buttons");
         buttons.getChildren().addAll(newSongBtn, currSongsBtn);
@@ -41,5 +47,13 @@ public class StartScreen extends BorderPane {
         name.getStyleClass().add("name");
         setTop(name);
         setCenter(center);
+    }
+
+    private static void openMusioticDir(MouseEvent e) {
+        try {
+            Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Musiotic"));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 }

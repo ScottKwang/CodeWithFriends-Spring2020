@@ -23,11 +23,13 @@ public abstract class Phase {
     public enum Type {
         Style("Style", StylePhase.class),
         Key("Key &\nTempo", KeyPhase.class, Style),
-        Melody1("Melody", Melody1Phase.class, Style, Key),
-        Melody2("Countermelody", null, Style, Key),
-        Bass("Bass", BassPhase.class, Style, Key),
-        Drums("Drums", null, Style, Key),
-        Effects("Effects", null, Style, Key, Melody1, Bass, Drums);
+        Melody1("Melody", Melody1Phase.class, Key),
+        Melody2("Countermelody", null,Key),
+        Bass("Bass", BassPhase.class, Key),
+        Drums("Drums", null, Key),
+        Effects("Effects", null, Melody1, Bass, Drums),
+        Export("Export", ExportPhase.class, Melody1),
+        UnimplementedStyle("Unimplemented", UnimplementedStylePhase.class, Style);
 
         public final String name;
         private final Class<? extends Phase> phaseClass;

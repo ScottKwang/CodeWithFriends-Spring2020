@@ -23,7 +23,7 @@ public class StyleScreen implements Screen{
         var complete = new Button("Confirm");
         complete.setOnMouseClicked(e -> {
             System.out.println("StyleScreen: \"next\" button clicked");
-            choices.disableProperty().setValue(true);
+            choices.disableProperty().bind(phase.completed);
             phase.setStyle(Style.getStyle(choices.getValue()));
         });
         complete.disableProperty().bind(choices.valueProperty().isNull());

@@ -1,13 +1,9 @@
 package ui;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,14 +13,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -34,7 +27,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -46,9 +38,6 @@ import song.Phase;
 import util.IntegerArray;
 import util.Scale;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -176,7 +165,7 @@ public class MidiGrid {
 
     private BorderPane initializeModeButtons() {
         Button add = new Button("Add Note");
-        Button edit = new Button("Extend/Shrink\nNote");
+        Button edit = new Button("Resize Note");
         Button delete = new Button("Delete Note");
 
         makeToolTip(add, "Click anywhere to add a note.");
@@ -748,6 +737,7 @@ public class MidiGrid {
         } else {
             //can Place!
             for (int i = 0; i < noteLength; i++) {
+                phase.completed.setValue(true);
                 Integer[] indexes = {col + i, row};
                 IntegerArray arr = new IntegerArray(indexes);
                 MidiPane tempMidiPane = cells.get(arr);

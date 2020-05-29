@@ -44,11 +44,12 @@ public enum Style {
                             JMC.ELECTRIC_PIANO,
                             JMC.THUMB_PIANO)),
             new PhaseDetail(Phase.Type.Bass, 1,
-                    List.of(JMC.PIANO, JMC.BRIGHT_ACOUSTIC, JMC.HONKYTONK_PIANO, JMC.ELECTRIC_PIANO))
+                    List.of(JMC.PIANO, JMC.BRIGHT_ACOUSTIC, JMC.HONKYTONK_PIANO, JMC.ELECTRIC_PIANO)),
+            new PhaseDetail(Phase.Type.Export)
     ),
-    GUITAR("Acoustic Guitar", new PhaseDetail(Phase.Type.Key)
+    GUITAR("Acoustic Guitar", new PhaseDetail(Phase.Type.UnimplementedStyle)
     ),
-    SYNTH("Synthesizer and Drums", new PhaseDetail(Phase.Type.Key)
+    SYNTH("Synthesizer and Drums", new PhaseDetail(Phase.Type.UnimplementedStyle)
     );
 
     public final String name;

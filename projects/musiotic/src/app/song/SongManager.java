@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.stage.FileChooser;
 import jm.JMC;
 import jm.music.data.Note;
 import jm.music.data.Part;
@@ -12,10 +13,12 @@ import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.music.tools.Mod;
 import jm.util.Play;
+import jm.util.Write;
 import ui.SongEditorScreen;
 import util.MappedLinkedList;
 import util.Scale;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -136,6 +139,7 @@ public class SongManager {
     }
 
     public void play(int measureNum){
+        Play.stopMidi();
         List<Part> oldParts = new ArrayList<>();
         forInstrumentalPhase(phase -> {
             Part part = phase.part;
@@ -165,5 +169,27 @@ public class SongManager {
 
     public void setTempo(double tempo) {
         score.setTempo(tempo);
+    }
+
+    public void writeScore(String filename) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Music File");
+        fileChooser.setInitialFileName(filename + ".midi");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MIDI file", "midi"));
+        File file = fileChooser.showSaveDialog(screen.getScene().getWindow());
+        if (file != null) {
+            List<Part> oldParts = new ArrayList<>();
+            forInstrumentalPhase(phase -> {
+                phase.backupPart();
+                var oldPart = phase.consolidatePart();// Prepare part for playing
+                oldParts.add(oldPart);
+            });
+
+            Write.midi(score, file.getAbsolutePath());
+            new File(System.getProperty("user.home") + "\\Musiotic").mkdirs();
+            Write.midi(score, System.getProperty("user.home") + "\\Musiotic\\" + filename + ".midi");
+            score.removeAllParts();
+            for(Part part : oldParts) score.addPart(part);
+        }
     }
 }
