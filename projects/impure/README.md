@@ -65,3 +65,5 @@ Also I don't really like the JVM. Yeah, it's easier, but you can tell the JVM wa
 
 I would use LLVM because that's what the big kids use. Big kids as in Apple, Oracle, Mozilla, and Microsoft. I originally tried using LLVM but it wasn't easy to set up and eventually I just decided the JVM was easier.
 
+Also I have no idea how to do garbage collection in the JVM or if I even need to do it at all and it's really bothering me.
+
