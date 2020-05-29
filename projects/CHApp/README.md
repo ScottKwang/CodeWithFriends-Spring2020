@@ -4,7 +4,7 @@ Created by tomoaki3284, [GitHub Page](https://github.com/tomoaki3284).
 Source code [here](https://github.com/tomoaki3284/WSUCourseHelperApp).
 If you have problem importing project on AndroidStudio, clone [this](https://github.com/tomoaki3284/WSUCourseHelperApp) repository.
 
-![ScreenShot](CHApp/projectImages/sampleImages.png)
+![ScreenShot](projectImages/sampleImages.png)
 
 ## Who is this project for?
 This project is for students at my university selecting the courses for future semesters with less work by utilizing various features, such as schedule visualization, filter course by various categories, etc.
