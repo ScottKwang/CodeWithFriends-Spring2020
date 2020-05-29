@@ -1,0 +1,35 @@
+{
+  "name": "basu",
+  "version": "1.0.0",
+  "description": "Text client to help job search",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Grant S Ralls",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-typedoc": "^2.2.5",
+    "typedoc": "^0.17.6"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/node-fetch": "^2.5.7",
+    "@types/twilio": "^2.11.0",
+    "@types/xml2js": "^0.4.5",
+    "aws-sdk": "^2.675.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "node-fetch": "^2.6.0",
+    "serverless-http": "^2.5.0",
+    "twilio": "^3.43.0",
+    "typescript": "^3.9.2",
+    "xml2js": "^0.4.23"
+  }
+}
