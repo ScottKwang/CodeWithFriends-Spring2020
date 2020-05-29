@@ -1,7 +1,8 @@
 # Course Helper App
 
 Created by tomoaki3284, [GitHub Page](https://github.com/tomoaki3284).
-Source code: [Here](https://github.com/tomoaki3284/WSUCourseHelperApp).
+Source code [here](https://github.com/tomoaki3284/WSUCourseHelperApp).
+If you have problem importing project on AndroidStudio, clone [this](https://github.com/tomoaki3284/WSUCourseHelperApp) repository.
 
 ![ScreenShot](CHApp/projectImages/sampleImages.png)
 
@@ -26,4 +27,3 @@ Not Implemented
 
 ## Inspiration
 Many first-year students are having a hard time searching for classes through the current website that the university offered. I was the one too, who didn’t know what to do, or where to go for searching classes. I don't want anybody to get through this pain again just for searching up courses. 
-
