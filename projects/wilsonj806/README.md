@@ -1,6 +1,7 @@
 # React Headless Wordpress Blog
 ## Overview
 [![wilsonj806](https://circleci.com/gh/wilsonj806/react-headless-press-blog.svg?style=svg)](https://circleci.com/gh/wilsonj806/react-headless-press-blog)
+[Repository Link](https://github.com/wilsonj806/react-headless-press-blog)
 
 This is a quick gardening blog that'll be built with React for the frontend and headless Wordpress as the CMS. Since it's a blog, we're going to need to add content, so that's where Wordpress comes in. App deployment will be done in AWS at the end and there'll be some form of automated testing and deployments done.
 
