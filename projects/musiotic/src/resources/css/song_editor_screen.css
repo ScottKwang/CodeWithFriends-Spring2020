@@ -6,7 +6,7 @@
 .menu-buttons {
     -fx-alignment: center;
     -fx-spacing: 20;
-    -fx-pref-width: 125;
+    -fx-pref-width: 175;
     -fx-max-width: 125;
     -fx-padding: 5 2 5 2;
     -fx-max-height: inherit;

@@ -31,6 +31,7 @@ public class MusioticLauncher extends Application{
 
         stage.setTitle("Musiotic");
         stage.show();
+        stage.setMaximized(true);
         Phrase intro = new Phrase();
         intro.add(new Note(C4, SIXTEENTH_NOTE));
         intro.add(new Note(E4, SIXTEENTH_NOTE));
@@ -38,5 +39,11 @@ public class MusioticLauncher extends Application{
         intro.add(new Note(C5, EIGHTH_NOTE));
         Score s = new Score(new Part(intro));
         Play.midi(s);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        Play.stopMidi();
+        super.stop();
     }
 }

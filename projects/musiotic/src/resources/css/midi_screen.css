@@ -54,6 +54,7 @@
 .length-buttons .button {
     -fx-font-size: 25;
     -fx-font-weight: 500;
+    -fx-max-width: 85px;
 }
 
 .play-buttons {
