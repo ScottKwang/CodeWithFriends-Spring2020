@@ -1,3 +1,7 @@
+[submodule "projects/CountdownTimer/CountdownTimer-Angular"]
+	path = projects/CountdownTimer/CountdownTimer-Angular
+	url = git@github.com:L4TTiCe/CountdownTimer-Angular.git
+
 [submodule "projects/impure/muse"]
 	path = projects/impure/muse
 	url = https://gitlab.com/azuredown/muse.git
