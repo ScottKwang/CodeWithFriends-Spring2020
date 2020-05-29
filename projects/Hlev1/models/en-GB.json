@@ -1,0 +1,269 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "diagnose",
+      "modelConfiguration": {
+        "fallbackIntentSensitivity": {
+          "level": "LOW"
+        }
+      },
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "BeginDiagnosisIntent",
+          "slots": [
+            {
+              "name": "age",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "gender",
+              "type": "GENDER",
+              "samples": [
+                "I am a girl",
+                "I am a boy",
+                "girl",
+                "boy",
+                "I am a female",
+                "I am female",
+                "I am a male",
+                "I am male",
+                "female",
+                "male"
+              ]
+            }
+          ],
+          "samples": [
+            "begin diagnosis",
+            "begin diagnosis please",
+            "start my diagnosis",
+            "start my diagnosis please",
+            "diagnose me",
+            "diagnose me please",
+            "can you diagnose my symptoms",
+            "can you diagnose my symptoms please",
+            "can you diagnose me",
+            "can you diagnose me please",
+            "I am {gender}",
+            "I am a {gender}",
+            "I am {age}",
+            "I am {age} years old"
+          ]
+        },
+        {
+          "name": "AMAZON.RepeatIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "I'm not sure",
+            "Im not sure",
+            "I dont know"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "MultipleChoiceIntent",
+          "slots": [
+            {
+              "name": "answer",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "{answer}",
+            "I choose {answer}"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": [
+        {
+          "name": "GENDER",
+          "values": [
+            {
+              "name": {
+                "value": "female",
+                "synonyms": [
+                  "girl",
+                  "woman"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "male",
+                "synonyms": [
+                  "boy",
+                  "man"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "BOOLEAN",
+          "values": [
+            {
+              "name": {
+                "value": "present",
+                "synonyms": [
+                  "yes",
+                  "sure",
+                  "yeah",
+                  "I guess",
+                  "kind of",
+                  "I think so",
+                  "yes I think so"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "absent",
+                "synonyms": [
+                  "no",
+                  "nope",
+                  "nah",
+                  "not really",
+                  "I dont think so",
+                  "not that I am aware",
+                  "not that I am aware of",
+                  "not that I know of",
+                  "no I dont think so",
+                  "no not that I am aware",
+                  "no not that I am aware of",
+                  "no not that I know of",
+                  "nope I dont think so",
+                  "nope not that I am aware",
+                  "nope not that I am aware of",
+                  "nope not that I know of"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "BeginDiagnosisIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "age",
+              "type": "AMAZON.NUMBER",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1323207333291.854898796228"
+              },
+              "validations": [
+                {
+                  "type": "isLessThan",
+                  "prompt": "Slot.Validation.1514474544173.872625360360.272791247114",
+                  "value": "110"
+                }
+              ]
+            },
+            {
+              "name": "gender",
+              "type": "GENDER",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1323207333291.563366041005"
+              },
+              "validations": [
+                {
+                  "type": "hasEntityResolutionMatch",
+                  "prompt": "Slot.Validation.951087147386.890057011943.992743927032"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.1323207333291.854898796228",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "How old are you?"
+          }
+        ]
+      },
+      {
+        "id": "Slot.Validation.1514474544173.872625360360.272791247114",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "A sensible age please"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1323207333291.563366041005",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Are you male of female?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1323207333291.563366041035",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What is your name?"
+          }
+        ]
+      },
+      {
+        "id": "Slot.Validation.951087147386.890057011943.992743927032",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "I didnt catch that"
+          },
+          {
+            "type": "PlainText",
+            "value": "Try that again please"
+          },
+          {
+            "type": "PlainText",
+            "value": "That is not a gender, try again please"
+          }
+        ]
+      }
+    ]
+  }
+}
