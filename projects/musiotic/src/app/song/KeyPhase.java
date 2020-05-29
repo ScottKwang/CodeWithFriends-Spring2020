@@ -50,7 +50,7 @@ public class KeyPhase extends Phase {
             "Lydian", JMC.LYDIAN_SCALE,
             "Mixolydian", JMC.MIXOLYDIAN_SCALE
     );
-    public void setChoices(String tonic, String mode) {
+    public void setChoices(String tonic, String mode, double tempo) {
         var newTonic = roots.get(tonic);
         if(newTonic != this.tonic){
             this.tonic = newTonic;
@@ -66,6 +66,7 @@ public class KeyPhase extends Phase {
             manager.forInstrumentalPhase(InstrumentalPhase::initialize);
             completed.setValue(true);
         }
+        manager.setTempo(tempo);
         manager.goToPhase(manager.phaseMap.getNext(getType()));
     }
 

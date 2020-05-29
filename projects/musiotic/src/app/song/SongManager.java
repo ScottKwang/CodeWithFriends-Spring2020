@@ -19,9 +19,7 @@ import util.Scale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class SongManager {
     public final StylePhase stylePhase;
@@ -96,9 +94,9 @@ public class SongManager {
         for (Part part : score.getPartArray())
             for (Phrase phrase : part.getPhraseArray())
                 for (Note note : phrase.getNoteArray()) {
-                    if (note.getPitchType() == Note.MIDI_PITCH) {
+                    if (note.getPitchType() == Note.MIDI_PITCH && note.getPitch() != JMC.REST) {
                         var pitch = note.getPitch();
-                        var inScale = (pitch + tonic) % 12;
+                        var inScale = (pitch - tonic) % 12;
                         var ordInScale = Arrays.binarySearch(this.mode, inScale);
                         if (ordInScale >= 0)
                             Mod.transpose(note, diff[ordInScale]);
@@ -141,12 +139,11 @@ public class SongManager {
         List<Part> oldParts = new ArrayList<>();
         forInstrumentalPhase(phase -> {
             Part part = phase.part;
-            var currPhrases = part.getPhraseList();
-            var tooEarly = ((Vector<Phrase>)currPhrases)
-                    .stream()
+            phase.backupPart();
+            var currPhrases = part.getPhraseArray();
+            Arrays.stream(currPhrases)
                     .filter(phrase -> phrase.getStartTime() < measureNum * 4)
-                    .collect(Collectors.toList());
-            currPhrases.removeAll(tooEarly);
+                    .forEach(part::removePhrase);
             var oldPart = phase.consolidatePart();// Prepare part for playing
             oldParts.add(oldPart);
         });
@@ -164,5 +161,9 @@ public class SongManager {
             }
             curr = phaseMap.getNext(curr.getType());
         }
+    }
+
+    public void setTempo(double tempo) {
+        score.setTempo(tempo);
     }
 }
