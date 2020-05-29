@@ -24,6 +24,7 @@ that make it superior to conventional backup solutions:
 | <img src="./screenshots/develop.png"> | System admin can write custom script in the "develop" page and test it on the spot (with access to all project models as if in `django manage.py shell`). The script can later on be saved and displayed on the home page. |
 | <img src="./screenshots/deploy_create.png"> | System admin can create deployment scheme by specifying which script to run and the interval at which a script run is repeated |
 | <img src="./screenshots/deploy_home.png"> | Deployments in action can be viewed on the deployment home page, and can be terminated with simple button clicks |
+| <img src="./screenshots/sys_log.png"> | System admin can monitor deployment status by querying from system log |
 
 
 ## Remote backup component 
