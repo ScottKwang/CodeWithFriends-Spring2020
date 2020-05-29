@@ -52,16 +52,16 @@ Palm_position = None
 Pressed = False
 
 # Audio files path
-stop_audio_path = 'audios/stop.mp3'
-hello_audio_path = 'audios/hello.mp3'
-Yoo_audio_path = 'audios/Yoo.mp3'
+stop_audio_path = 'LeapMask/audios/stop.mp3'
+hello_audio_path = 'LeapMask/audios/hello.mp3'
+Yoo_audio_path = 'LeapMask/audios/Yoo.mp3'
 
 # Image and gifs files path
-Left_swipe_img_path = 'imgs/Swipe_left_img.png'
-Right_swipe_img_path = 'imgs/Swipe_right_img.png'
-Yoo_img_path = 'imgs/Yoo_img.png'
-Scott_gif_path = 'gifs/scott'
-Icon_path = 'imgs/v3ct0red.png'
+Left_swipe_img_path = 'LeapMask/imgs/Swipe_left_img.png'
+Right_swipe_img_path = 'LeapMask/imgs/Swipe_right_img.png'
+Yoo_img_path = 'LeapMask/imgs/Yoo_img.png'
+Scott_gif_path = 'LeapMask/gifs/scott'
+Icon_path = 'LeapMask/imgs/v3ct0red.png'
 
 # Paths to serialized detector and loads
 prototxt_Path = 'models/deploy.prototxt'
