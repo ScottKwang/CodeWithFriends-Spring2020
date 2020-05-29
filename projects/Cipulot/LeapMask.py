@@ -64,9 +64,9 @@ Scott_gif_path = 'LeapMask/gifs/scott'
 Icon_path = 'LeapMask/imgs/v3ct0red.png'
 
 # Paths to serialized detector and loads
-prototxt_Path = 'models/deploy.prototxt'
-weights_Path = 'models/mask_model.caffemodel'
-model_Path = 'models/mask_detector.model'
+prototxt_Path = 'LeapMask/models/deploy.prototxt'
+weights_Path = 'LeapMask/models/mask_model.caffemodel'
+model_Path = 'LeapMask/models/mask_detector.model'
 
 # Set a threshold for face detection
 confidence_threshold = 0.6
