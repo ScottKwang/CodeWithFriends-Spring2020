@@ -21,13 +21,32 @@ body {
   left: 70%;
   top: 2%;
   margin-top: 50px;
+  animation-name: cloud-animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 .botCloud {
   position: absolute;
   left: 20%;
   top: 30%;
+  animation-name: cloud-animation2;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
+
+@keyframes cloud-animation{
+  0% {left: 70%;}
+  50% {left: 69.5%;}
+  100% {left: 70%;}
+}
+
+@keyframes cloud-animation2{
+  0% {left: 20%;}
+  50% {left: 20.5%;}
+  100% {left: 20%;}
+}
+
 
 .mountain1 {
   position: absolute;

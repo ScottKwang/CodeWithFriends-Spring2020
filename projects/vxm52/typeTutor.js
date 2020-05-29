@@ -5,6 +5,11 @@ for (keycodeNumber = 97; keycodeNumber <= 122; keycodeNumber++)
     keycodeArray.push(keycodeNumber);
 }
 
+var myMusic = new Audio("sound/bensound-littleidea.mp3"); //Credits to Bensound.com
+myMusic.volume = 0.3;
+var successSound = new Audio("sound/success.mp3");
+var errorSound= new Audio("sound/error.mp3");
+
 
 //LETTER BASE
 var letterBase, gamePlaying;
@@ -27,6 +32,7 @@ var letterColor = document.getElementById("randomLetter");
 //Start the game
 function startGame()
 {
+    myMusic.play();
     var speedPref = prompt('How many milliseconds do you want between each word?')
     console.log('The game has started');
 
@@ -109,10 +115,11 @@ document.addEventListener('keypress', function(event) {
             letterColor.style.color = "black";
         }
 
-          //Add to score
-          trackerRight = trackerRight + 1;
-          score = score + 1;
-          pointDisplay();
+        successSound.play();
+        //Add to score
+        trackerRight = trackerRight + 1;
+        score = score + 1;
+        pointDisplay();
       }
       else //Countdown has finished (game ended)
       {
@@ -133,6 +140,7 @@ document.addEventListener('keypress', function(event) {
               letterColor.style.color = "black";
           }
 
+          errorSound.play();
           //Deduct score
           trackerWrong = trackerWrong + 1;
           score = score - 1;

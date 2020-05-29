@@ -1,9 +1,9 @@
 # ReactTypingTutor
+Simple Typing Tutor Game
 
 Made for "Code with Friends Spring 2020"
 
 Play the game here: https://vxm52.github.io/ReactTypingTutor/
-
 
 Created by Sumer Sen and Vaibhav Sen Malla, https://github.com/ssen97 and https://github.com/vxm52
 
