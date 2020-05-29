@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "B6A45EBA-C03E-46A4-A510-6873E0C27A04"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5C5190F1-6867-4014-9956-2388FBA2AE4E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/Kanas.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "5C5190F1-6867-4014-9956-2388FBA2AE4E - 40091f71df96db3e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.kanaToggles.unsafeMutableAddressor : Kana_Card.KanaToggles"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "135"
+                  endingLineNumber = "135"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "5C5190F1-6867-4014-9956-2388FBA2AE4E - f18e19ed441825ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "globalinit_33_FEB525183B14C9524D14A92D7ECE5E2C_func0"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "135"
+                  endingLineNumber = "135"
+                  offsetFromSymbolStart = "11">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C2D7DA4-E3B0-4F77-B410-46F768F58D57"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "0C2D7DA4-E3B0-4F77-B410-46F768F58D57 - fb8d147026afff7a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.ContentView.body.getter : some"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "361">
+               </Location>
+               <Location
+                  uuid = "0C2D7DA4-E3B0-4F77-B410-46F768F58D57 - 668b1340653fa668"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.navigationBarTitle(SwiftUI.Text) -&gt; some&gt;&gt;.0 in Kana_Card.ContentView.body.getter : some"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "968">
+               </Location>
+               <Location
+                  uuid = "0C2D7DA4-E3B0-4F77-B410-46F768F58D57 - d0d2496d9392e69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in Kana_Card.ContentView.body.getter : some"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "10">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/CardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "CardView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - b323faf5ef75ae10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of Kana_Card.CardView.kanaIsShown : Swift.Bool"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - bcefe545ac27446a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.kanaIsShown.getter : Swift.Bool"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "113">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - 80a71123f34bac5e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.kanaIsShown.setter : Swift.Bool"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - 2044b1fcd470aa69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.kanaIsShown.modify : Swift.Bool"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "50">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - 872cdd90dd388a5e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.kanaIsShown.modify : Swift.Bool with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "25">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - a1f07de2a8548b76"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.$kanaIsShown.getter : SwiftUI.Binding&lt;Swift.Bool&gt;"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "121">
+               </Location>
+               <Location
+                  uuid = "5A529657-E0CA-4006-96F6-C3DAF9CFC900 - 53eef1536145e906"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.init() -&gt; Kana_Card.CardView"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24BD4E49-F01F-4CBA-A1F9-E705FEC59475"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/CardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "CardView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "24BD4E49-F01F-4CBA-A1F9-E705FEC59475 - be3ce299f4ba18e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.init(kanaIsShown: Swift.Bool, shownKana: Swift.String, buttonText: Swift.String, colorScheme: SwiftUI.Environment&lt;SwiftUI.ColorScheme&gt;) -&gt; Kana_Card.CardView"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  uuid = "24BD4E49-F01F-4CBA-A1F9-E705FEC59475 - 53eef1536145e906"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.CardView.init() -&gt; Kana_Card.CardView"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/xcode/Kana%20Card/Kana%20Card/CardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24FA4CC4-EE97-4355-A4FA-434E705C46A2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/Kanas.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "buildMasterArray()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60582DFF-EC4E-401C-BEAA-0238F127AC14"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/Kanas.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "Kana"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E24B556-12BC-4369-9336-577CA61D6887"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/Kanas.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "getRandomKana(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1899BEC4-C3D2-4206-9BF2-3C50C0879C84"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "13F5BB47-9F03-4859-A54F-C2A21D48A8C2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kana Card/Kanas.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "KanaToggles"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "13F5BB47-9F03-4859-A54F-C2A21D48A8C2 - 1a429e9f3f614e74"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.KanaToggles.deinit"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "13F5BB47-9F03-4859-A54F-C2A21D48A8C2 - 7d860abd83cf8541"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.KanaToggles.__deallocating_deinit"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "13F5BB47-9F03-4859-A54F-C2A21D48A8C2 - 64c979645b9c3f16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.KanaToggles.__allocating_init() -&gt; Kana_Card.KanaToggles"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "17">
+               </Location>
+               <Location
+                  uuid = "13F5BB47-9F03-4859-A54F-C2A21D48A8C2 - d44cb65f89d7d5a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kana_Card.KanaToggles.init() -&gt; Kana_Card.KanaToggles"
+                  moduleName = "Kana Card"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adambalogh/@Programming/github/CodeWithFriends-Spring2020/projects/borntobegeek/Kana%20Card/Kana%20Card/Kanas.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "23">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -1,0 +1,35 @@
+{
+  "name": "Commensals",
+  "displayName": "Commensals",
+  "version": "1.0.0",
+  "description": "A place where you can shere your thougths on food and restaurants.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Richard Jimenez",
+  "license": "MIT",
+  "dependencies": {
+    "cordova-android": "^8.1.0",
+    "cordova-plugin-badge": "^0.8.8",
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-local-notification": "^0.9.0-beta.2"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-local-notification": {},
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "^1.3.4"
+  }
+}
