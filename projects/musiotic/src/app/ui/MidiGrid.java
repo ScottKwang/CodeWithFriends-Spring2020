@@ -59,9 +59,9 @@ public class MidiGrid {
     private HashMap<IntegerArray, MidiPane> cells;
 
     // True if currently playing
-    private boolean playing = false;
-    Timer playingTimer;
+    private BorderPane playPane;
 
+    private int measureStart = 0;
 
     //TODO: CSS measure borders THICCER
     //TODO: Set up Add measures for left and right side (add buttons as well)
@@ -156,32 +156,28 @@ public class MidiGrid {
         Button button = new Button("", imageView);
 
         button.setPadding(Insets.EMPTY);
-        BorderPane pane = new BorderPane();
-        pane.setTop(label);
-        pane.setAlignment(label, Pos.CENTER);
-        pane.setCenter(button);
-
-        playingTimer = new Timer();
-
+        playPane = new BorderPane();
+        playPane.setTop(label);
+        playPane.setAlignment(label, Pos.CENTER);
+        playPane.setCenter(button);
 
         button.setOnMouseClicked(e -> {
-            BorderPane tempPane = (BorderPane) button.getParent();
-            setPlayButton(tempPane, false);
+            phase.manager.play(measureStart);
+//            BorderPane tempPane = (BorderPane) button.getParent();
+//            setPlayButton(tempPane, false);
         });
 
-        return pane;
+        return playPane;
     }
 
-    private void setPlayButton(BorderPane tempPane, boolean fromTimer) {
-        if (!playing) {
+    public void setPlayButton(boolean playing) {
+        if (playing) {
             //START PLAYING
 //            System.out.println("START PLAYING");
-            playing = true;
-            phase.manager.play(0);
-            //TODO: Create a function that will play the number measure from starting slider.
+            //phase.manager.play(0);
 
-            Label label = (Label) tempPane.getChildren().get(0);
-            Button button = (Button) tempPane.getChildren().get(1);
+            Label label = (Label) playPane.getChildren().get(0);
+            Button button = (Button) playPane.getChildren().get(1);
 
             label.setText("Stop");
 
@@ -191,30 +187,15 @@ public class MidiGrid {
             imageView.setFitWidth(75);
             button.setGraphic(imageView);
 
-            double time = (double)(phase.manager.numMeasures*4) * 60 * 1000 / phase.manager.getTempo();
-            time += 200;
-            System.out.println("Playing for ms: " + time);
-            playingTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        setPlayButton(tempPane, true);
-                    });
-                }
-            }, (int) time);
-
         } else {
             //STOP PLAYING
-            playingTimer.cancel();
-            playingTimer = new Timer();
 //            System.out.println("STOP PLAYING");
-            playing = false;
-            if (!fromTimer) {
-                phase.manager.stop();
-            }
+//            if (!fromTimer) {
+//                phase.manager.stop();
+//            }
 
-            Label label = (Label) tempPane.getChildren().get(0);
-            Button button = (Button) tempPane.getChildren().get(1);
+            Label label = (Label) playPane.getChildren().get(0);
+            Button button = (Button) playPane.getChildren().get(1);
 
             label.setText("Play");
 
@@ -328,8 +309,33 @@ public class MidiGrid {
     public void initializeCells() {
         // Top Vertical Bar
         for(int i = 0; i < phase.manager.numMeasures; i++) {
+            Label measureArrow = new Label("↓");
             Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
-            gridPane.add(measureNumber, i*16 + 1, 0, 4, 1);
+            HBox box = new HBox(measureArrow, measureNumber);
+            gridPane.add(box, i*16 + 1, 0, 4, 1);
+            if (i == 0) {
+                measureArrow.setId("big-arrow");
+            } else {
+                measureArrow.setId("small-arrow");
+            }
+            box.setOnMouseClicked(e -> {
+                GridPane.getColumnIndex(box);
+                GridPane.getRowIndex(box);
+                System.out.println(measureNumber.getText() + " Clicked!");
+                System.out.println("col " + GridPane.getColumnIndex(box) + " row " + GridPane.getRowIndex(box));
+                measureStart = ((GridPane.getColumnIndex(box)-1)/16);
+                measureArrow.setId("big-arrow");
+                for (Node node : gridPane.getChildren()) {
+                    if ((GridPane.getRowIndex(node) == 0) && (((GridPane.getColumnIndex(node)-1) % 16) == 0)) {
+                        Label arrow = (Label) ((HBox) (node)).getChildren().get(0);
+                        if (arrow != null) {
+                            if (arrow != measureArrow) {
+                                arrow.setId("small-arrow");
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         if (phase.getType() == Phase.Type.Drums) {

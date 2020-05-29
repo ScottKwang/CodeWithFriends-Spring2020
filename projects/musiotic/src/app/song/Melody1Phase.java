@@ -20,4 +20,9 @@ public class Melody1Phase extends InstrumentalPhase {
     public Node getScreen() {
         return screen.getScreen();
     }
+
+    @Override
+    protected void setPlayButton(boolean playing) {
+        screen.setPlayButton(playing);
+    }
 }

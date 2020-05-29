@@ -44,4 +44,10 @@ public abstract class MidiScreen implements Screen {
         }
         return screen;
     }
+
+    public void setPlayButton(boolean playing) {
+        if (midiGrid != null) {
+            midiGrid.setPlayButton(playing);
+        }
+    }
 }

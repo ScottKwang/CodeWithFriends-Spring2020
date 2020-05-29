@@ -22,4 +22,11 @@
     -fx-max-width: 50;
 }
 
-
+#big-arrow {
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+}
+#small-arrow {
+    -fx-font-size: 20;
+    -fx-font-weight: lighter;
+}
