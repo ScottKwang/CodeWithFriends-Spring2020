@@ -11,13 +11,17 @@ that make it superior to conventional backup solutions:
 ## User side major features
 | Feature screenshot| Explanation |
 | :--- | :------- |
-| <img src="./screenshots/login.png"> | Register and login just like with Google Doc; each user has access to only his/her own archives. This allows an entire family to use a single server. |
+| <img src="./screenshots/login.png" width="1300"> | Register and login just like with Google Doc; each user has access to only his/her own archives. This allows an entire family to use a single server. |
 | <img src="./screenshots/create_archive.png"> | Create an archive with a simple setup of choosing a file and giving it an archive name. Creating an archive initiates the process of transferring data from user's laptop to the local server using high speed local network |
 | <img src="./screenshots/archive_detail.png"> | The detail page of an archive explains how a complete file is chunked into smaller batches and gives each batch of data a unique index for easy identication |
 | <img src="./screenshots/archive_home.png"> | Archive becomes visible in the user's home page after creating it locally |
-| <img src="./screenshots/uploading_to_s3.png"> | Track the progress of archive upload through visual cues: if a file part has been remotely backed up to S3, `is it uploaded` becomes green
+| <img src="./screenshots/uploading_to_s3.png"> | Track the progress of archive upload through visual cues: if a file part has been remotely backed up to S3, `is it uploaded` becomes green |
+| <img src="./screenshots/uploaded.png"> | Once an archive is completely backed up to remote, it can be "uncached" to make space to later archives |
+| <img src="./screenshots/cache_queued.png"> | An archive that is not locally avaialble can be requested to be cached from remote; the batch download process happens in the background |
+| <img src="./screenshots/cached.png"> | After all archive's parts are in place, they will be assembled back into the original archive file for immediate access. After assembly, the download button will come back |
+| <img src="./screenshots/archive_delete.png"> | Archive can be deleted permanently |
 
-## Sysadmin major features
+## Admin side major features
 | Feature screenshot | Explanation |
 |:---|:---|
 | <img src="./screenshots/admintool_home.png" width="1300">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
