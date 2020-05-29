@@ -163,7 +163,7 @@ class Ui_MainWindow(object):
     # Open github repo
     def GitHub_link(self):
         os.system(
-            "start \"\" https://github.com/Cipulot/CodeWithFriends-Spring2020/tree/master/projects/Cipulot")
+            "start \"\" https://github.com/Cipulot/LeapMask")
 
     # Open about dialog window
     def open_about(self):
