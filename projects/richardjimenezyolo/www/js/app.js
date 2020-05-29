@@ -168,7 +168,7 @@ let add_card = (name, where) => {
 function get_cards() {
     swipe.slideTo(1);
 
-    document.querySelector("#main").innerHTML = '';
+    document.querySelector("#main").innerHTML = '<img class="loading" src="loading.png">';
 
     let xhr = new XMLHttpRequest()
     xhr.open("GET", api_url)
