@@ -1,36 +1,37 @@
 # BingeSquad - help me find another name :D
 
 Created by Patrick Vigneault, [github](https://github.com/vigpatrick), [Linkedin](https://www.linkedin.com/in/patrick-vigneault-84b50884/)
+
 Source code: [source](https://github.com/vigpatrick/CodeWithFriends-Spring2020/tree/master)
 
 ## Summary
 
-BingeSquad was basically an app I build to work a bit with the new version of rails 6. On BingeSquad, you can publish or join event with random people in order to watch a movie, a series or even anime.
+BingeSquad is an app I built to work with the new version of rails 6. On the app you can publish or join events with random people, from watching a movie, to binging your favourite series, even an episode of an anime.
 
-The owner as the role create an event and on the day of it, you can join his discord and he'll stream the movie.
+Sadly, The app doesn’t do all the work. The event’s creator must add a discord link for users to use on the day of the gathering in order to join the platform and watch the movies. The owner manages everything on discord.
 
-Basic and lot of work ... I know, I only had a month and it was for fun and education. But you meet fantastic people with this hard work "insert winky face"
+Basic and a lot of work ... I know. I only had a month and it was for fun and an educational experience. But you meet fantastic people from with this hard work "insert winky face"
 
-With BingeSquad you can met new people during those hard time around one of your favorite movie or watch that damn movie that have been collecting dust at the bottom of this mystical list of yours or that one you were not able to find anywhere.
+With BingeSquad you can meet new people during these trying times and bond over your favourite movies. Or watch that dang film that has been collecting dust at the bottom of some mystical list, maybe that old show you just can’t find anywhere.
 
 (Insert any pictures or screenshots of your final project here)
 
 ## Inspiration
 
-I really like to watch movie with my friend and girlfriend, using a streaming plateforme. I saw on reddit people hosting events for some movies like this and here we are.
+I really like to watch movies with my friends using a streaming platform. I saw the same method of hosting events for movies on Reddit, and here we are
 
 ## Challenges
 
-No challenge what so ever, just trying to find some time with my new semester, who tought that an engineer course would take so much time ....
+No challenge whatsoever. The biggest issue was trying to find some time during my   new semester, I was never able to assist on Mayuko's café. Who thought that an engineering course would take so much of my time...
 
 ## Reflections
 
 (1. What did you learn during this process (whether that be technical skills, or new things you learned about yourself, time management, etc?)
-Learn a few things about rails 6.
+I learned a few things about rails 6 for sure. I also haven’t started a project on my own, outside of school in a while, I realize that now I have a more methodical way of approaching things and I'm way more thoughtful of the choices that I make
 
 (2. What would you have done differently if you could do it again?)
-Not much, just plan more ahead.
+Not much, just plan more ahead. Maybe in a more professional context, I would do more research on users and how the service can help them and if they find the concept interesting or not.
 
 (3. What resources did you find most helpful in working on your project?)
 
-... Music hahaha, joke aside discord offer lots of cool things, sadly didn't had much time to explore, maybe i could've find some way to reduce the workload for the event owner.
+... Music hahaha, jokes aside, discord offers lots of cool things, sadly I didn't have much time to explore those, maybe I could've found some way to reduce the workload for the event owner.
