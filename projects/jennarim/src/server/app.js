@@ -190,6 +190,7 @@ io.on('connection', function(socket) {
 								}
 								ball.currentlyCollidedWithPaddle = true;
 								ball.playerNoOfPaddleCollidedWith = paddle.playerNo;
+								ball.color = paddle.color;
 							}
 							break;
 						} else {
@@ -207,12 +208,7 @@ io.on('connection', function(socket) {
 						if (ball.outOfBounds(goal)) {
 							if (ball.alreadyPastGoal) {
 								// Reset the ball
-								ball.x = c.WIDTH/2;
-								ball.y = c.HEIGHT/2;
-								const angle = (360 * Math.random()) * (Math.PI/180);
-								ball.vx = c.BALL_INITIAL_VX * Math.sin(angle);
-								ball.vy = c.BALL_INITIAL_VY * Math.cos(angle);
-								ball.alreadyPastGoal = false;
+								ball.reset();
 							} else {
 								if (ball.playerNoOfPaddleCollidedWith) {
 									const playerToIncrScore = currentRoom.getPlayerWithPlayerNo(ball.playerNoOfPaddleCollidedWith);

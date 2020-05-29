@@ -6,33 +6,38 @@ const c = require('./../lib/constants.js');
 function paddleArgsBasedOn(playerNo) {
     let xPos, yPos;
     let width, height;
+    let color;
     switch (playerNo) {
         case 1: // left
             xPos = c.WALL_WIDTH - c.PADDLE_SHORT_LENGTH;
             yPos = c.WALL_HEIGHT;
             width = c.PADDLE_SHORT_LENGTH;
             height = c.PADDLE_LONG_LENGTH;
+            color = "crimson";
             break;
         case 2: // right
             xPos = c.WALL_WIDTH + c.GOAL_POST_LENGTH;
             yPos = c.WALL_HEIGHT;
             width = c.PADDLE_SHORT_LENGTH;
             height = c.PADDLE_LONG_LENGTH;
+            color = "moccasin";
             break;
         case 3: // up
             xPos = c.WALL_WIDTH;
             yPos = c.WALL_HEIGHT - c.PADDLE_SHORT_LENGTH;
             width = c.PADDLE_LONG_LENGTH;
             height = c.PADDLE_SHORT_LENGTH;
+            color = "lightgreen";
             break;
         case 4: // down
             xPos = c.WALL_WIDTH;
             yPos = c.WALL_HEIGHT + c.GOAL_POST_LENGTH;
             width = c.PADDLE_LONG_LENGTH;
             height = c.PADDLE_SHORT_LENGTH;
+            color = "cornflowerblue";
             break;
     }
-    return [xPos, yPos, width, height, playerNo];
+    return [xPos, yPos, width, height, playerNo, color];
 }
 
 class Player {

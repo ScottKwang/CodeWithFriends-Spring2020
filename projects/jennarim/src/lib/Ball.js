@@ -9,6 +9,7 @@ class Ball {
         this.vx = vx;
         this.vy = vy;
         this.radius = radius;
+        this.color = "white";
     }
 
     collidesWithWall(wall) {    
@@ -85,8 +86,18 @@ class Ball {
         return (dx*dx+dy*dy<=(this.radius*this.radius));
     }
 
+    reset() {
+        this.x = c.WIDTH/2;
+        this.y = c.HEIGHT/2;
+        this.color = "white";
+        const angle = (360 * Math.random()) * (Math.PI/180);
+        this.vx = c.BALL_INITIAL_VX * Math.sin(angle);
+        this.vy = c.BALL_INITIAL_VY * Math.cos(angle);
+        this.alreadyPastGoal = false;
+    }
+
     render(ctx) {
-        ctx.fillStyle = "white";
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();

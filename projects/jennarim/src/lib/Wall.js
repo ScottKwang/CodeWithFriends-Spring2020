@@ -6,11 +6,6 @@ class Wall {
         this.height = height;
     }
 
-    render(ctx) {
-        ctx.fillStyle = "blue";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-
     ballIsBelow(ball) {
         return (this.y + this.height) < (ball.y - ball.radius);
     }
@@ -28,9 +23,6 @@ class Wall {
     }
 
     touchedBy(ball) {
-        // const ballIsOutsideOfWall = this.ballIsLeft(ball) || this.ballIsRight(ball) || this.ballIsAbove(ball) || this.ballIsBelow(ball);
-        // return !ballIsOutsideOfWall;
-
         const ballisTouchingLeftSide = !this.ballIsLeft(ball),
             ballIsTouchingTopSide = !this.ballIsAbove(ball),
             ballIsTouchingRightSide = !this.ballIsRight(ball),
@@ -55,6 +47,11 @@ class Wall {
         }
 
         return {ballTouchesWall, sideOfWallBallTouches};
+    }
+
+    render(ctx) {
+        ctx.fillStyle = "#333";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 

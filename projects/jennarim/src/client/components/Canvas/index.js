@@ -35,7 +35,7 @@ class Canvas extends React.Component {
         socket.on('restart', function() {
             // Black background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = c.BG_COLOR;
             ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
 
             // Show someone disconnected
@@ -47,9 +47,9 @@ class Canvas extends React.Component {
 
         socket.on('game over', function(winner) {
             // Black background
-            ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
+            // ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
+            // ctx.fillStyle = c.BG_COLOR;
+            // ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
 
             // Show someone disconnected
             ctx.font = '25px serif';
@@ -64,7 +64,7 @@ class Canvas extends React.Component {
         socket.on('state', function(data) {
             // Draw background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = c.BG_COLOR;
             ctx.fillRect(0, 0, c.WIDTH, c.HEIGHT);
 
             // Draw walls

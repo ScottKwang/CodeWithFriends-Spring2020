@@ -8,6 +8,7 @@ module.exports = Object.freeze({
     WIDTH: WIDTH,
     HEIGHT: HEIGHT,
     BORDER_LENGTH: 5,
+    BG_COLOR: "darkgray",
 
     WALL_WIDTH: WIDTH/4,
     WALL_HEIGHT: HEIGHT/4,
