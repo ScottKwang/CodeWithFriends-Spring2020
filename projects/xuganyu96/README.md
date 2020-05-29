@@ -11,7 +11,7 @@ that make it superior to conventional backup solutions:
 ## User side major features
 | Feature screenshot| Explanation |
 | :--- | :------- |
-| <img src="./screenshots/login.png" width="2000"> | Register and login just like with Google Doc; each user has access to only his/her own archives. This allows an entire family to use a single server. |
+| <img src="./screenshots/login.png" width="2200"> | Register and login just like with Google Doc; each user has access to only his/her own archives. This allows an entire family to use a single server. |
 | <img src="./screenshots/create_archive.png"> | Create an archive with a simple setup of choosing a file and giving it an archive name. Creating an archive initiates the process of transferring data from user's laptop to the local server using high speed local network |
 | <img src="./screenshots/archive_detail.png"> | The detail page of an archive explains how a complete file is chunked into smaller batches and gives each batch of data a unique index for easy identication |
 | <img src="./screenshots/archive_home.png"> | Archive becomes visible in the user's home page after creating it locally |
@@ -24,7 +24,7 @@ that make it superior to conventional backup solutions:
 ## Admin side major features
 | Feature screenshot | Explanation |
 |:---|:---|
-| <img src="./screenshots/admintool_home.png" width="2000">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
+| <img src="./screenshots/admintool_home.png" width="2200">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
 | <img src="./screenshots/develop.png"> | System admin can write custom script in the "develop" page and test it on the spot (with access to all project models as if in `django manage.py shell`). The script can later on be saved and displayed on the home page. |
 | <img src="./screenshots/deploy_create.png"> | System admin can create deployment scheme by specifying which script to run and the interval at which a script run is repeated |
 | <img src="./screenshots/deploy_home.png"> | Deployments in action can be viewed on the deployment home page, and can be terminated with simple button clicks |
