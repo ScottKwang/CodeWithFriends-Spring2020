@@ -108,37 +108,37 @@ io.on('connection', function(socket) {
 			const player = currentRoom.players[socket.id];
 			if (player) {
 				const paddle = player.getPaddle();
-			if (paddle) {
-				let paddlePosX, paddlePosY;
-				switch (paddle.playerNo) {
-					case 1: // left
-					case 2: // right
-						const minY = c.WALL_HEIGHT;
-						const maxY = minY + c.GOAL_POST_LENGTH;
-						if (mousePos.y < minY) {
-							paddlePosY = minY;
-						} else if ((mousePos.y + c.PADDLE_LONG_LENGTH) > maxY) {
-							paddlePosY = maxY - c.PADDLE_LONG_LENGTH;
-						} else {
-							paddlePosY = mousePos.y;
-						}
-						paddle.setY(paddlePosY);
-						break;
-					case 3: // up
-					case 4: // down
-						const minX = c.WALL_WIDTH;
-						const maxX = minX + c.GOAL_POST_LENGTH;
-						if (mousePos.x < minX) {
-							paddlePosX = minX;
-						} else if ((mousePos.x + c.PADDLE_LONG_LENGTH) > maxX) {
-							paddlePosX = maxX - c.PADDLE_LONG_LENGTH;
-						} else {
-							paddlePosX = mousePos.x;
-						}
-						paddle.setX(paddlePosX);
-						break;
-				}
-			}	
+				if (paddle) {
+					let paddlePosX, paddlePosY;
+					switch (paddle.playerNo) {
+						case 1: // left
+						case 2: // right
+							const minY = c.WALL_HEIGHT;
+							const maxY = minY + c.GOAL_POST_LENGTH;
+							if (mousePos.y < minY) {
+								paddlePosY = minY;
+							} else if ((mousePos.y + c.PADDLE_LONG_LENGTH) > maxY) {
+								paddlePosY = maxY - c.PADDLE_LONG_LENGTH;
+							} else {
+								paddlePosY = mousePos.y;
+							}
+							paddle.setY(paddlePosY);
+							break;
+						case 3: // up
+						case 4: // down
+							const minX = c.WALL_WIDTH;
+							const maxX = minX + c.GOAL_POST_LENGTH;
+							if (mousePos.x < minX) {
+								paddlePosX = minX;
+							} else if ((mousePos.x + c.PADDLE_LONG_LENGTH) > maxX) {
+								paddlePosX = maxX - c.PADDLE_LONG_LENGTH;
+							} else {
+								paddlePosX = mousePos.x;
+							}
+							paddle.setX(paddlePosX);
+							break;
+					}
+				}	
 			}
 		}
 	});
