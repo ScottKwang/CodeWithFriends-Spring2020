@@ -246,15 +246,22 @@ public class MidiGrid {
             Scale scale = phase.manager.getScale();
             List<SimpleStringProperty> scaleNames = scale.getNames();
             List<SimpleIntegerProperty> scaleValues = scale.getValues();
+            int noteStart = 0;
+            if (phase.getType() == Phase.Type.Melody1) {
+                noteStart = 7;
+            } else {
+                noteStart = 0;
+            }
+
 
             for(int j = 0; j < phase.manager.numNotes; j++) {
                 Label noteLabel = new Label();
-                noteLabel.textProperty().bind(scaleNames.get(j));
+                noteLabel.textProperty().bind(scaleNames.get(j + noteStart));
                 noteLabel.setStyle("-fx-padding: 0 0 0 15");
 
                 Label noteValue = new Label();
                 //Sum of 0 + scaleValues.get(j)
-                NumberBinding noteVal = Bindings.add(0,scaleValues.get(j));
+                NumberBinding noteVal = Bindings.add(0,scaleValues.get(j + noteStart));
                 noteValue.textProperty().setValue(noteVal.getValue().toString());
                 noteValue.setVisible(false);
                 HBox note = new HBox(noteLabel, noteValue);
@@ -488,6 +495,7 @@ public class MidiGrid {
                 case "EDIT":
                     System.out.println("EDIT");
                     //TODO: I believe there's still a bug that if a note is extended over another (consuming it), it doesnt delete that note.
+                    // HAVE TO FIX THIS
                     if (editPane == null) {
                         Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
                         if (r.getFill() == Color.WHITESMOKE) {

@@ -34,13 +34,13 @@ public class KeyPhase extends Phase {
     }
 
     public static final Map<String, Integer> roots = Map.of(
-            "A", JMC.A3,
-            "B", JMC.B3,
-            "C", JMC.C4,
-            "D", JMC.D4,
-            "E", JMC.E4,
-            "F", JMC.F4,
-            "G", JMC.G4
+            "A", JMC.A2,
+            "B", JMC.B2,
+            "C", JMC.C3,
+            "D", JMC.D3,
+            "E", JMC.E3,
+            "F", JMC.F3,
+            "G", JMC.G3
     );
 
     public static final Map<String, int[]> modes = Map.of(
@@ -73,7 +73,7 @@ public class KeyPhase extends Phase {
         var noteList = new ArrayList<String>();
         var noteValues = new ArrayList<Integer>();
 
-        for(char current = newTonic; current < newTonic + manager.numNotes; current++){
+        for(char current = newTonic; current < newTonic + manager.numNotes*2-1; current++){
             var noteVal = (char) (((current - 'A') % 7) + 'A');
             var noteName = new StringBuilder(String.valueOf(noteVal));
             var jmVal = roots.get(String.valueOf(noteVal));
@@ -97,6 +97,7 @@ public class KeyPhase extends Phase {
                     break;
             }
             noteList.add(noteName.toString());
+            System.out.println(noteName.toString());
             noteValues.add(realVal);
         }
 

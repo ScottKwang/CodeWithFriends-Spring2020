@@ -142,7 +142,7 @@ public abstract class InstrumentalPhase extends Phase {
     }
 
     public void addMeasure(boolean right){
-        if(right){
+//        if(right){
             var end = part.getEndTime();
             for(var phrases : phraseMap.values()){
                 var phrase = new Phrase();
@@ -152,18 +152,18 @@ public abstract class InstrumentalPhase extends Phase {
                 part.addPhrase(phrase);
                 phrases.add(phrase);
             }
-        } else {
-            for(var phrases : phraseMap.values()){
-                for(var phrase : phrases)
-                    phrase.setStartTime(phrase.getStartTime() + 4);
-                var measure = new Phrase();
-                measure.setStartTime(0);
-                measure.setAppend(false);
-                measure.addNote(new Note(JMC.REST, JMC.WHOLE_NOTE));
-                part.addPhrase(measure);
-                phrases.add(0, measure);
-            }
-        }
+//        } else {
+//            for(var phrases : phraseMap.values()){
+//                for(var phrase : phrases)
+//                    phrase.setStartTime(phrase.getStartTime() + 4);
+//                var measure = new Phrase();
+//                measure.setStartTime(0);
+//                measure.setAppend(false);
+//                measure.addNote(new Note(JMC.REST, JMC.WHOLE_NOTE));
+//                part.addPhrase(measure);
+//                phrases.add(0, measure);
+//            }
+//        }
     }
 
     public Part consolidatePart() {
