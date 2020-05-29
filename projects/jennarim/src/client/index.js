@@ -16,7 +16,6 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				Welcome to React! <br></br>
 				<Lobby socket={socket}/> <br></br>
 				<Canvas socket={socket}/> <br></br>
 				{/* <Logo /> */}
