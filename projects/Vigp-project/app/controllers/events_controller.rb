@@ -1,23 +1,30 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_resource, only: [:show, :edit, :update, :join, :quit]
+  before_action :find_resource, only: %i[show edit update join quit]
 
   def index
     @events = Event.all
   end
 
   def new
-    @event = Event.new()
+    @event = Event.new
   end
 
-  def edit
+  def show
+    @can_participate = current_user != @event.user && !@event.participations.include?(current_user) && ((@event.participations < @event.max_user) || (event.max_user = 0))
+    @eventStartingSoon = Time.now.year - @event.date.year == 0 &&
+      Time.now.day - @event.date.day == 0 &&
+      Time.now.hour - @event.date.hour == 0
+
   end
+
+  def edit; end
 
   def update
     if @event.update(event_params)
       redirect_to event_path(@event), notice: 'Event updated'
     else
-      render :edit
+      redirect_to edit_event_path(@event), alert:  @event.errors.full_messages.first
     end
   end
 
@@ -27,13 +34,13 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to event_path(@event), notice: 'Event create and ready to receive participants'
     else
-      render :new
+      redirect_to new_event_path(), alert:  @event.errors.full_messages.first
     end
   end
 
   def join
     user = User.find(params[:user])
-    if Participant.create(event: @event,user: user)
+    if Participant.create(event: @event, user: user)
       redirect_to event_path(@event), notice: 'Successfully join the event'
     else
       render :show

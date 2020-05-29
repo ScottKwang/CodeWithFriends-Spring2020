@@ -8,6 +8,8 @@
         - else
           = image_tag 'unknown', class: 'event-image-200'
         .user-infos
+          - if @eventStartingSoon and @event.participations.include?(current_user)
+            = link_to t('discord'), @event.discord_url, class: "btn btn-primary btn-lg"
           h3 = t('event.infos')
           div
             span.event-label = t('event.time')
@@ -23,6 +25,7 @@
             div
               span.event-label = t('event.description')
               span#movieDesc
+
       .col-sm-8
         .profile-title
           div
@@ -33,7 +36,7 @@
           div
           - if current_user == @event.user
             = link_to t('Edit'), edit_event_path(@event), class: "btn btn-primary btn-lg"
-          - if current_user != @event.user && !@event.participations.include?(current_user)
+          - if @can_participate
             = link_to t('Participate'), join_event_path(@event, user: current_user), class: "btn btn-primary btn-lg"
           - if current_user != @event.user && @event.participations.include?(current_user)
             = link_to t('Quit'), quit_event_path(@event, user: current_user), class: "btn btn-primary btn-lg"

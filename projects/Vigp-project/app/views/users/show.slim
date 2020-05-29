@@ -16,3 +16,23 @@
           div = format_name(@user)
           = link_to t('Edit'), edit_user_registration_path(@user), class: "btn btn-primary btn-lg"
         .user-data
+          ul#myTab.nav.nav-tabs role="tablist"
+            li.nav-item
+              a#hosting-tab.nav-link.active aria-controls="hosting" aria-selected="true" data-toggle="tab" href="#hosting" role="tab"  = t('hosting')
+            li.nav-item
+              a#profile-tab.nav-link aria-controls="participating" aria-selected="false" data-toggle="tab" href="#participating" role="tab" = t('participating')
+            li.nav-item
+              a#review-tab.nav-link aria-controls="review" aria-selected="false" data-toggle="tab" href="#review" role="tab" = t('reviews')
+          #myTabContent.tab-content
+            #hosting.tab-pane.fade.show.active aria-labelledby="hosting-tab" role="tabpanel"
+              h2 Upcoming
+              = render 'event_table', events: @upcomingHost
+              h2 Passed
+              = render 'event_table', events: @pastHost
+            #participating.tab-pane.fade aria-labelledby="participating-tab" role="tabpanel"
+              h2 Upcoming
+              = render 'event_table', events: @upcomingPart
+              h2 Passed
+              = render 'event_table', events: @pastPart
+            #review.tab-pane.fade aria-labelledby="review-tab" role="tabpanel"
+              h1 Bonjour 3

@@ -1,0 +1,18 @@
+- if events.any?
+  table.table.table-dark.table-striped
+    thead
+      tr
+        th = t("user.events.title")
+        th = t("user.events.date")
+        th
+    tbody
+      - events.each do |event|
+        tr
+          td = event.title
+          td = event.date.to_formatted_s(:short)
+          td = link_to "see", event_path(event), class:"btn btn-sm btn-primary"
+- else
+  p
+    span = t('user.no_data')
+    -if see_events
+      =< link_to t('events.see_events'), events_path, class: "btn btn-primary"

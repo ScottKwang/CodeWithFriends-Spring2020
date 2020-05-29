@@ -10,5 +10,9 @@ class UsersController < ApplicationController
 
   def find_resource
     @user = User.find(params[:id])
+    @upcomingHost = @user.events.where("date > ?", Date.today)
+    @pastHost = @user.events.where("date <= ?", Date.today)
+    @upcomingPart = @user.participations.where("date > ?", Date.today)
+    @pastPart = @user.participations.where("date <= ?", Date.today)
   end
 end

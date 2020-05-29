@@ -3,18 +3,35 @@ en:
   login: Login
   signup: Sign up
   logout: Sign out
+  signin: Sign in now !
   update: Update
   Edit: Edit
   submit: Submit
+  hosting: Hosting
+  participating: Participating
+  reviews: Reviews
+  discord: Join the discord
+  show: Show
   home:
     link: Home
-    hello: Hello !
+    welcome: Hello
+    join: Create your account now !
+    description: BingeSquad was basically an app I build to work a bit with the new version of rails 6. On BingeSquad, you can publish or join event with random people in order to watch a movie, a series or even anime.
+    description_2: The owner as the role create an event and on the day of it, you can join his discord and he'll stream the movie.
+    description_3: Basic and lot of work ... I know, I only had a month and it was for fun and education. But you meet fantastic people with this hard work "insert winky face"
+    description_4: With BingeSquad you can met new people during those hard time around one of your facorite movie or watch that damn movie that have been collecting dust at the bottom of this mystical list of yours or that one you were not able to find anywhere.
+    message_html: 'BingeSquad was build during the <a href="https://scottkwang.github.io/CodeWithFriends-Spring2020/"> Code with friends event of spring 2020</a>. The event is hosted by <a href="https://www.youtube.com/channel/UCEDkO7wshcDZ7UZo17rPkzQ"> Mayuko Inoue</a> and <a href="https://www.twitch.tv/squatkong">Scott Kwang</a>. Look them up, they are awesome !'
   user:
     infos: Infos
     name: Name
+    no_data: No data for the moment !
+    event:
+      title: Title
+      date: Date
   events:
     link: Events
     title: Events
+    see_events: See events
     create:
       title: Create a new event !
     edit:

@@ -14,6 +14,7 @@
  *= require_self
  *= profile
  *= event
+ *= home
  *= actiontext
  */
 @import "bootstrap";
@@ -54,4 +55,12 @@ navbar-dark .navbar-nav .nav-link {
 
 trix-toolbar .trix-button-group button {
   background-color: white;
+}
+
+.nav-link {
+  color: #FFF;
+
+  &:hover {
+    color:#fff
+  }
 }
