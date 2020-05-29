@@ -1,7 +1,7 @@
 # BingeSquad - help me find another name :D
 
 Created by Patrick Vigneault, [github](https://github.com/vigpatrick), [Linkedin](https://www.linkedin.com/in/patrick-vigneault-84b50884/)
-Source code: (Source code link)
+Source code: [source](https://github.com/vigpatrick/CodeWithFriends-Spring2020/tree/master)
 
 ## Summary
 
