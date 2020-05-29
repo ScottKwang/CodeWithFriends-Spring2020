@@ -6,6 +6,11 @@ body {
 	background-color: gainsboro;
 }
 
+.container {
+	max-width: 100%;
+	margin: auto;
+}
+
 canvas {
 	width: 600px;
 	height: 600px;
@@ -14,7 +19,7 @@ canvas {
 
 .form-group {
 	margin-bottom: 25px;
-	padding: 15px;
+	padding: 30px;
 }
 
 label {
@@ -32,7 +37,7 @@ label {
 .input-lobby {
 	display: block;
 	background-color: white;
-	@apply border border-gray-300 rounded-lg w-full py-2 px-4;
+	@apply border border-gray-300 rounded-lg w-full py-2 px-4 mb-5;
 	@apply appearance-none leading-normal;
 }
 

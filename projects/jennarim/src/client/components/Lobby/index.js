@@ -53,7 +53,7 @@ class Lobby extends React.Component {
                         <div className="form-group">
                             <label htmlFor="roomcode" className="text-lobby"> ROOM CODE </label>
                             <input name="roomcode" id="roomcode" className="input-lobby" type="text" maxLength="4" placeholder="Enter 4-letter room code to create or join"></input>
-                            <div className="px-4">
+                            <div className="px-6">
                                 <button type="submit" id="play-btn" className="my-3" disabled>PLAY</button>
                             </div>
                         </div>

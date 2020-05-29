@@ -62,7 +62,6 @@ class Canvas extends React.Component {
         });
 
         socket.on('state', function(data) {
-            console.log("state received!");
             // Draw background
             ctx.clearRect(0, 0, c.WIDTH, c.HEIGHT);
             ctx.fillStyle = "black";
