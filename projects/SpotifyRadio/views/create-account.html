@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+   
+</head>
+<body>
+    <h1>Create Account</h1>
+    <p></p>
+    <form>
+        <label>Username<input name = "username" type = "text" required></label>
+        <label>Email<input name = "email" type = "email" required></label>
+        <label>Password<input name = "password" type = "password" required></label>
+        <input value = "Create An Account" type = "submit">
+    </form>
+    <script>
+        const form = document.querySelector("form")
+        
+        form.onsubmit = (e) =>{
+            e.preventDefault()
+            const data = {
+                    username:form.elements["username"].value,
+                    email:form.elements["email"].value,
+                    password:form.elements["password"].value
+                }
+            form.elements["password"].value = ""
+            fetch("/create-account",{
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                'Content-Type': 'application/json'
+                },
+            }).then((response)=>{
+                // response.status
+                if(response.status == 201){
+                    window.location = "/account"
+                }
+                else if(response.status == 403){
+                    document.querySelector("p").innerText = "*username is already taken"
+                }
+                else if(response.status == 409){
+                    document.querySelector("p").innerText = "*email is already in use"
+                }
+            })
+        }
+    </script>
+</body>
+</html>
