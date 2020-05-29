@@ -1,0 +1,42 @@
+version: 2.1
+jobs:
+  build_and_push:
+    docker:
+      - image: google/cloud-sdk
+    environment:
+      - GOOGLE_PROJECT_ID: "lightly-backend"
+      - GOOGLE_COMPUTE_ZONE: "us-central1-a"
+      - GOOGLE_CLUSTER_NAME: "lightly-backend-cluster"
+    steps:
+      - checkout
+      - run:
+          name: setup gcp
+          command: |
+            apt-get install -qq -y gettext
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+      - setup_remote_docker
+      - run:
+          name: setup ocr docker image
+          command: |
+            docker build\
+              --build-arg COMMIT_REF=${CIRCLE_SHA1}\
+              --build-arg BUILD_DATE=`date -u + "%Y-%m-%dT%H:%M:%SZ"` \
+              -t gcr.io/${GOOGLE_PROJECT_ID}/ocr:${CIRCLE_SHA1} ocr
+      # for now, TODO: add ingress builder and deploy to k8s
+      - run:
+          name: push docker image to gcr
+          command: |
+            gcloud auth print-access-token | docker login -u oauth2access --password-stdin https://gcr.io
+            docker push gcr.io/${GOOGLE_PROJECT_ID}/ocr/:${CIRCLE_SHA1}
+workflows:
+  version: 2.1
+  build_deploy:
+    jobs:
+      - build_and_push:
+          filters:
+            branches:
+              only: master

@@ -1,0 +1,12 @@
+setuptools
+wheel
+matplotlib
+scikit_image
+numpy
+scipy
+flask
+six
+colour
+Pillow
+PyYAML
+lmdb
