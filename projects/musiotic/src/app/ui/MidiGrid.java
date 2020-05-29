@@ -35,6 +35,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -54,7 +56,7 @@ import java.util.List;
 public class MidiGrid {
     private final InstrumentalPhase phase;
     private final HBox actionButtons;
-    private ScrollPane scrollPane;
+    private Node mainPane;
     private GridPane gridPane;
 
     // Setting to each pane which {col, row} it's in.
@@ -78,10 +80,19 @@ public class MidiGrid {
     public MidiGrid(InstrumentalPhase phase) {
         this.phase = phase;
         gridPane = new GridPane();
+        gridPane.setId("grid-pane");
 //        gridPane.setId("grid-pane");
-        scrollPane = new ScrollPane();
+        ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
         scrollPane.setContent(gridPane);
+
+        Region region1 = new Region();
+        VBox.setVgrow(region1, Priority.ALWAYS);
+        Region region2 = new Region();
+        VBox.setVgrow(region2, Priority.ALWAYS);
+        mainPane = new VBox(region1, gridPane, region2);
+
+
 
         String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
         gridPane.getStylesheets().add(styleSheet);
@@ -868,6 +879,6 @@ public class MidiGrid {
     }
 
     public Node getGrid() {
-        return scrollPane;
+        return mainPane;
     }
 }

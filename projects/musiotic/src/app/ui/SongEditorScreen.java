@@ -45,9 +45,9 @@ public class SongEditorScreen extends BorderPane {
         menuButtons.getChildren().add(styleButton);
         menuButtons.getStyleClass().add("menu-buttons");
 
-        var menu = new AnchorPane();
-        menu.getChildren().add(menuButtons);
-        menu.setId("menu");
+//        var menu = new AnchorPane();
+//        menu.getChildren().add(menuButtons);
+//        menu.setId("menu");
 
         ToolBar toolbar = new ToolBar();
 
@@ -88,7 +88,7 @@ public class SongEditorScreen extends BorderPane {
         actions.setId("actions"); // For future styling
 
         setTop(toolbar);
-        setLeft(menu);
+        setLeft(menuButtons);
         setBottom(actions);
 
         currentPhase = stylePhase;

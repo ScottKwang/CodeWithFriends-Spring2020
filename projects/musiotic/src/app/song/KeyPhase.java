@@ -3,6 +3,7 @@ package song;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import jm.JMC;
 import ui.KeyScreen;
 import util.Scale;
@@ -74,19 +75,16 @@ public class KeyPhase extends Phase {
         var noteList = new ArrayList<String>();
         var noteValues = new ArrayList<Integer>();
 
-        var startVal = (char) (((newTonic - 'A') % 7) + 'A');
-        var startJmVal = roots.get(String.valueOf(startVal));
-        var count = 0;
+        var startRealVal = 0; //ADDED TECHY
+        var count = -1; //ADDED TECHY
 
         for(char current = newTonic; current < newTonic + manager.numNotes*2-1; current++){
             var noteVal = (char) (((current - 'A') % 7) + 'A');
-            if(noteVal == startVal) count++;
             var noteName = new StringBuilder(String.valueOf(noteVal));
             var jmVal = roots.get(String.valueOf(noteVal));
             if(jmVal < this.tonic) jmVal += 12;
-            if(jmVal > startJmVal+12) jmVal += 12;
-            if(count == 2) jmVal += 12;
             var realVal = this.tonic + mode[(current - newTonic) % 7];
+            if (current == newTonic) startRealVal = realVal; //ADDED TECHY
             if(current > newTonic && realVal == this.tonic) realVal += 12;
             switch (realVal - jmVal){
                 case 2:
@@ -104,6 +102,19 @@ public class KeyPhase extends Phase {
                     noteName.append(Character.toChars(0x1D12B));
                     break;
             }
+
+            //ADDED TECHY
+            if (count >= 1) {
+                realVal += count*12;
+            }
+            if (realVal%12 == (startRealVal%12)) {
+                //This let's us added as many octaves as we want.
+                count++;
+                System.out.println("count++" + count);
+            }
+            //ABOVE ADDED TECHY
+
+
             noteList.add(noteName.toString());
             noteValues.add(realVal);
             System.out.println(noteName.toString() + " with value: " + realVal);

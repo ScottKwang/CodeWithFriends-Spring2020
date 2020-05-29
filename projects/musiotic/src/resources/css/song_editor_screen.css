@@ -4,12 +4,17 @@
 
 
 .menu-buttons {
-    -fx-alignment: center;
+    -fx-alignment: top-center;
+    -fx-background-color: #364652;
     -fx-spacing: 20;
     -fx-pref-width: 125;
     -fx-max-width: 125;
-    -fx-padding: 5 2 5 2;
+    -fx-padding: 5 5 5 5;
     -fx-max-height: inherit;
+}
+
+.menu-buttons .button {
+    -fx-padding: 0 10 0 10;
 }
 
 .button {
@@ -31,6 +36,7 @@
 
 #menu {
     -fx-background-color: #364652;
+    -fx-padding: 0 10 0 10;
 }
 
 #actions {
@@ -38,6 +44,7 @@
     -fx-background-color: #364652;
     -fx-padding: 10 10 10 10;
 }
+
 
 #discord-button {
     -fx-border-color: transparent;
