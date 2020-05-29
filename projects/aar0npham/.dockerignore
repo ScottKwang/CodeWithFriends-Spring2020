@@ -1,0 +1,6 @@
+.git
+*/data
+*/*.egg_info
+*/test
+*/train
+*/converted_models
