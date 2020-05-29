@@ -1,0 +1,17 @@
+scaling:
+
+Isx : Iw = Tsx : Rw
+
+Isx -> width of section in the image
+Iw -> width of image
+Tsx -> Width of the section of the image when rendered
+Rw -> rendering width of the texture
+
+
+
+How to connect tiles:
+select edge of a tile (last 5? pixels)
+paste them on other side
+flip
+rotate 180
+flip
