@@ -67,7 +67,7 @@ public class StylePhase extends Phase {
 
     public void setStyle(Style style) {
         System.out.println("StylePhase: setStyle(style)");
-        if(this.style == null){
+        if(!completed.getValue()){
             this.style = style;
             completed.setValue(true);
             manager.populateStyle();
