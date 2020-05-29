@@ -5,7 +5,7 @@ OneCast is an app which allows you to cast your favorite playlists from Youtube,
 
 Product Reveal Teaser: [Youtube Link](http://www.youtube.com/watch?feature=player_embedded&v=Rhxnk7mcDOs)
 
-![image info](./assets/Hero.png)
+![OneCast - Hero Image](./assets/Hero.png)
 
 ## Inspiration
 The idea for the app came when Mayuko and Scott inspired me with the Theme "Quarantine Improvement". 
