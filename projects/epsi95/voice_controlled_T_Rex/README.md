@@ -15,6 +15,8 @@ Final Output: Please refer to the "STEP3_out_put" folder.
 
 <a href="STEP3_out_put/Sample_image_and_videos/dino_run.apk">download</a> the app
 
+<a href="https://www.youtube.com/watch?v=iI2MaSRdrDw">Youtube video</a>
+
 <img src="STEP3_out_put\Sample_image_and_videos\CWF2020_my_project_banner.png" width="500px">
 
 ## Inspiration
