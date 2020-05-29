@@ -8,15 +8,6 @@ Created by Bruce Xu:
 PyArchive is an integrated file backup solution with a web GUI that provides a number of features 
 that make it superior to conventional backup solutions:
 
-<style>
-table th:first-of-type {
-    width: 70%;
-}
-table th:nth-of-type(2) {
-    width: 30%;
-}
-</style>
-
 ## User side major features
 | Feature screenshot| Explanation |
 | :--- | :------- |
@@ -29,7 +20,7 @@ table th:nth-of-type(2) {
 ## Sysadmin major features
 | Feature screenshot | Explanation |
 |:---|:---|
-|<img src="./screenshots/admintool_home.png" width="100%">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
+|<img src="./screenshots/admintool_home.png" width="1300">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
 |<img src="./screenshots/develop.png"> | System admin can write custom script in the "develop" page and test it on the spot (with access to all project models as if in `django manage.py shell`). The script can later on be saved and displayed on the home page.
 
 
