@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>.</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- Material Design -->
+    <link href="css/material.css" rel="stylesheet">
+    <script src="js/material.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="css/swiper.css">
+    <script src="js/swiper.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu" id="menu_bar_button" onclick="get_cards()">home</button>
+                <span class="mdc-top-app-bar__title">The Commensals</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                <button id="search_button" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button>
+            </section>
+        </div>
+    </header>
+    <!-- End Header -->
+    <div class="space"></div>
+
+	<!-- Add Button -->
+    <button class="mdc-fab" id="add" aria-label="Add">
+        <div class="mdc-fab__ripple"></div>
+        <span class="mdc-fab__icon material-icons">add</span>
+    </button>
+	<!-- End -->
+
+    <div class="swiper-container">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+
+            <!-- Add Page -->
+            <div class="swiper-slide">
+                <div class="container" id="add_page">
+                    <h2 class="text" style="text-align: center;">Add:</h2>
+                    <form id="form">
+                        <h3 class="text">Name:</h3>
+                        <input type="text" name="name" class="inputField" placeholder="Example... La Locanda" id="name">
+                        <h3 class="text">Location:</h3>
+                        <input type="text" name="loc" class="inputField" placeholder="Example... Calle Churchill" id="Location">
+
+                        <h3 class="text">Please upload a photo of the restaurant:</h3>
+                        <input type="file" name="img" id="file" accept="image/jpeg, image/jpeg, image/gif, image/x-png, image/x-MS-bmp, image/tiff" id="img">
+                    </form>
+                    <button onclick="get_geo()" class="buttons">Get Location</button>
+
+                    <button onclick="click_file()" class="buttons">Click here to upload a photo</button>
+                    <br>
+                    <br>
+                    <br>
+                    <button class="buttons" onclick="send()" style="margin-left: 40%;">send</button>
+                </div>
+            </div>
+
+            <!-- Main Page -->
+            <div class="swiper-slide">
+                <h2 class="text">Recommendations:</h2>
+                <div class="container" id="main">
+                    <img class="loading" src="loading.png">
+                </div>
+            </div>
+
+            <!-- Search Page -->
+            <div class="swiper-slide">
+                <input type="text" onkeyup="search(this.value)" class="inputField" id="search_field" placeholder="Search...">
+                <div class="container" id="search_page">
+                </div>
+            </div>
+        </div>
+        <script src="cordova.js"></script>
+        <script src="js/app.js"></script>
+        <script>
+            get_cards()
+        </script>
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</body>
+
+</html>
+
+
+<!-- Card -->
+<!-- <div class="mdc-card demo-card" onclick="go_to(this)" id="ID">
+  <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">
+    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media" style="background-image: url(&quot;img.jpgt;);"></div>
+    <div class="demo-card__primary">
+      <h2 class="demo-card__text mdc-typography mdc-typography--headline6"><i>La Locanda</i></h2>
+    </div>
+  </div>
+</div> -->
+<!-- End -->
+

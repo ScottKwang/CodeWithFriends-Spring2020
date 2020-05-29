@@ -1,0 +1,46 @@
+# training
+onnx_path: "converted_models"
+pretrained: "save_models"
+log_dir: "logs"
+train_root: "data/train"
+val_root: "data/val"
+
+# cfgs
+seeds: 4420
+workers: 2
+num_gpu: 1
+batch_size: 64
+num_iters: 30000
+val_interval: 1000
+save_interval: 1000
+lr: 0.01
+# optmizer choice
+adam: False
+beta1: 0.9 # adamdelta beta1
+rho: 0.95
+eps: 1.E-8
+grad_clip: 5
+
+#fine_tune
+random_sample: True
+keep_ratio: True
+batch_max_len: 25
+num_epochs: 25
+height: 32
+width: 100
+rgb: False
+num_fiducial: 20
+input_channel: 1
+output_channel: 512
+hidden_size: 256
+num_classes: 38
+character: "0123456789abcdefghijklmnopqrstuvwxyz"
+#sensitive
+filtering: True
+
+# model
+transform: "TPS" # choices: None-TPS
+backbone: "ResNet" #TODO: choices: RCNN - VGG - ResNet
+sequence: "biLSTM" # choices: None - biLSTM
+prediction: "Attention" # choices: CTC - Attention
+pipeline: "CRAFT-CRNN" # choices: CRAFT-CRNN
