@@ -27,9 +27,11 @@ No challenge whatsoever. The biggest issue was trying to find some time during m
 ## Reflections
 
 (1. What did you learn during this process (whether that be technical skills, or new things you learned about yourself, time management, etc?)
+
 I learned a few things about rails 6 for sure. I also haven’t started a project on my own, outside of school in a while, I realize that now I have a more methodical way of approaching things and I'm way more thoughtful of the choices that I make
 
 (2. What would you have done differently if you could do it again?)
+
 Not much, just plan more ahead. Maybe in a more professional context, I would do more research on users and how the service can help them and if they find the concept interesting or not.
 
 (3. What resources did you find most helpful in working on your project?)
