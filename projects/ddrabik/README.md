@@ -8,8 +8,8 @@ Testflight link: https://testflight.apple.com/join/ioNIAPfK
 
 ## Summary
 
-My college friend and I built a Pomodoro timer that rewards you for completing a session!
-Whenever you complete a session, you get a 🎁! It will probably be a cute cat or dog 😁
+My friend and I built a Pomodoro timer that rewards you at the end!
+When the timer goes to 0, you get a 🎁! It will probably be a cute cat or dog 😁
 
 Share your 🎁 with friends. When you get some in return, that's more 🎁!
 
