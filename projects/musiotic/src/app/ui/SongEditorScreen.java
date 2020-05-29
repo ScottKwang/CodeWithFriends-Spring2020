@@ -9,9 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import song.InstrumentalPhase;
 import song.Phase;
 import song.SongManager;
 
@@ -108,8 +107,7 @@ public class SongEditorScreen extends BorderPane {
             });
             button.disableProperty().bind(phase.disabled);
             VBox box;
-            if (phase == manager.stylePhase || phase.getType() == Phase.Type.Key) {
-                //TODO: Add more phases to get rid of in if statement.
+            if (!(phase instanceof InstrumentalPhase) ) {
                 //No mute button
                 box = new VBox(button);
             } else {
@@ -124,11 +122,13 @@ public class SongEditorScreen extends BorderPane {
                     //TODO: Brian Set mute / nonMute for each them here. isSelected means it should be on!
                     // I'm using toggle buttons bc I don't want to store the state of each button.
                     if (mute.isSelected()) {
+                        ((InstrumentalPhase)phase).setMute(false);
                         var image = new ImageView(new Image(getClass().getResource("/images/sound_on.png").toExternalForm()));
                         image.setFitWidth(25);
                         image.setFitHeight(25);
                         mute.setGraphic(image);
                     } else {
+                        ((InstrumentalPhase)phase).setMute(true);
                         var image = new ImageView(new Image(getClass().getResource("/images/sound_off.png").toExternalForm()));
                         image.setFitWidth(25);
                         image.setFitHeight(25);

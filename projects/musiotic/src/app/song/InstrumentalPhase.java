@@ -177,6 +177,7 @@ public abstract class InstrumentalPhase extends Phase {
 
     public void backupPart(){
         Part oldPart = part.copy();
+        oldPart.setTitle(part.getTitle());
         oldPart.removeAllPhrases();
         var phraseMapCopy = new HashMap<Integer, List<Phrase>>();
         var connectedMap = new HashMap<Phrase, Phrase>();
@@ -185,6 +186,7 @@ public abstract class InstrumentalPhase extends Phase {
             var listCopy = new ArrayList<Phrase>();
             for(Phrase phrase : pair.getValue()){
                 var phraseCopy = phrase.copy();
+                phraseCopy.setTitle(phrase.getTitle());
                 listCopy.add(phraseCopy);
                 if(connectedMeasures.containsKey(phrase)){
                     var valueCopy = connectedMap.get(connectedMeasures.get(phrase));
@@ -228,5 +230,9 @@ public abstract class InstrumentalPhase extends Phase {
         connectedMeasures = backupConnectedMeasures;
         part = backupPart;
         return part;
+    }
+
+    public void setMute(boolean muted) {
+        for(var phrase : part.getPhraseArray()) phrase.setDynamic(muted ? 0 : 100);
     }
 }

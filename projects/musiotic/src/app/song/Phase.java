@@ -27,7 +27,8 @@ public abstract class Phase {
         Melody2("Countermelody", null, Style, Key),
         Bass("Bass", BassPhase.class, Style, Key),
         Drums("Drums", null, Style, Key),
-        Effects("Effects", null, Style, Key, Melody1, Bass, Drums);
+        Effects("Effects", null, Style, Key, Melody1, Bass, Drums),
+        Export("Export", ExportPhase.class, Melody1);
 
         public final String name;
         private final Class<? extends Phase> phaseClass;
