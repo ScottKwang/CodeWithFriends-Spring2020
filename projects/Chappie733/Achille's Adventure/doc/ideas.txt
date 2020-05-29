@@ -1,0 +1,3 @@
+-Entering Buildings: -each structure has its tilemap
+					 -handler needs a second tilemap representing the building to not fuck up the enemies
+					 -create a world class with list of enemies and tilemap -> each structure has its own world
