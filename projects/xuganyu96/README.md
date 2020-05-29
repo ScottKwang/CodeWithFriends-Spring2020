@@ -7,11 +7,42 @@ Created by Bruce Xu:
 ## Introduction
 PyArchive is an integrated file backup solution with a web GUI that provides a number of features 
 that make it superior to conventional backup solutions:
-* It can run on a Raspberry Pi, which can serve as a local backup, and which can run 24/7 without 
-user supervision
-* Upload and download between local backup and remote backup are done in batches, thus limiting 
-progress loss in the event of a system outage
-* Flexible and extensible system admin scripting utilities
+
+<style>
+table th:first-of-type {
+    width: 70%;
+}
+table th:nth-of-type(2) {
+    width: 30%;
+}
+</style>
+
+## User side major features
+| Feature screenshot| Explanation |
+| :--- | :------- |
+| <img src="./screenshots/login.png"> | Register and login just like with Google Doc; each user has access to only his/her own archives. This allows an entire family to use a single server. |
+| <img src="./screenshots/create_archive.png"> | Create an archive with a simple setup of choosing a file and giving it an archive name. Creating an archive initiates the process of transferring data from user's laptop to the local server using high speed local network |
+| <img src="./screenshots/archive_detail.png"> | The detail page of an archive explains how a complete file is chunked into smaller batches and gives each batch of data a unique index for easy identication |
+| <img src="./screenshots/archive_home.png"> | Archive becomes visible in the user's home page after creating it locally |
+| <img src="./screenshots/uploading_to_s3.png"> | Track the progress of archive upload through visual cues: if a file part has been remotely backed up to S3, `is it uploaded` becomes green
+
+## Sysadmin major features
+| Feature screenshot | Explanation |
+|:---|:---|
+|<img src="./screenshots/admintool_home.png" width="100%">| A system admin has can perform tasks in the form of python scripts. Each script is represented by a single card on the home page, and can be triggered or inspected with a single button click |
+|<img src="./screenshots/develop.png"> | System admin can write custom script in the "develop" page and test it on the spot (with access to all project models as if in `django manage.py shell`). The script can later on be saved and displayed on the home page.
+
+
+## Remote backup component 
+![uploading](./screenshots/uploading_to_s3.png)  
+* Batch uploads and batch downloads: robust against unexpected system outage
+* Visual tracking of progress for uploads and downloads
+* Data integrity ensured throguh file checksum
+* Cache-uncache cycle for balancing speed and accessibility
+
+## System admin utilities
+![admintool_suite](./screenshots/admintool_suite.png)  
+
 
 ## Inspiration 
 On many occasions when I wanted to backup important data to Google Drive, I had to go through tedious 
