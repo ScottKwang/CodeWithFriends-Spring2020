@@ -1,4 +1,4 @@
-# BingeSquad - help me find another name :D
+# BingeSquad - let me know if you have a better name :D
 
 Created by Patrick Vigneault, [github](https://github.com/vigpatrick), [Linkedin](https://www.linkedin.com/in/patrick-vigneault-84b50884/)
 
@@ -14,7 +14,11 @@ Basic and a lot of work ... I know. I only had a month and it was for fun and an
 
 With BingeSquad you can meet new people during these trying times and bond over your favourite movies. Or watch that dang film that has been collecting dust at the bottom of some mystical list, maybe that old show you just can’t find anywhere.
 
-(Insert any pictures or screenshots of your final project here)
+![alt text](https://github.com/vigpatrick/CodeWithFriends-Spring2020/blob/clean/projects/Vigp-project/assets/images/1.png)
+![alt text](https://github.com/vigpatrick/CodeWithFriends-Spring2020/blob/clean/projects/Vigp-project/assets/images/2.png)
+![alt text](https://github.com/vigpatrick/CodeWithFriends-Spring2020/blob/clean/projects/Vigp-project/assets/images/3.png)
+
+
 
 ## Inspiration
 
@@ -22,7 +26,7 @@ I really like to watch movies with my friends using a streaming platform. I saw 
 
 ## Challenges
 
-No challenge whatsoever. The biggest issue was trying to find some time during my   new semester, I was never able to assist on Mayuko's café. Who thought that an engineering course would take so much of my time...
+No challenge whatsoever. The biggest issue was trying to find some time during my   new semester, I was never able to assist on Muko's café. Who thought that an engineering course would take so much of my time...
 
 ## Reflections
 
