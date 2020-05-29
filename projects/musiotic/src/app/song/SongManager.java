@@ -117,14 +117,14 @@ public class SongManager {
         return prevAvailable;
     }
 
-    public void addMeasures(boolean right) {
+    public void addMeasures() {
         this.numMeasures += 4;
         System.out.println("The number of Measures this MIDI has is: " + numMeasures);
         forInstrumentalPhase(phase -> {
-            phase.addMeasure(right);
-            phase.addMeasure(right);
-            phase.addMeasure(right);
-            phase.addMeasure(right);
+            phase.addMeasure();
+            phase.addMeasure();
+            phase.addMeasure();
+            phase.addMeasure();
         });
     }
 

@@ -95,27 +95,60 @@ public class MidiGrid {
         modeButtons.getStyleClass().add("mode-buttons");
         BorderPane lengthButtons = initializeNoteLengthButtons();
         lengthButtons.getStyleClass().add("length-buttons");
-        Button playButton = initializePlayButton();
+        BorderPane playButton = initializePlayButton();
         playButton.getStyleClass().add("play-buttons");
+        BorderPane addMeasureButtons = initializeAddMeasureButtons();
+        addMeasureButtons.getStyleClass().add("add-measure-buttons");
 
-        actionButtons = new HBox(modeButtons, lengthButtons, playButton);
+        actionButtons = new HBox(modeButtons, lengthButtons, playButton, addMeasureButtons);
         actionButtons.getStyleClass().add("buttons");
     }
 
-    private Button initializePlayButton() {
+    private BorderPane initializeAddMeasureButtons() {
+        Button left = new Button("Left\n←");
+        Button right = new Button("Right\n→");
+        makeToolTip(left, "Click to add four empty measures to the left.");
+        makeToolTip(right, "Click to add four empty measures to the right.");
+
+        left.setOnMouseClicked(e -> {
+            addMeasures(false);
+        });
+        right.setOnMouseClicked(e -> {
+            addMeasures(true);
+        });
+
+        HBox buttons = new HBox(left, right);
+        buttons.setSpacing(10);
+        BorderPane pane = new BorderPane();
+        Label label = new Label("Add Measures");
+
+        pane.setTop(label);
+        pane.setCenter(buttons);
+        pane.setAlignment(label, Pos.CENTER);
+        return pane;
+    }
+
+
+    private BorderPane initializePlayButton() {
         String playImage = getClass().getResource("/images/play.png").toExternalForm();
 
         ImageView imageView = new ImageView(new Image(playImage));
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        Button button = new Button("Play", imageView);
+        imageView.setFitHeight(75);
+        imageView.setFitWidth(75);
+        Label label = new Label("Play");
+        Button button = new Button("", imageView);
         button.setOnMouseClicked(e -> {
             phase.manager.play(0);
             //TODO: Create a function that will play the number measure from starting slider.
         });
+        button.setPadding(Insets.EMPTY);
 
-        return button;
+        BorderPane pane = new BorderPane();
+        pane.setTop(label);
+        pane.setAlignment(label, Pos.CENTER);
+        pane.setCenter(button);
+
+        return pane;
     }
 
     private BorderPane initializeModeButtons() {
@@ -237,7 +270,9 @@ public class MidiGrid {
             int noteStart = 0;
             if (phase.getType() == Phase.Type.Melody1) {
                 noteStart = 7;
+                System.out.println("we MELODY");
             } else {
+                System.out.println("we BASS");
                 noteStart = 0;
             }
 
@@ -251,6 +286,7 @@ public class MidiGrid {
                 //Sum of 0 + scaleValues.get(j)
                 NumberBinding noteVal = Bindings.add(0,scaleValues.get(j + noteStart));
                 noteValue.textProperty().setValue(noteVal.getValue().toString());
+                System.out.println("noteVal " + noteVal.getValue().toString());
                 noteValue.setVisible(false);
                 HBox note = new HBox(noteLabel, noteValue);
                 note.setId("note-label");
@@ -263,10 +299,8 @@ public class MidiGrid {
                 for(int j = 1; j < phase.manager.numNotes + 1; j++) {
                     Integer[] indexes = {i-1, j-1};
                     IntegerArray arr = new IntegerArray(indexes);
-
                     cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i-1, j-1));
 //                    System.out.println("CELLS.PUT: row: " + j + " col: " + i);
-
                 }
             }
             arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
@@ -651,12 +685,12 @@ public class MidiGrid {
             return null;
         }
 
-        while (node.isLeft() == true) {
+        while (node.isLeft()) {
             startCol--;
             node = cells.get(new IntegerArray(new Integer[] {startCol, row}));
         }
         node = cells.get(new IntegerArray(new Integer[] {endCol, row}));
-        while (node.isRight() == true) {
+        while (node.isRight()) {
             endCol++;
             node = cells.get(new IntegerArray(new Integer[] {endCol, row}));
         }
@@ -699,7 +733,11 @@ public class MidiGrid {
                 tempR.setFill(Color.BLUE);
                 tempMidiPane.getStyleClass().remove("grid-cell-off");
                 tempMidiPane.getStyleClass().add("grid-cell-on");
-                if (i == 0) {
+                if (noteLength == 1) {
+                    tempMidiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                            BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+                            CornerRadii.EMPTY, new BorderWidths(1,1,1,1), Insets.EMPTY)));
+                } else if (i == 0) {
                     tempMidiPane.setLeft(false);
                     tempMidiPane.setRight(true);
                     tempMidiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
@@ -730,12 +768,11 @@ public class MidiGrid {
         int row = pane.getRow();
         System.out.println("col: " + col + ". row: " + row);
 
-
         for (int i = 0; i < noteLength; i++) {
             Integer[] indexes = {col + i, row};
             IntegerArray arr = new IntegerArray(indexes);
             MidiPane tempMidiPane = cells.get(arr);
-            arrangeBorder(tempMidiPane, noteLength);
+            arrangeBorder(tempMidiPane, this.noteLength);
             Rectangle tempR = (Rectangle) tempMidiPane.getChildren().toArray()[0];
             tempR.setFill(Color.WHITESMOKE);
             tempMidiPane.getStyleClass().remove("grid-cell-on");
@@ -743,7 +780,6 @@ public class MidiGrid {
             tempMidiPane.setLeft(false);
             tempMidiPane.setRight(false);
         }
-
 
 //        Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
 //        r.setFill(Color.WHITESMOKE);
@@ -774,6 +810,40 @@ public class MidiGrid {
             }
         }
         return Integer.valueOf(noteValue);
+    }
+
+    private void addMeasures(boolean right) {
+        int oldNumMeasures = phase.manager.numMeasures;
+        phase.manager.addMeasures();
+        for(int i = oldNumMeasures; i < phase.manager.numMeasures; i++) {
+            Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
+            gridPane.add(measureNumber, i*16 + 1, 0, 4, 1);
+        }
+        for(int i = oldNumMeasures*16; i < phase.manager.numMeasures*16 + 1; i++) {
+            for(int j = 1; j < phase.manager.numNotes + 1; j++) {
+                Integer[] indexes = {i-1, j-1};
+                IntegerArray arr = new IntegerArray(indexes);
+                cells.put(arr, createCell(Color.WHITESMOKE, gridPane, i-1, j-1));
+            }
+        }
+        arrangeBorders(phase.manager.numNotes, phase.manager.numMeasures);
+
+        if (!right) {
+            for(int i = oldNumMeasures*16; i >= 1; i--) {
+                for(int j = 1; j < phase.manager.numNotes + 1; j++) {
+                    ArrayList<Integer> list = findConnectedMidiPanes(i-1, j-1);
+                    if (list != null) {
+                        // we've found an pane
+                        int col = list.get(0);
+                        int length = list.get(1);
+                        MidiPane pane = cells.get(new IntegerArray(new Integer[]{col, j-1}));
+                        deleteNote(pane, length);
+                        MidiPane newPane = cells.get(new IntegerArray(new Integer[]{col+(16*4), j-1}));
+                        addNote(newPane, length);
+                    }
+                }
+            }
+        }
     }
 
     public void makeToolTip(Node node, String message) {

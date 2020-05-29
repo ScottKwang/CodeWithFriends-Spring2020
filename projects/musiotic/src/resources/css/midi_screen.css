@@ -60,5 +60,29 @@
 .play-buttons {
     -fx-padding: 0 10 0 10;
     -fx-font-family: Garamond;
-    -fx-font-size: 20;
+    -fx-font-size: 50;
+}
+.play-buttons .label {
+    -fx-alignment: center;
+    -fx-font-size: 30;
+    -fx-font-family: Garamond;
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+}
+
+.add-measure-buttons {
+    -fx-padding: 0 10 0 10;
+    -fx-font-family: Garamond;
+    -fx-font-size: 50;
+}
+.add-measure-buttons .label {
+    -fx-alignment: center;
+    -fx-font-size: 30;
+    -fx-font-family: Garamond;
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+}
+.add-measure-buttons .button {
+    -fx-font-size: 25;
+    -fx-font-weight: 500;
 }
