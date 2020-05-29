@@ -1,0 +1,32 @@
+html {
+    background-color: #ECDCC2;
+}
+
+#main {
+    text-align: center;
+    font-family: "Jost", sans-serif;
+}
+
+#main h1 {
+    color: lightcoral;
+}
+
+#loading {
+    margin: 15px 0px 15px 0px;
+}
+
+#boba-button {
+    display: none;
+    height: 30px;
+    width: 150px;
+    border-radius: 10px;
+    font-family: "Jost", sans-serif;
+    font-size: 15px;
+    margin: 15px 0px 15px 0px;
+}
+
+#boba-image {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
