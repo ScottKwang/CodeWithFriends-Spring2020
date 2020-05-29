@@ -31,17 +31,6 @@ that make it superior to conventional backup solutions:
 | <img src="./screenshots/sys_log.png"> | System admin can monitor deployment status by querying from system log |
 
 
-## Remote backup component 
-![uploading](./screenshots/uploading_to_s3.png)  
-* Batch uploads and batch downloads: robust against unexpected system outage
-* Visual tracking of progress for uploads and downloads
-* Data integrity ensured throguh file checksum
-* Cache-uncache cycle for balancing speed and accessibility
-
-## System admin utilities
-![admintool_suite](./screenshots/admintool_suite.png)  
-
-
 ## Inspiration 
 On many occasions when I wanted to backup important data to Google Drive, I had to go through tedious 
 long upload process because the file I wanted to upload is several gigabytes in size, but my home 
