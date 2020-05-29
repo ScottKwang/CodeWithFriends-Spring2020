@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">CourseHelper</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_header_textSize">10dp</string>
+
+    <string-array name="special">
+        <item>Special</item>
+        <item>Lab Course</item>
+        <item>Online Lecture</item>
+    </string-array>
+
+    <string-array name="cores">
+        <item>Cores</item>
+        <item>DoubleDipper</item>
+        <item>ARSN - Applied Analytical Reasoning</item>
+        <item>ASCI - Allied Science</item>
+        <item>CMP - English Composition</item>
+        <item>SOCU - Social Understanding</item>
+        <item>TMTH - Traditional Mathematics</item>
+        <item>GDIV - Global Diversity</item>
+        <item>UDIV - United States Diversity</item>
+        <item>HSGV - U.S History and Government</item>
+        <item>LPA - Literary/Philosophical Analysis</item>
+        <item>AAPP - Appreciation of the Arts</item>
+        <item>LSCI - Laboratory Science</item>
+    </string-array>
+
+    <string-array name="subjects">
+        <item>Subjects</item>
+        <item>ACCT - Accounting</item>
+        <item>ART - Art</item>
+        <item>ASTR - Astronomy</item>
+        <item>BIOL - Biology</item>
+        <item>CAIS - Computer Science</item>
+        <item>CHEM - Chemistry</item>
+        <item>COMM - Communication</item>
+        <item>CRJU - Criminal Justice</item>
+        <item>ECON - Economics</item>
+        <item>EDUC - Education</item>
+        <item>EGST - Ethnic and Gender Studies</item>
+        <item>ENGL - English</item>
+        <item>ENVS - Environmental Science</item>
+        <item>FINC - Finance</item>
+        <item>GARP - Geography</item>
+        <item>GEOL - Geology</item>
+        <item>GERO - Gerontology</item>
+        <item>GNSC - Physical Science</item>
+        <item>HESC - Health Science</item>
+        <item>HIST - History</item>
+        <item>LANG - Language</item>
+        <item>LARA - Language(Arabic)</item>
+        <item>LASL - Sign Language</item>
+        <item>LCHI - Language(Chinese)</item>
+        <item>LCUL - Culture Studies</item>
+        <item>LFRE - Language(French)</item>
+        <item>LLIT - Literature</item>
+        <item>LSPA - Language(Spanish)</item>
+        <item>MATH - Mathematics</item>
+        <item>MGMT - Management</item>
+        <item>MLSC - Military Science</item>
+        <item>MOVP - Movement Science</item>
+        <item>MRKT - Marketing</item>
+        <item>MUSC - Music</item>
+        <item>NURS - Nursing</item>
+        <item>PHIL - Philosophy</item>
+        <item>PHSC - Physics</item>
+        <item>SOCI - Sociology</item>
+        <item>SOCW - Social Work</item>
+        <item>THEA - Theatre</item>
+    </string-array>
+
+    <string-array name="feedbackTitle">
+        <item>Bug Report</item>
+        <item>Suggestion To Existing Feature</item>
+        <item>New Feature/Idea Suggestion</item>
+        <item>Contact Directly To Developer</item>
+        <item>Other</item>
+    </string-array>
+</resources>
