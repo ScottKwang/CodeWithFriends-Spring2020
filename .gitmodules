@@ -1,0 +1,3 @@
+[submodule "projects/impure/muse"]
+	path = projects/impure/muse
+	url = https://gitlab.com/azuredown/muse.git
