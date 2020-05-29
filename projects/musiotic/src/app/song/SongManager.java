@@ -64,7 +64,7 @@ public class SongManager {
 
     public void populateStyle(){
         if(screen == null) throw new IllegalStateException("SongEditorScreen not set.");
-        System.out.println("SongManager: populateStyle()");
+//        System.out.println("SongManager: populateStyle()");
         var phases = stylePhase.getPhases();
         phaseMap = new MappedLinkedList<>(phases);
         screen.populate(phases.values());
@@ -119,7 +119,7 @@ public class SongManager {
 
     public void addMeasures() {
         this.numMeasures += 4;
-        System.out.println("The number of Measures this MIDI has is: " + numMeasures);
+//        System.out.println("The number of Measures this MIDI has is: " + numMeasures);
         forInstrumentalPhase(phase -> {
             phase.addMeasure();
             phase.addMeasure();
@@ -139,7 +139,6 @@ public class SongManager {
     }
 
     public void play(int measureNum){
-        Play.stopMidi();
         List<Part> oldParts = new ArrayList<>();
         forInstrumentalPhase(phase -> {
             Part part = phase.part;

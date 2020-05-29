@@ -110,7 +110,7 @@ public class KeyPhase extends Phase {
             if (realVal%12 == (startRealVal%12)) {
                 //This let's us added as many octaves as we want.
                 count++;
-                System.out.println("count++" + count);
+//                System.out.println("count++" + count);
             }
             //ABOVE ADDED TECHY
 

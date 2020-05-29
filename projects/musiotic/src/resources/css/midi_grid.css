@@ -15,3 +15,11 @@
     -fx-font-family: Garamond;
     -fx-font-weight: 500;
 }
+
+#note-label {
+    -fx-padding: 0 0 0 15;
+    -fx-pref-width: 50;
+    -fx-max-width: 50;
+}
+
+

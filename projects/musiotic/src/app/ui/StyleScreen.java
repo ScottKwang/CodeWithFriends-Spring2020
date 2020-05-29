@@ -22,7 +22,7 @@ public class StyleScreen implements Screen{
         var label = new Label("Style");
         var complete = new Button("Confirm");
         complete.setOnMouseClicked(e -> {
-            System.out.println("StyleScreen: \"next\" button clicked");
+//            System.out.println("StyleScreen: \"next\" button clicked");
             choices.disableProperty().bind(phase.completed);
             phase.setStyle(Style.getStyle(choices.getValue()));
         });
@@ -33,7 +33,7 @@ public class StyleScreen implements Screen{
     }
 
     public Node getScreen(){
-        System.out.println("StyleScreen: getScreen()");
+//        System.out.println("StyleScreen: getScreen()");
         return screen;
     }
 }

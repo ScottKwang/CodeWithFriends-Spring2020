@@ -28,19 +28,19 @@ public class StylePhase extends Phase {
 
     @Override
     public Node getScreen() {
-        System.out.println("StylePhase: getScreen()");
+//        System.out.println("StylePhase: getScreen()");
         return screen.getScreen();
     }
 
     public LinkedHashMap<Type, Phase> getPhases(){
-        System.out.println("StylePhase: getPhases()");
+//        System.out.println("StylePhase: getPhases()");
         var phases = new LinkedHashMap<Type, Phase>(); // preserve insertion order (button order on UI depends on this)
         phases.put(Type.Style, this);
         for(PhaseDetail phase : style.getPhases()){
             Type type = phase.getKey();
-            System.out.println("StylePhase: getPhases() phase into hashmap: " + type.name);
+//            System.out.println("StylePhase: getPhases() phase into hashmap: " + type.name);
             phases.put(type, type.getPhase(manager));
-            System.out.println("StylePhase: getPhases() HashMap State: " + phases.toString());
+//            System.out.println("StylePhase: getPhases() HashMap State: " + phases.toString());
         }
 
         for(Phase phase : phases.values()){
@@ -49,10 +49,10 @@ public class StylePhase extends Phase {
             var props = new ArrayList<BooleanProperty>();
             for(Type prereq : prereqs) {
                 if (prereq == Type.Style) {
-                    System.out.println("StylePhase: getPhases() prereq == Style");
+//                    System.out.println("StylePhase: getPhases() prereq == Style");
                     props.add(completed);
                 } else {
-                    System.out.println("StylePhase: getPhases() prereq == " + prereq.name);
+//                    System.out.println("StylePhase: getPhases() prereq == " + prereq.name);
                     props.add(phases.get(prereq).completed);
                 }
             }
@@ -66,7 +66,7 @@ public class StylePhase extends Phase {
     }
 
     public void setStyle(Style style) {
-        System.out.println("StylePhase: setStyle(style)");
+//        System.out.println("StylePhase: setStyle(style)");
         if(!completed.getValue()){
             this.style = style;
             completed.setValue(true);

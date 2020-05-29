@@ -20,7 +20,7 @@ public class DrumMIDIExample {
         Phrase phrHH = new Phrase(0.0);
 
         //Let us know things have started
-        System.out.println("Creating drum patterns . . .");
+//        System.out.println("Creating drum patterns . . .");
 
         // make bass drum
         for(int i=0;i<4;i++){

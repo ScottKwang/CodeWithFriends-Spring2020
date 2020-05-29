@@ -42,7 +42,7 @@ public abstract class Phase {
         }
 
         public Phase getPhase(SongManager manager){
-            System.out.println("Phase: getPhase(manager)");
+//            System.out.println("Phase: getPhase(manager)");
             if(phaseClass == null){
                 throw new IllegalStateException(name + " hasn't been implemented yet!");
             }

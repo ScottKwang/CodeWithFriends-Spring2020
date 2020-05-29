@@ -35,7 +35,7 @@ public class SongEditorScreen extends BorderPane {
         var stylePhase = manager.stylePhase;
         Button styleButton = new Button(stylePhase.getType().name);
         styleButton.setOnMouseClicked(e -> {
-            System.out.println("SongEditorScreen: styleButton pressed");
+//            System.out.println("SongEditorScreen: styleButton pressed");
             currentPhase = stylePhase;
             setCenter(stylePhase.getScreen());
         });
@@ -71,7 +71,7 @@ public class SongEditorScreen extends BorderPane {
         discordImage.setFitHeight(70);
         discordButton.setOnMouseClicked(e -> {
             try {
-                System.out.println("Going to github");
+//                System.out.println("Going to github");
                 Desktop.getDesktop().browse(new URI("https://github.com/bitasy/CodeWithFriends-Spring2020"));
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -95,14 +95,14 @@ public class SongEditorScreen extends BorderPane {
     }
 
     public void populate(Collection<Phase> phases){
-        System.out.println("SongEditorScreen: populate(phases)");
+//        System.out.println("SongEditorScreen: populate(phases)");
         var buttons = new ArrayList<VBox>();
 
         for (var phase : phases) {
             if (phase == manager.stylePhase) continue;
             Button button = new Button(phase.getType().name);
             button.setOnMouseClicked(e -> {
-                System.out.println("currentPhase: " + currentPhase.getType().name);
+//                System.out.println("currentPhase: " + currentPhase.getType().name);
                 goToPhase(phase);
             });
             button.disableProperty().bind(phase.disabled);

@@ -45,7 +45,7 @@ import java.util.List;
 public class MidiGrid {
     private final InstrumentalPhase phase;
     private final HBox actionButtons;
-    private Node mainPane;
+    private ScrollPane mainPane;
     private GridPane gridPane;
 
     // Setting to each pane which {col, row} it's in.
@@ -71,33 +71,25 @@ public class MidiGrid {
         gridPane = new GridPane();
         gridPane.setId("grid-pane");
 //        gridPane.setId("grid-pane");
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
-        scrollPane.setContent(gridPane);
-
-        Region region1 = new Region();
-        VBox.setVgrow(region1, Priority.ALWAYS);
-        Region region2 = new Region();
-        VBox.setVgrow(region2, Priority.ALWAYS);
-        mainPane = new VBox(region1, gridPane, region2);
-
-
+        mainPane = new ScrollPane();
+        mainPane.setPannable(false); // So click + drag doesn't move scroll inadvertently
+        mainPane.setContent(gridPane);
 
         String styleSheet = getClass().getResource("/css/midi_grid.css").toExternalForm();
         gridPane.getStylesheets().add(styleSheet);
         String scrollStyle = getClass().getResource("/css/scroll.css").toExternalForm();
-        scrollPane.getStylesheets().add(scrollStyle);
+        mainPane.getStylesheets().add(scrollStyle);
         //gridPane.setStyle("-fx-font-size: 11px;");
 
         // https://stackoverflow.com/questions/32544574/javafx-scrollpane-horizontal-panning-with-scroll-wheel
-        scrollPane.setOnScroll(event -> {
+        mainPane.setOnScroll(event -> {
             if (event.getDeltaY() > 0)
-                scrollPane.setHvalue(scrollPos == scrollMinPos ? scrollMinPos : scrollPos--);
+                mainPane.setHvalue(scrollPos == scrollMinPos ? scrollMinPos : scrollPos--);
             else
-                scrollPane.setHvalue(scrollPos == scrollMaxPos ? scrollMaxPos : scrollPos++);
+                mainPane.setHvalue(scrollPos == scrollMaxPos ? scrollMaxPos : scrollPos++);
         });
-        scrollPane.setHmin(scrollMinPos);
-        scrollPane.setHmax(scrollMaxPos);
+        mainPane.setHmin(scrollMinPos);
+        mainPane.setHmax(scrollMaxPos);
 
         cells = new HashMap<IntegerArray, MidiPane>();
 
@@ -174,17 +166,17 @@ public class MidiGrid {
 
         changeEffects(new Lighting(), add, edit, delete);
         add.setOnMouseClicked(e -> {
-            System.out.println("MODE: ADD");
+//            System.out.println("MODE: ADD");
             mode = "ADD";
             changeEffects(new Lighting(), add, edit, delete);
         });
         edit.setOnMouseClicked(e -> {
-            System.out.println("MODE: EDIT");
+//            System.out.println("MODE: EDIT");
             mode = "EDIT";
             changeEffects(new Lighting(), edit, add, delete);
         });
         delete.setOnMouseClicked(e -> {
-            System.out.println("MODE: DELETE");
+//            System.out.println("MODE: DELETE");
             mode = "DELETE";
             changeEffects(new Lighting(), delete, add, edit);
         });
@@ -282,9 +274,9 @@ public class MidiGrid {
             int noteStart = 0;
             if (phase.getType() == Phase.Type.Melody1) {
                 noteStart = 7;
-                System.out.println("we MELODY");
+//                System.out.println("we MELODY");
             } else {
-                System.out.println("we BASS");
+//                System.out.println("we BASS");
                 noteStart = 0;
             }
 
@@ -292,13 +284,12 @@ public class MidiGrid {
             for(int j = 0; j < phase.manager.numNotes; j++) {
                 Label noteLabel = new Label();
                 noteLabel.textProperty().bind(scaleNames.get(j + noteStart));
-                noteLabel.setStyle("-fx-padding: 0 0 0 15");
 
                 Label noteValue = new Label();
                 //Sum of 0 + scaleValues.get(j)
                 NumberBinding noteVal = Bindings.add(0,scaleValues.get(j + noteStart));
                 noteValue.textProperty().setValue(noteVal.getValue().toString());
-                System.out.println("noteVal " + noteVal.getValue().toString());
+//                System.out.println("noteVal " + noteVal.getValue().toString());
                 noteValue.setVisible(false);
                 HBox note = new HBox(noteLabel, noteValue);
                 note.setId("note-label");
@@ -440,25 +431,25 @@ public class MidiGrid {
 //        System.out.println("arrangeBorderSome(): col: " + col);
         if (col % 16 == 0) {
             //Start Measure, Left Solid
-            System.out.println("Left Solid");
+//            System.out.println("Left Solid");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
                     CornerRadii.EMPTY, new BorderWidths(1,0,1,3), Insets.EMPTY)));
         } else if (col % 16 == 15) {
             //End Measure, Right Solid
-            System.out.println("Right Solid");
+//            System.out.println("Right Solid");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                     CornerRadii.EMPTY, new BorderWidths(1,3,1,0), Insets.EMPTY)));
         } else if (col % 4 == 0) {
 //            Left side Dashed
-            System.out.println("Left Dashed");
+//            System.out.println("Left Dashed");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED,
                     CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
         } else if (col % 4 == 3) {
             //Right side Dashed
-            System.out.println("Right Dashed");
+//            System.out.println("Right Dashed");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.DASHED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                     CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
@@ -470,7 +461,7 @@ public class MidiGrid {
 //                    CornerRadii.EMPTY, new BorderWidths(1,0,1,1), Insets.EMPTY)));
         } else if (col % 2 == 1) {
             //Right side Dotted
-            System.out.println("Right Dotted");
+//            System.out.println("Right Dotted");
             midiPane.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.SOLID, BorderStrokeStyle.DOTTED, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                     CornerRadii.EMPTY, new BorderWidths(1,1,1,0), Insets.EMPTY)));
@@ -522,12 +513,12 @@ public class MidiGrid {
         pane.setOnMouseClicked(e -> {
             switch(mode) {
                 case "ADD":
-                    System.out.println("ADD");
+//                    System.out.println("ADD");
                     MidiPane startPane = cells.get(new IntegerArray(new Integer[]{ (int)((int)(pane.getCol() / noteLength) * noteLength), pane.getRow()}));
                     addNote(startPane, noteLength);
                     break;
                 case "EDIT":
-                    System.out.println("EDIT");
+//                    System.out.println("EDIT");
                     //TODO: I believe there's still a bug that if a note is extended over another (consuming it), it doesnt delete that note.
                     // HAVE TO FIX THIS
                     if (editPane == null) {
@@ -580,10 +571,10 @@ public class MidiGrid {
                     }
                     break;
                 case "DELETE":
-                    System.out.println("DELETE");
+//                    System.out.println("DELETE");
                     ArrayList<Integer> list = findConnectedMidiPanes(pane.getCol(), pane.getRow());
                     if (list == null) {
-                        System.out.println("Nothing to Delete!");
+//                        System.out.println("Nothing to Delete!");
                     } else {
                         MidiPane deletePane = cells.get(new IntegerArray(new Integer[] {list.get(0), pane.getRow()}));
                         if (deletePane == null) {
@@ -599,7 +590,7 @@ public class MidiGrid {
 
         pane.setOnDragDetected(event -> {
             /* drag was detected, start drag-and-drop gesture*/
-            System.out.println("onDragDetected");
+//            System.out.println("onDragDetected");
 
             /* allow any transfer mode */
             Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
@@ -614,10 +605,10 @@ public class MidiGrid {
             /* accept it only if it is  not dragged from the same node */
             if (event.getGestureSource() != pane) {
                 /* allow for both copying and moving, whatever user chooses */
-                System.out.println("onDragOver");
+//                System.out.println("onDragOver");
                 event.acceptTransferModes(TransferMode.MOVE);
             } else {
-                System.out.println("onDragOver SAME OBJECT");
+//                System.out.println("onDragOver SAME OBJECT");
             }
 
             event.consume();
@@ -625,7 +616,7 @@ public class MidiGrid {
 
         pane.setOnDragEntered(event -> {
             /* the drag-and-drop gesture entered the target */
-            System.out.println("onDragEntered");
+//            System.out.println("onDragEntered");
             /* show to the user that it is an actual gesture target */
             if (event.getGestureSource() != pane) {
                 Bloom bloom = new Bloom();
@@ -644,7 +635,7 @@ public class MidiGrid {
 
         pane.setOnDragDropped(event -> {
             /* data dropped */
-            System.out.println("onDragDropped");
+//            System.out.println("onDragDropped");
             /* if there is a string data on dragboard, read it and use it */
             MidiPane oldPane = (MidiPane) event.getGestureSource();
 
@@ -673,7 +664,7 @@ public class MidiGrid {
 
         pane.setOnDragDone(event -> {
             /* the drag-and-drop gesture ended */
-            System.out.println("onDragDone");
+//            System.out.println("onDragDone");
             /* if the data was successfully moved, clear it */
 //            if (event.getTransferMode() == TransferMode.MOVE) {
 //                Rectangle r = (Rectangle) pane.getChildren().toArray()[0];
@@ -712,7 +703,7 @@ public class MidiGrid {
         res.add(endCol-startCol+1);
         //Returns column start and it's note length.
         int tempLength = endCol-startCol+1;
-        System.out.println("findConnectedMidiPanes(): temp length: " + tempLength);
+//        System.out.println("findConnectedMidiPanes(): temp length: " + tempLength);
         return res;
 
     }
@@ -720,7 +711,7 @@ public class MidiGrid {
     private void addNote(MidiPane pane, int noteLength) {
         int col = pane.getCol();
         int row = pane.getRow();
-        System.out.println("col: " + col + ". row: " + row);
+//        System.out.println("col: " + col + ". row: " + row);
         boolean canPlace = true;
         for (int i = 0; i < noteLength; i++) {
             Integer[] indexes = {col + i, row};
@@ -778,7 +769,7 @@ public class MidiGrid {
     private void deleteNote(MidiPane pane, int noteLength) {
         int col = pane.getCol();
         int row = pane.getRow();
-        System.out.println("col: " + col + ". row: " + row);
+//        System.out.println("col: " + col + ". row: " + row);
 
         for (int i = 0; i < noteLength; i++) {
             Integer[] indexes = {col + i, row};
