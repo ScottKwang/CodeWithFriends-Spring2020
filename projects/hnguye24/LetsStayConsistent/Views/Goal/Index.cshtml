@@ -1,0 +1,41 @@
+﻿@model LetsStayConsistent.ViewModels.GoalIndexViewModel
+
+<div class="mt-5">
+    @Html.ActionLink("Add New Goal", "Add", "Goal", null, new { @class = "btn btn-dark btn-lg mb-3" })
+
+    <h2>Goals in Database</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.LabelFor(m => m.Goals[0].Id)</th>
+                <th scope="col">@Html.LabelFor(m => m.Goals[0].Name)</th>
+                <th scope="col">@Html.LabelFor(m => m.Goals[0].DaysToComplete)</th>
+                <th scope="col">@Html.LabelFor(m => m.Goals[0].Reward)</th>
+                <th scope="col">Number of logs</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var goal in Model.Goals)
+            {
+                <tr>
+                    <td>@goal.Id</td>
+                    <td>@Html.ActionLink(goal.Name, "Details", "Goal", new { id = goal.Id}, null)</td>
+                    <td>@goal.DaysToComplete</td>
+                    <td>@goal.Reward</td>
+                    <td>@goal.GoalLogs.Count()</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Goal", new { id = goal.Id }, null) |
+                        @Ajax.ActionLink("Delete", "Delete", "Goal", new { id = goal.Id },
+                                        new AjaxOptions
+                                        {
+                                            HttpMethod = "Delete",
+                                            Confirm = "Are you sure you want to delete this goal? This cannot be undone.",
+                                            OnComplete = "location.reload()"
+                                        })
+                </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
