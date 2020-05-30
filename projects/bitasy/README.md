@@ -30,14 +30,15 @@ to run the application. We use Openjdk14 (not included).
 * Add measures to create music of any length
 * Export your song to a midi file, to be played for later
 
-###Title Screen
+### Title Screen
 ![title screen](musiotic/src/resources/readme/title.png "Title Screen")
 
-###Key & Tempo Screen
+### Key & Tempo Screen
 ![key and tempo screen](musiotic/src/resources/readme/keytempo.png "Key & Tempo Screen")
 
-###Melody Screen
+### Melody Screen
 ![melody screen](musiotic/src/resources/readme/music.png "Melody Screen")
 
-###Demo
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/tZqU4JJt7Eg/0.jpg)](https://www.youtube.com/watch?v=tZqU4JJt7Eg)
+### Demo
+
+[![demo video thumbnail](https://img.youtube.com/vi/tZqU4JJt7Eg/0.jpg)](https://www.youtube.com/watch?v=tZqU4JJt7Eg)
