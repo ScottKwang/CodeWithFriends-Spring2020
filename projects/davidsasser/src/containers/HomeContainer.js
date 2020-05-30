@@ -131,7 +131,7 @@ class HomeContainer extends Component {
     }
 
     playPauseTimer() {
-        if (this.state.audioIsPaused && this.state.selectedAudio != null && this.state.audioSource != null) {
+        if (this.state.audioIsPaused && this.state.selectedAudio != null && this.state.audioSource != null && this.state.isPaused) {
             this.player.play();
             this.setState({
                 audioIsPaused: false

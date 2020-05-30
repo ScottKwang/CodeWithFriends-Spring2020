@@ -233,6 +233,7 @@ div.MuiGrid-root svg.MuiSvgIcon-root {
 
 .timer-number {
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .timer-number:hover, .timer-number:active {

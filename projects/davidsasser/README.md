@@ -2,10 +2,11 @@
 
 Created by David Sasser, [GithHub Link](https://github.com/davidsasser)
 Source code: https://github.com/davidsasser/pomodoro-app
+Live app: https://fallo-app.herokuapp.com/
 
 ## Summary
 
-I created a Pomodoro plus White Noise web application using Node and React. A user can customize the timer to be the right interval for them up to one hour. There are options to choose any sort of audio that a user would like to listen to while focusing on their tasks. Once the timer ends if there was audio playing it will stop, and there is an option to check if a user wants an audio alert when the timer has ended. Other customization options such as background images have been added for a user to select.
+I created a Pomodoro plus White Noise web application using Node and React. The project is called Fallo. Fallo is Italian for "get it done" or "just do it". I built this to help a user focus while working or studying. A user can customize the timer to be the right interval for them up to one hour. There are options to choose any sort of audio that a user would like to listen to while focusing on their tasks. Once the timer ends if there was audio playing it will stop.
 
 (Insert any pictures or screenshots of your final project here)
 
