@@ -1,7 +1,7 @@
 # Unwind
 
 Created by Alan Cao, [GitHub](https://github.com/Alacau), [LinkedIn](https://linkedin.com/in/caoalan)   
-Source code: [Link](github.com/Alacau/Unwind)
+Source code: [Link](https://github.com/Alacau/Unwind)
 
 ## Summary
 
