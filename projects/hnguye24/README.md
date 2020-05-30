@@ -4,11 +4,9 @@ Author: Henry Nguyen, https://github.com/hnguye24
 Source Code: https://github.com/hnguye24/lets-stay-consistent
 
 ## Thank you Mayuko and Scott
----
 This event was the catalyst I needed to start working on personal projects. It's been a year since I started to learn to how code, and now I finally felt confident to make something on my own. It was encouraging to see people with various coding experiences come together to share their work and cheer each other on. What a wholesome coding community <3. Thank you for taking the time creating this event and supporting it throughout the month. This was a fantastic idea and I can't wait to participate in the next one!
 
 ## My Project: "Lets Stay Consistent!"
----
 I always had a hard time exercising consistently. I wanted to create a simple web tool that will let me input my goals, log my progress, and keep track of my consistency. This application is far from complete, but I'm happy with the progress I have made so far!
 
 #### Technologies used
@@ -24,7 +22,6 @@ I always had a hard time exercising consistently. I wanted to create a simple we
 [More images in Screenshots folder](Screenshots)
 
 ## What I have learned:
----
 * You never have as much time as you think
     * Despite signing up for the event before May and being excited to work on the project, I had a slow start and ended up spending most of May focusing on big life events (bought my first car)
     * I came in with a simple concept, but I ended up having to simplify it even further and being okay with the current state of the application
@@ -39,6 +36,6 @@ I always had a hard time exercising consistently. I wanted to create a simple we
 * CSS and vanilla JS
     * I learned how to make my own calendar date-picker
     * I learned how to animate a custom progress bar
-* Entity Framework https://docs.microsoft.com/en-us/aspnet/entity-framework
+* [Entity Framework](https://docs.microsoft.com/en-us/aspnet/entity-framework)
     * This framework allows me to query data from my database without SQL query strings in my code
     * I was really intimidated by this framework, but working on this project has shown me how simple it is to use
