@@ -10,6 +10,10 @@ worked on implementing a Piano style, but we are planning on implementing more s
 After creating a song, the user can export their work to a MIDI file which can be listened to on
 Windows Media Player or similar. Screenshots and a demo of the application is below!
 
+Jar or executable file coming soon! The lib directory has all of the dependencies we used
+to run the application.
+
+
 ###Title Screen
 ![title screen](musiotic/src/resources/readme/title.png "Title Screen")
 
