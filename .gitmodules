@@ -1,7 +1,11 @@
+[submodule "projects/outdoor-inspiration"]
+	path = projects/outdoor-inspiration-project/outdoor-inspiration
+	url = https://github.com/luisaugusto/outdoor-inspiration
+  
 [submodule "projects/CountdownTimer/CountdownTimer-Angular"]
 	path = projects/CountdownTimer/CountdownTimer-Angular
 	url = git@github.com:L4TTiCe/CountdownTimer-Angular.git
-
+  
 [submodule "projects/impure/muse"]
 	path = projects/impure/muse
 	url = https://gitlab.com/azuredown/muse.git
