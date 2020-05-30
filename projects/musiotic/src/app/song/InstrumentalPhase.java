@@ -144,7 +144,13 @@ public abstract class InstrumentalPhase extends Phase {
         for(var pair : connectedMeasures.entrySet()){
             Phrase m1 = pair.getKey();
             Phrase m2 = pair.getValue();
-            if(m2 == part.getPhrase(0)) continue;
+            boolean containsM1 = false;
+            boolean containsM2 = false;
+            for(var phrase : part.getPhraseList()){
+                if(!containsM1 && phrase == m1) containsM1 = true;
+                if(!containsM2 && phrase == m2) containsM2 = true;
+            }
+            if(!containsM1 && containsM2) continue;
             Note n1 = m1.getNote(m1.length() - 1);
             Note n2 = m2.getNote(0);
             m2.removeNote(n2);
@@ -210,6 +216,10 @@ public abstract class InstrumentalPhase extends Phase {
         connectMeasures();
         for(var phrases : phraseMap.values()){
             var first = phrases.remove(0);
+            while(!part.getPhraseList().contains(first)) {
+                first = phrases.remove(0);
+                first.setStartTime(0);
+            }
             for(var after : phrases){
                 Mod.append(first, after);
                 part.removePhrase(after);

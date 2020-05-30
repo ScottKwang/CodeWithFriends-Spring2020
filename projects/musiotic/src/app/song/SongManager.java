@@ -163,9 +163,11 @@ public class SongManager {
                 Part part = phase.part;
                 phase.backupPart();
                 var currPhrases = part.getPhraseArray();
-                Arrays.stream(currPhrases)
-                        .filter(phrase -> phrase.getStartTime() < measureNum * 4)
-                        .forEach(part::removePhrase);
+                for(var phrase : currPhrases){
+                    if(phrase.getStartTime() < measureNum * 4){
+                        part.removePhrase(phrase);
+                    }
+                }
                 var oldPart = phase.consolidatePart();// Prepare part for playing
                 oldParts.add(oldPart);
             });
@@ -183,7 +185,7 @@ public class SongManager {
                 phase.setPlayButton(true);
             });
 
-            double time = (double)(numMeasures*4) * 60 * 1000 / this.getTempo();
+            double time = (double)(numMeasures - measureNum) * 4 * 60 * 1000 / this.getTempo();
             time += 200;
             System.out.println("Playing for ms: " + time);
             playingTimer.schedule(new TimerTask() {
