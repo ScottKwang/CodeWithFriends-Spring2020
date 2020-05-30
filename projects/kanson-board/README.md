@@ -8,7 +8,7 @@ Frontend - https://github.com/tyrng/kanson-react-frontend
 
 Backend - https://github.com/tyrng/kanson-netcore-backend
 
-Hosted at: http://34.105.45.236
+Hosted at: http://tyrng.ddns.me/
 
 
 # Summary
