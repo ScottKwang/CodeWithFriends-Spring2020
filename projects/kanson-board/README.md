@@ -3,12 +3,14 @@
 ![image](https://user-images.githubusercontent.com/25080659/83320424-fe55cd80-a279-11ea-9ae9-fc291120df55.png)
 
 Created by: @tyrng 
+
 Source code: 
+
 Frontend - https://github.com/tyrng/kanson-react-frontend
 
 Backend - https://github.com/tyrng/kanson-netcore-backend
 
-Hosted at: http://tyrng.ddns.me/
+Hosted at: https://kanson.herokuapp.com/
 
 
 # Summary
