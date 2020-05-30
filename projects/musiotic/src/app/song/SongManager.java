@@ -1,5 +1,6 @@
 package song;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
@@ -22,6 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class SongManager {
@@ -34,6 +37,8 @@ public class SongManager {
     private final Score score;
     private int tonic;
     private int[] mode;
+    private boolean playing;
+    private Timer playingTimer;
 
     // Number of notes a user can input midi for. 8 is one octave.
     public int numNotes;
@@ -56,6 +61,8 @@ public class SongManager {
         score = new Score();
         tonic = JMC.C4;
         mode = JMC.MAJOR_SCALE;
+        playing = false;
+        playingTimer = new Timer();
     }
 
     public void setScreen(SongEditorScreen screen){
@@ -139,22 +146,64 @@ public class SongManager {
         score.add(part);
     }
 
-    public void play(int measureNum){
-        List<Part> oldParts = new ArrayList<>();
-        forInstrumentalPhase(phase -> {
-            Part part = phase.part;
-            phase.backupPart();
-            var currPhrases = part.getPhraseArray();
-            Arrays.stream(currPhrases)
-                    .filter(phrase -> phrase.getStartTime() < measureNum * 4)
-                    .forEach(part::removePhrase);
-            var oldPart = phase.consolidatePart();// Prepare part for playing
-            oldParts.add(oldPart);
-        });
+    public void play(int measureNum) {
+        if (playing) {
+            System.out.println("play but cancelling in song manager");
+            playingTimer.cancel();
+            playingTimer = new Timer();
+            stop();
+            forInstrumentalPhase(phase -> {
+                phase.setPlayButton(false);
+            });
+        } else {
+            System.out.println("play in song manager");
 
-        Play.midi(score);
-        score.removeAllParts();
-        for(Part part : oldParts) score.addPart(part);
+            List<Part> oldParts = new ArrayList<>();
+            forInstrumentalPhase(phase -> {
+                Part part = phase.part;
+                phase.backupPart();
+                var currPhrases = part.getPhraseArray();
+                Arrays.stream(currPhrases)
+                        .filter(phrase -> phrase.getStartTime() < measureNum * 4)
+                        .forEach(part::removePhrase);
+                var oldPart = phase.consolidatePart();// Prepare part for playing
+                oldParts.add(oldPart);
+            });
+            Play.midi(score);
+            score.removeAllParts();
+            for(Part part : oldParts) score.addPart(part);
+
+            //change buttons on instrumental phrases.
+            forInstrumentalPhase(phase -> {
+                phase.setPlayButton(true);
+            });
+
+            double time = (double)(numMeasures*4) * 60 * 1000 / this.getTempo();
+            time += 200;
+            System.out.println("Playing for ms: " + time);
+            playingTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        forInstrumentalPhase(phase -> {
+                            play(measureNum);
+                        });
+                    });
+                }
+            }, (int) time);
+
+            playing = true;
+
+        }
+    }
+
+    public void stop() {
+        playing = false;
+        try {
+            Play.stopMidi();
+        } catch (StackOverflowError e) {
+            System.out.println(e.toString());
+        }
     }
 
     protected void forInstrumentalPhase(Consumer<InstrumentalPhase> consumer){
@@ -169,6 +218,10 @@ public class SongManager {
 
     public void setTempo(double tempo) {
         score.setTempo(tempo);
+    }
+
+    public double getTempo() {
+        return score.getTempo();
     }
 
     public void writeScore(String filename) {

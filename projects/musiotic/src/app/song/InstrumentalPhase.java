@@ -225,6 +225,8 @@ public abstract class InstrumentalPhase extends Phase {
         for(var phrase : part.getPhraseArray()) phrase.setDynamic(muted ? 0 : 100);
     }
 
+    abstract protected void setPlayButton(boolean playing);
+
     public void setInstrumentProperty(IntegerProperty instrumentProperty){
         instrumentProperty.addListener((e, oldV, newV) -> part.setInstrument(newV.intValue()));
     }

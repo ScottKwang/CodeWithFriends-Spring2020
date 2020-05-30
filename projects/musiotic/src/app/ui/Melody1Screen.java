@@ -14,4 +14,5 @@ public class Melody1Screen extends MidiScreen {
         // midiGrid is null here but set once the style is confirmed it will be set.
 //        System.out.println(midiGrid);
     }
+
 }
