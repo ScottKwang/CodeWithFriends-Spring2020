@@ -5,3 +5,4 @@ permalink: /project_fair/
 ---
 
 {% include project_fair.html %}
+{% include project_table.html %}
