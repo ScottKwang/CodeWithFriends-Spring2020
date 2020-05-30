@@ -596,7 +596,12 @@ public class MidiGrid {
             switch(mode) {
                 case "ADD":
 //                    System.out.println("ADD");
-                    MidiPane startPane = cells.get(new IntegerArray(new Integer[]{ (int)((int)(pane.getCol() / noteLength) * noteLength), pane.getRow()}));
+                    MidiPane startPane;
+                    if (noteLength > 4) {
+                        startPane = cells.get(new IntegerArray(new Integer[]{ (int)((int)(pane.getCol() / 4) * 4), pane.getRow()}));
+                    } else {
+                        startPane = cells.get(new IntegerArray(new Integer[]{ (int)((int)(pane.getCol() / noteLength) * noteLength), pane.getRow()}));
+                    }
                     addNote(startPane, noteLength);
                     break;
                 case "EDIT":
