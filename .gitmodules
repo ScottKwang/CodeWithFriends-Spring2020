@@ -1,3 +1,8 @@
+[submodule "projects/harisont/SpesApp"]
+	path = projects/harisont/SpesApp
+	url = https://github.com/Disorganizzazione/SpesApp
+	branch = master
+
 [submodule "projects/outdoor-inspiration"]
 	path = projects/outdoor-inspiration-project/outdoor-inspiration
 	url = https://github.com/luisaugusto/outdoor-inspiration
