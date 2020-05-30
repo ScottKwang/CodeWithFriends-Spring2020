@@ -4,9 +4,12 @@
 
 Created by: @tyrng 
 Source code: 
-Frontend - https://github.com/tyrng/kanson-react-frontend 
+Frontend - https://github.com/tyrng/kanson-react-frontend
+
 Backend - https://github.com/tyrng/kanson-netcore-backend
+
 Hosted at: http://34.105.45.236
+
 
 # Summary
 Around that time when Scott and Mayuko were launching CWF my country was having a lockdown due to Covid19, and I was pretty free because I just finished all my bachelor degree classes, waiting for my results. So I started to learn React and .NetCore, this is my first project for both! I'm very happy to be able to share with everyone here!
