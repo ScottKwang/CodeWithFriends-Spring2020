@@ -5,4 +5,5 @@ _site/
 alembic-jekyll-theme-*.gem
 Gemfile.lock
 **/Gemfile.lock
+.DS_Store
 
