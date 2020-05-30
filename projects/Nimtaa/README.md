@@ -9,9 +9,9 @@ Whenever you are doing deep work, some sudden tasks may come into your mind such
 The focus would not be affected, and the rest time would be managed :coffee:
 
 
-![Screenshot1](/screenshot/1.png?raw=true=100x60 "Start Page")  
-![Screenshot2](/screenshot/2.png?raw=true=100x60 "Adding Task")  
-![Screenshot3](/screenshot/3.png?raw=true=100x60 "Rest Page")
+![Screenshot1](https://github.com/Nimtaa/Put-Aside/blob/master/screenshot/1.png?raw=true=100x60?raw=true=100x60 "Start Page")  
+![Screenshot2](https://github.com/Nimtaa/Put-Aside/blob/master/screenshot/2.png?raw=true=100x60.png?raw=true=100x60 "Adding Task")  
+![Screenshot3](https://github.com/Nimtaa/Put-Aside/blob/master/screenshot/3.png?raw=true=100x60.png?raw=true=100x60 "Rest Page")
 
 
 
