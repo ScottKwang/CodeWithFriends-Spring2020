@@ -169,6 +169,11 @@ public class SongManager {
                 var oldPart = phase.consolidatePart();// Prepare part for playing
                 oldParts.add(oldPart);
             });
+            for(var part : score.getPartArray()){
+                for(var phrase : part.getPhraseArray()){
+                    phrase.setStartTime(phrase.getStartTime() + 0.25);
+                }
+            }
             Play.midi(score);
             score.removeAllParts();
             for(Part part : oldParts) score.addPart(part);
