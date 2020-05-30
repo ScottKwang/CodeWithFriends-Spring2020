@@ -13,6 +13,22 @@ Windows Media Player or similar. Screenshots and a demo of the application is be
 Jar or executable file coming soon! The lib directory has the dependencies we used
 to run the application. We use Openjdk14 (not included).
 
+## Feature List
+
+* Create a piece of music with various Piano sounds.
+* Change the starting pitch of the piece at any time (even after music has already been written!)
+* Change the key / mode of the music at any time between the following choices:
+    * Major
+    * Minor
+    * Harmonic Minor
+    * Lydian
+    * Mixolydian
+* Change the tempo (speed) of the music at any time
+* Select between different instruments to use for the melody and bass sections
+* Fully create music down to the sixteenth note using an intuitive interface such that beginners can create amazing music
+* Listen to music as it's being created, starting at any point in the piece
+* Add measures to create music of any length
+* Export your song to a midi file, to be played for later
 
 ###Title Screen
 ![title screen](musiotic/src/resources/readme/title.png "Title Screen")
