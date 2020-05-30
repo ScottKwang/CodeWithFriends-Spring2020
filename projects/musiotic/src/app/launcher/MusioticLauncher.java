@@ -1,6 +1,5 @@
 package launcher;
 
-import ui.StartScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -9,6 +8,8 @@ import jm.music.data.Part;
 import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.util.Play;
+import ui.StartScreen;
+import util.PlayFixed;
 
 import static jm.constants.Durations.EIGHTH_NOTE;
 import static jm.constants.Durations.SIXTEENTH_NOTE;
@@ -43,7 +44,7 @@ public class MusioticLauncher extends Application{
 
     @Override
     public void stop() throws Exception {
-        Play.stopMidi();
+        PlayFixed.stopMidi();
         super.stop();
     }
 }

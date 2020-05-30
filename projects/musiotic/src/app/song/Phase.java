@@ -20,9 +20,12 @@ public abstract class Phase {
     public abstract Type getType();
     public abstract Node getScreen();
 
+    public void initialize(){};
+
     public enum Type {
         Style("Style", StylePhase.class),
         Key("Key &\nTempo", KeyPhase.class, Style),
+        Instrumentation("Instrumentation", InstrumentationPhase.class, Style),
         Melody1("Melody", Melody1Phase.class, Key),
         Melody2("Countermelody", null,Key),
         Bass("Bass", BassPhase.class, Key),
@@ -57,6 +60,5 @@ public abstract class Phase {
         public List<Type> getPrereqs(){
             return prereqs;
         }
-
     }
 }

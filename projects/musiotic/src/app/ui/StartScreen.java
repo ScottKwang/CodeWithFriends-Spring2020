@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -45,6 +46,8 @@ public class StartScreen extends BorderPane {
 
         var name = new Label("Musiotic");
         name.getStyleClass().add("name");
+        setAlignment(name, Pos.CENTER);
+        setAlignment(center, Pos.CENTER);
         setTop(name);
         setCenter(center);
     }

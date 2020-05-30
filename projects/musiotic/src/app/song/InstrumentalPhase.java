@@ -42,7 +42,9 @@ public abstract class InstrumentalPhase extends Phase {
         manager.addPart(part);
     }
 
+    @Override
     public void initialize(){
+        if(manager.getScale() == null) return;
         for(var pitch : manager.getScale().getValues()){
             var phraseList = new ArrayList<Phrase>();
             phraseMap.put(pitch.get(), phraseList);
@@ -221,5 +223,9 @@ public abstract class InstrumentalPhase extends Phase {
 
     public void setMute(boolean muted) {
         for(var phrase : part.getPhraseArray()) phrase.setDynamic(muted ? 0 : 100);
+    }
+
+    public void setInstrumentProperty(IntegerProperty instrumentProperty){
+        instrumentProperty.addListener((e, oldV, newV) -> part.setInstrument(newV.intValue()));
     }
 }

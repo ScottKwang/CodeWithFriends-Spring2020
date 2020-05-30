@@ -67,6 +67,7 @@ public class SongManager {
 //        System.out.println("SongManager: populateStyle()");
         var phases = stylePhase.getPhases();
         phaseMap = new MappedLinkedList<>(phases);
+        phases.values().forEach(Phase::initialize);
         screen.populate(phases.values());
     }
 

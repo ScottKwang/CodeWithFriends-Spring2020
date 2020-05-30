@@ -18,6 +18,7 @@ import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.util.Play;
 import song.KeyPhase;
+import util.PlayFixed;
 
 public class KeyScreen implements Screen{
     private final KeyPhase phase;
@@ -83,7 +84,7 @@ public class KeyScreen implements Screen{
         tempoSample.setOnMouseClicked(e -> {
             if(Play.cycleIsPlaying()) {
                 Play.stopMidiCycle();
-                Play.stopMidi();
+                PlayFixed.stopMidi();
             }
             else Play.midiCycle(sample);
         });
@@ -98,7 +99,7 @@ public class KeyScreen implements Screen{
         confirm.setOnMouseClicked(e -> {
             phase.setChoices(tonicChoice.getValue(), modeChoice.getValue(), tempoChoice.getValue());
             Play.stopMidiCycle();
-            Play.stopMidi();
+            PlayFixed.stopMidi();
         });
 
 

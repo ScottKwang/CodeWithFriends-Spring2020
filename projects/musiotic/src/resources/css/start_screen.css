@@ -23,11 +23,10 @@
 }
 
 .center {
-    -fx-padding: 20 0 0 100;
+    -fx-padding: 20 0 0 200;
 }
 
 .name {
-    -fx-max-width: 1280;
     -fx-alignment: center;
     -fx-font-family: sans-serif;
     -fx-font-size: 90;
