@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="197.5dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:background="#009688"
+        android:onClick="setRussian"
+        android:text="Russian"
+        android:textSize="18sp"
+        app:layout_column="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_row="0" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="197.5dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="8dp"
+        android:background="#00BCD4"
+        android:onClick="setJapanese"
+        android:text="Japanese"
+        android:textSize="18sp"
+        app:layout_column="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_row="0" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="395dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:columnCount="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:rowCount="2">
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_width="197.5dp"
+            android:layout_height="150dp"
+            android:background="#F44336"
+            android:onClick="setSpanish"
+            android:text="Spanish"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="197.5dp"
+            android:layout_height="150dp"
+            android:background="#9C27B0"
+            android:onClick="setItalian"
+            android:text="Italian"
+            android:textSize="18sp"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="197.5dp"
+            android:layout_height="150dp"
+            android:background="#2196F3"
+            android:onClick="setGerman"
+            android:text="German"
+            android:textSize="18sp"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="197.5dp"
+            android:layout_height="150dp"
+            android:background="#4CAF50"
+            android:onClick="setFrench"
+            android:text="French"
+            android:textSize="18sp"
+            app:layout_column="1"
+            app:layout_row="1" />
+    </androidx.gridlayout.widget.GridLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="395dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/backTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFEB3B"
+            android:gravity="center"
+            android:onClick="backButton"
+            android:text="BACK"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/wordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="Select a language"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/numCorrectTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FF9800"
+            android:gravity="center"
+            android:onClick="startButton"
+            android:text="START"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
