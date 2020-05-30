@@ -67,3 +67,5 @@ I intend on releasing this for free (On Google Play) to have something on my nam
 3) In Depth Forecast - Each day would have a status, if the user clicks on that day, there would be an hourly update of that day selected, for the user to find out what best hours to run in.
 
 4) The Backend - A user/sign up page Save total user mileage, create a default or list of areas for quick searching. Still thinking this one through.
+
+That's all folks
