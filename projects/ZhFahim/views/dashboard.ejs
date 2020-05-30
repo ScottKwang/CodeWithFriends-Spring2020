@@ -1,0 +1,85 @@
+<%- include("./partials/header") %>
+<div class="container">
+  <h3 class="dashboard-header">Dashboard</h3>
+  <div class="statics">
+    <h4>Statistics</h4>
+    <div class="details">
+      <p>Total Captions: <strong><%= statics.totalCaptions %> </strong></p>
+      <p>Total Categories: <strong><%= statics.totalCategories %> </strong></p>
+      <p>Total Caption Used By: <strong><%= statics.totalUsedBy %> </strong></p>
+      <p>Total Hits: <strong><%= statics.totalHits %> </strong></p>
+    </div>
+  </div>
+  <div class="caption-control">
+    <div class="add-caption">
+      <h4 class="add-cap-header">Add New Caption</h4>
+      <form action="/dashboard" method="POST">
+        <textarea name="text" required></textarea>
+        <input id="category-input" name="category" type="text" placeholder="Category" autocomplete="off" required/>
+        <div id="suggestion-box"></div>
+        <button class="submit">Submit</button>
+      </form>
+    </div>
+    <h4 class="captions-header">Manage Captions</h4>
+    <!-- Search Box -->
+    <div class="search-area">
+      <form action="/dashboard" method="GET">
+        <input type="text" name="text" placeholder="Search Caption" <% if (queryText) { %>
+          value="<%= queryText %>"
+          <% } %> />
+          <select name="category">
+          <option value="all">All</option>
+          <% if (categories) { %>
+            <% categories.forEach(function(category) { %>
+            <option value="<%= category %>" <% if (category === queryCategory) { %>
+              <%= "selected" %>
+              <% } %> ><%= category %></option>
+            <% }) %> 
+          <% } %>
+        </select>
+        <button>Search</button>
+      </form>
+    </div>
+    <!-- Caption List -->
+    <% if (captions.length > 0) { %>
+    <div class="captions">
+      <table>
+        <thead>
+          <tr>
+            <td>Caption</td>
+            <td>Used By</td>
+            <td>Edit</td>
+            <td>Delete</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% captions.forEach(function(caption) { %>
+            <tr>
+              <td><%= caption.text %> </td>
+              <td><%= caption.usedBy %> </td>
+              <td>
+                <a href="/dashboard/edit/<%= caption._id %>"><i class="edit-icon"></i></a>
+              </td>
+              <td><i onclick="deleteCaption('<%= caption._id%>')" class="trash-icon"></i>
+              </td>
+            </tr>
+          <% }) %> 
+        </tbody>
+      </table>
+    </div>
+    <!-- Paginations -->
+    <ul class="pagination">
+      <% for(var i = 1; i <= pages; i++) { %>
+        <li class="page <% if (i == currentPage) { %><%= "active" %><% } %>">
+          <a href="?text=<%= queryText %>&category=<%= queryCategory %>&page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+    </ul>
+    <% } else { %>
+      <div class="nocaption">
+        <h4>No Caption Found!</h4>
+      </div>
+    <% } %>
+  </div>
+</div>
+<%- include("./partials/footer") %>

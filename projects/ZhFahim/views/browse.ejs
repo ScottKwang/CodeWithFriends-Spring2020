@@ -1,0 +1,63 @@
+<%- include("./partials/header") %>
+    <!-- Content -->
+    <section id="browse-captions">
+      <h3>Browse Captions</h3>
+      <!-- Search Box -->
+      <div class="search-area">
+        <form action="/browse" method="GET">
+          <input type="text" name="text" placeholder="Search Caption" <% if (queryText) { %>
+           value="<%= queryText %>"
+          <% } %> />
+          <select name="category">
+            <option value="all">All</option>
+            <% if (categories) { %>
+              <% categories.forEach(function(category) { %>
+              <option value="<%= category %>" <% if (category === queryCategory) { %>
+                <%= "selected" %>
+                <% } %> ><%= category %></option>
+              <% }) %> 
+            <% } %>
+          </select>
+          <button>Search</button>
+        </form>
+      </div>
+      <!-- Caption List -->
+      <% if (captions.length > 0) { %>
+        <div class="captions">
+          <table>
+            <thead>
+              <tr>
+                <td>Caption</td>
+                <td>Used By</td>
+                <td>Copy</td>
+              </tr>
+            </thead>
+            <tbody>
+              <% captions.forEach(function(caption) { %>
+                <tr>
+                  <td><%= caption.text %> </td>
+                  <td><%= caption.usedBy %> </td>
+                  <td>
+                    <button class="copy-btn" data-clipboard-text="<%= caption.text %>" onclick="copy('<%= caption._id %>')">Copy</button>
+                  </td>
+                </tr>
+              <% }) %> 
+            </tbody>
+          </table>
+        </div>
+        <!-- Paginations -->
+        <ul class="pagination">
+          <% for(var i = 1; i <= pages; i++) { %>
+            <li class="page <% if (i == currentPage) { %><%= "active" %><% } %>">
+              <a href="?text=<%= queryText %>&category=<%= queryCategory %>&page=<%= i %>"><%= i %></a>
+            </li>
+          <% } %>
+        </ul>
+      <% } else { %>
+        <div class="nocaption">
+          <h4>No Caption Found!</h4>
+          <p>Please search again.</p>
+        </div>
+      <% } %>
+    </section>
+<%- include("./partials/footer") %> 

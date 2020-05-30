@@ -1,0 +1,26 @@
+<%- include("./partials/header") %>
+<div class="container">
+  <h3 class="dashboard-header">Edit Caption</h3>
+  <form
+    class="edit-caption"
+    action="/dashboard/edit/<%= caption._id %>"
+    method="POST"
+  >
+    <textarea name="text"><%= caption.text %></textarea>
+    <div class="category-suggestion">
+      <input
+        id="category-input"
+        name="category"
+        type="text"
+        value="<%= caption.category %>"
+        placeholder="Category"
+        autocomplete="off"
+        required
+      />
+      <div id="suggestion-box"></div>
+    </div>
+    <button>Edit</button>
+  </form>
+</div>
+
+<%- include("./partials/footer") %>
