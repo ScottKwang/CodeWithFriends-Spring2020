@@ -1,0 +1,4 @@
+[build]
+  Command = "npm run generate"
+  functions = "functions"
+  publish = "public"
