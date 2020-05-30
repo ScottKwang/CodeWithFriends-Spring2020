@@ -1,0 +1,152 @@
+html {
+    background-color: #1A1A1D;
+    color: white;
+}
+
+.main {
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+    color: white;
+    margin-top: 175px;
+}
+
+.search {
+    margin: 10px;
+    color: white;
+}
+
+
+#search-county {
+    text-align: center;
+    width: 125px;
+    right: 10px;
+    background-color: white;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#search-state {
+    text-align: center;
+    width: 150px;
+    left: 10px;
+    background-color: white;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#search-button {
+    margin: 0px 10px 10px 20px;
+    height: 47px;
+    width: 140px;
+    background: lightblue;
+    color: black;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#result {
+    margin-top: 10px;
+    margin-bottom: 100px;
+}
+
+.info {
+    padding: 5px 5px 5px 5px;
+}
+
+.info h3 {
+    text-decoration: underline;
+}
+
+#visualize-confirmed {
+    margin: 5px 5px 0px 5px;
+}
+
+#visualize-deaths {
+    margin: 5px 5px 0px 5px;
+}
+
+.headers {
+    margin-bottom: 40px;
+}
+
+.headers h1 {
+    color: white;
+    font-family: "Jost", sans-serif;
+    /* font-style: italic; */
+    margin-bottom: 5px;
+    /* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; */
+}
+
+.world-data {
+    position: fixed;
+    left: 0;
+    top: 0px;
+    width: 100%;
+    background-color: lightcoral;
+    color: white;
+    text-align: center;
+    z-index: 100;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.world-data h3 {
+    text-decoration: underline;
+}
+
+#world-confirmed {
+    background-color: #FCFF62;
+}
+
+#world-recovered {
+    background-color: #47B9FF;
+}
+
+#world-deaths {
+    background-color: #FF4249;
+}
+
+#world-rate {
+    background: #FFAD2D;
+}
+
+#world-confirmed, #world-recovered, #world-deaths, #world-rate {
+    height: 50px;
+    width: 125px;
+    font-size: 15px;
+    margin: 0px 5px 0px 5px;
+}
+
+#county-confirmed {
+    background: #FCFF62
+}
+
+#county-deaths {
+    background: #FF4249
+}
+
+#county-rate {
+    background: #FFAD2D
+}
+
+#county-confirmed, #county-deaths, #county-rate {
+    font-size: 12px;
+    margin: 0px 5px 0px 5px;
+}
+
+#date-chip {
+    background: #FFDEBB
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0px;
+    padding-top: 200px;
+    width: 100%;
+    color: black;
+    text-align: center;
+}
+
+#chip {
+    background-color: lightgray;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
