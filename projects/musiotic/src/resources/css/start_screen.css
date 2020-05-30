@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: #8A2BE2;
+    -fx-background-color: #8ACDEA;
 }
 
 .buttons {
@@ -12,7 +12,7 @@
 }
 
 .button {
-    -fx-background-color: gray;
+    -fx-background-color: #C9F0FF;
     -fx-max-width: inherit;
     -fx-font-size: 36;
     -fx-text-fill: black;

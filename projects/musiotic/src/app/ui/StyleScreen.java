@@ -8,18 +8,20 @@ import javafx.scene.layout.VBox;
 import song.Style;
 import song.StylePhase;
 
-public class StyleScreen implements Screen{
+public class StyleScreen extends OptionScreen {
     private final StylePhase phase;
-    private final Node screen;
 
     public StyleScreen(StylePhase phase){
+        super(phase);
         this.phase = phase;
+
         var choices = new ChoiceBox<String>();
         for(Style style : Style.values()){
             choices.getItems().add(style.name);
         }
         var content = new VBox();
-        var label = new Label("Style");
+        var label = new Label("Choose a style of music. (this can't be changed!)");
+        label.setId("title");
         var complete = new Button("Confirm");
         complete.setOnMouseClicked(e -> {
 //            System.out.println("StyleScreen: \"next\" button clicked");
@@ -29,11 +31,9 @@ public class StyleScreen implements Screen{
         complete.disableProperty().bind(choices.valueProperty().isNull());
         complete.visibleProperty().bind(phase.completed.not());
         content.getChildren().addAll(label, choices, complete);
-        screen = content;
+        content.setId("content");
+        setCenter(content);
     }
 
-    public Node getScreen(){
-//        System.out.println("StyleScreen: getScreen()");
-        return screen;
-    }
+
 }

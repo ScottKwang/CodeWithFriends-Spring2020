@@ -2,6 +2,7 @@ package ui;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -14,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import jm.JMC;
+import jm.util.Play;
 import song.InstrumentationPhase;
 import song.Phase;
 import util.PlayFixed;
@@ -23,9 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class InstrumentationScreen implements Screen {
+public class InstrumentationScreen extends OptionScreen {
     private final InstrumentationPhase phase;
-    private final Node screen;
     private final List<ChoiceBox> choices;
 
     private static final Map<String, Integer> INSTRUMENT_VALS = Map.of(
@@ -45,6 +46,7 @@ public class InstrumentationScreen implements Screen {
     );
 
     public InstrumentationScreen(InstrumentationPhase phase, Map<String, Pair<IntegerProperty, List<Integer>>> map){
+        super(phase);
         this.phase = phase;
         choices = new ArrayList<>();
         List<HBox> groups = new ArrayList<>();
@@ -60,12 +62,15 @@ public class InstrumentationScreen implements Screen {
             choice.valueProperty().addListener((e, oldV, newV) -> {
                 instVal.setValue(INSTRUMENT_VALS.get(newV));
             });
-            groups.add(new HBox(new Label(entry.getKey()), choice));
+            HBox groupBox = new HBox(new Label(entry.getKey()), choice);
+            groupBox.setId("inner-content");
+            groups.add(groupBox);
         }
-        var playScore = new Button();
-        playScore.setMaxWidth(16);
-        playScore.setMaxHeight(16);
-        Image playImage = new Image(getClass().getResourceAsStream("/images/play.png"), 16, 16, true, true);
+        Button playScore = new Button();
+        playScore.setPadding(Insets.EMPTY);
+        playScore.setMaxWidth(50);
+        playScore.setMaxHeight(50);
+        Image playImage = new Image(getClass().getResourceAsStream("/images/play.png"), 50, 50, true, true);
         playScore.setGraphic(new ImageView(playImage));
         AtomicBoolean isPlaying = new AtomicBoolean(false);
         playScore.setOnMouseClicked(e -> {
@@ -76,17 +81,32 @@ public class InstrumentationScreen implements Screen {
         Tooltip tooltip = new Tooltip("Listen to what your music sounds like with these instruments.");
         playScore.setTooltip(tooltip);
 
+
+        Button confirm = new Button("Confirm");
+        confirm.setPadding(Insets.EMPTY);
+        confirm.setOnMouseClicked(e -> {
+            phase.manager.goToPhase(phase.manager.phaseMap.getNext(phase.getType()));
+            Play.stopMidiCycle();
+            PlayFixed.stopMidi();
+        });
+
+
         Text desc = new Text("Choose which instruments you'd like to play your music!");
         List<Node> elements = new ArrayList<>();
         elements.add(desc);
         elements.addAll(groups);
         elements.add(playScore);
-        screen = new VBox(elements.toArray(new Node[0]));
+        elements.add(confirm);
+
+        desc.setId("inner-content");
+        desc.setId("title");
+        playScore.setId("inner-content");
+
+        VBox box = new VBox(elements.toArray(new Node[0]));
+        box.setId("content");
+
+        setCenter(box);
         phase.completed.setValue(true);
     }
 
-    @Override
-    public Node getScreen() {
-        return screen;
-    }
 }

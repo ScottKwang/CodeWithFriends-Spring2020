@@ -213,7 +213,8 @@ public class MidiGrid {
         Button delete = new Button("Delete Note");
 
         makeToolTip(add, "Click anywhere to add a note.");
-        makeToolTip(edit, "Click on an existing note, then click again on another spot on that same row to extend/shrink your note.");
+        makeToolTip(edit, "Click on an existing note, then click again on another spot on that same row to extend/shrink your note.\n" +
+                "Clicking and dragging an existing note to an empty spot will also move that note to that spot (in any mode).");
         makeToolTip(delete, "Click on any note to delete that note.");
 
         changeEffects(new Lighting(), add, edit, delete);
@@ -309,33 +310,7 @@ public class MidiGrid {
     public void initializeCells() {
         // Top Vertical Bar
         for(int i = 0; i < phase.manager.numMeasures; i++) {
-            Label measureArrow = new Label("↓");
-            Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
-            HBox box = new HBox(measureArrow, measureNumber);
-            gridPane.add(box, i*16 + 1, 0, 4, 1);
-            if (i == 0) {
-                measureArrow.setId("big-arrow");
-            } else {
-                measureArrow.setId("small-arrow");
-            }
-            box.setOnMouseClicked(e -> {
-                GridPane.getColumnIndex(box);
-                GridPane.getRowIndex(box);
-                System.out.println(measureNumber.getText() + " Clicked!");
-                System.out.println("col " + GridPane.getColumnIndex(box) + " row " + GridPane.getRowIndex(box));
-                measureStart = ((GridPane.getColumnIndex(box)-1)/16);
-                measureArrow.setId("big-arrow");
-                for (Node node : gridPane.getChildren()) {
-                    if ((GridPane.getRowIndex(node) == 0) && (((GridPane.getColumnIndex(node)-1) % 16) == 0)) {
-                        Label arrow = (Label) ((HBox) (node)).getChildren().get(0);
-                        if (arrow != null) {
-                            if (arrow != measureArrow) {
-                                arrow.setId("small-arrow");
-                            }
-                        }
-                    }
-                }
-            });
+            createMeasureLabel(i);
         }
 
         if (phase.getType() == Phase.Type.Drums) {
@@ -388,6 +363,36 @@ public class MidiGrid {
 
         //FOR DEBUGGING
         //gridPane.setGridLinesVisible(true);
+    }
+
+    private void createMeasureLabel(int col) {
+        Label measureArrow = new Label("↓");
+        Label measureNumber = new Label(" Measure " + Integer.toString(col + 1));
+        HBox box = new HBox(measureArrow, measureNumber);
+        gridPane.add(box, col*16 + 1, 0, 4, 1);
+        if (col == 0) {
+            measureArrow.setId("big-arrow");
+        } else {
+            measureArrow.setId("small-arrow");
+        }
+        box.setOnMouseClicked(e -> {
+            GridPane.getColumnIndex(box);
+            GridPane.getRowIndex(box);
+            System.out.println(measureNumber.getText() + " Clicked!");
+            System.out.println("col " + GridPane.getColumnIndex(box) + " row " + GridPane.getRowIndex(box));
+            measureStart = ((GridPane.getColumnIndex(box)-1)/16);
+            measureArrow.setId("big-arrow");
+            for (Node node : gridPane.getChildren()) {
+                if ((GridPane.getRowIndex(node) == 0) && (((GridPane.getColumnIndex(node)-1) % 16) == 0)) {
+                    Label arrow = (Label) ((HBox) (node)).getChildren().get(0);
+                    if (arrow != null) {
+                        if (arrow != measureArrow) {
+                            arrow.setId("small-arrow");
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private MidiPane createCell(Color c, GridPane gridPane, int col, int row) {
@@ -896,8 +901,9 @@ public class MidiGrid {
         int oldNumMeasures = phase.manager.numMeasures;
         phase.manager.addMeasures();
         for(int i = oldNumMeasures; i < phase.manager.numMeasures; i++) {
-            Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
-            gridPane.add(measureNumber, i*16 + 1, 0, 4, 1);
+            createMeasureLabel(i);
+//            Label measureNumber = new Label(" Measure " + Integer.toString(i + 1));
+//            gridPane.add(measureNumber, i*16 + 1, 0, 4, 1);
         }
         for(int i = oldNumMeasures*16; i < phase.manager.numMeasures*16 + 1; i++) {
             for(int j = 1; j < phase.manager.numNotes + 1; j++) {
