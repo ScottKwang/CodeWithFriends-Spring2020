@@ -9,7 +9,6 @@ public class Melody1Screen extends MidiScreen {
     public Melody1Screen(Melody1Phase phase) {
         super(phase);
         this.phase = phase;
-        setBottom(new Label("Melody Screen")); // For example
 
         // midiGrid is null here but set once the style is confirmed it will be set.
 //        System.out.println(midiGrid);

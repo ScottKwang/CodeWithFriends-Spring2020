@@ -48,7 +48,7 @@ class PhaseDetail extends Pair<Phase.Type, List<Integer>> {
 }
 
 public enum Style {
-    PIANO("Classical Piano",
+    PIANO("Piano",
             new PhaseDetail(Phase.Type.Key),
             new PhaseDetail(Phase.Type.Instrumentation),
             new PhaseDetail(Phase.Type.Melody1, 0, "Piano",

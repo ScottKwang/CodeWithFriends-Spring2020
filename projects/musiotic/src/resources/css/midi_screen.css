@@ -85,4 +85,5 @@
 .add-measure-buttons .button {
     -fx-font-size: 25;
     -fx-font-weight: 500;
+    -fx-text-alignment: center;
 }
