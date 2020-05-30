@@ -11,8 +11,7 @@ public class ExportPhase extends Phase {
     Label title = new Label("Enter a title for your song");
     TextField titleArea = new TextField();
     Button export = new Button("Export");
-    HBox titleBox = new HBox(title, titleArea);
-    VBox exportBox = new VBox(titleBox, export);
+    VBox exportBox = new VBox(title, titleArea, export);
 
     public ExportPhase(SongManager manager) {
         super(manager);
@@ -21,8 +20,8 @@ public class ExportPhase extends Phase {
             manager.writeScore(titleArea.getText());
         });
 
-        titleBox.setStyle("-fx-spacing: 10;");
         exportBox.setStyle("-fx-padding: 25 0 0 25; -fx-spacing: 10;");
+        titleArea.setMaxWidth(200);
         export.setStyle("-fx-font-size: 18;" +
                 "-fx-text-fill: black;" +
                 "-fx-background-color: C9F0FF;" +

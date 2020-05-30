@@ -20,7 +20,7 @@ public class StyleScreen extends OptionScreen {
             choices.getItems().add(style.name);
         }
         var content = new VBox();
-        var label = new Label("Choose a style of music. (this can't be changed!)");
+        var label = new Label("Choose a style of music. (This can't be changed!)");
         label.setId("title");
         var complete = new Button("Confirm");
         complete.setOnMouseClicked(e -> {

@@ -7,6 +7,12 @@
     -fx-font-weight: 500;
 }
 
+#tempo-display {
+    -fx-font-size: 20;
+    -fx-font-family: Garamond;
+    -fx-font-weight: 500;
+}
+
 .button {
     -fx-max-width: inherit;
     -fx-pref-width: inherit;
@@ -17,7 +23,7 @@
     -fx-pref-height: 75;
     -fx-max-height: 75;
     -fx-font-family: Garamond;
-    /*-fx-padding: 5 10 5 10;*/
+    -fx-padding: 5 10 5 10;
 }
 
 #content {

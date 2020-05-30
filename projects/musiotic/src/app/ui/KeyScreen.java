@@ -30,7 +30,7 @@ public class KeyScreen extends OptionScreen {
         this.phase = phase;
 
         Text description = new Text("Choose the options that will determine what your music sounds like." +
-                " Hover over the option names for more information. You can change these settings at any time.");
+                "\nHover over the option names for more information. You can change these settings at any time.");
         description.setId("title");
 
         Label tonic = new Label("Tonic");
@@ -45,7 +45,7 @@ public class KeyScreen extends OptionScreen {
                 "Set it to match your vocal range if you'd like to sing along!");
 
         tonicBox.setId("inner-content");
-
+        tonicBox.setMaxWidth(250);
 
 
 
@@ -64,7 +64,7 @@ public class KeyScreen extends OptionScreen {
         makeToolTip(scaleBox, "This determines the atmosphere and mood of your music. " +
                 "Try selecting different options once you have some music to work with!");
         scaleBox.setId("inner-content");
-
+        scaleBox.setMaxWidth(250);
 
 
 
@@ -90,6 +90,8 @@ public class KeyScreen extends OptionScreen {
                 () -> (int) (tempoChoice.valueProperty().doubleValue() + 0.5) + " BPM",
                 tempoChoice.valueProperty())
         );
+        tempoDisplay.setId("tempo-display");
+
         var tempoSample = new Button();
         tempoSample.setMaxWidth(50);
         tempoSample.setMaxHeight(50);
@@ -122,6 +124,7 @@ public class KeyScreen extends OptionScreen {
                 "selection is with the play button!");
         tempoBox.setId("inner-content");
         tempoBox.setAlignment(Pos.CENTER_LEFT);
+        tempoBox.setMaxWidth(450);
 
 
 
