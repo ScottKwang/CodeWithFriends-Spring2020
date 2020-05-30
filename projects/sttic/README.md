@@ -18,20 +18,13 @@ A key feature is that it adjusts your display's backlight brightness, as in brig
 This is better than just adding filters or doing any software adjustment to an image because this physically changes the amount of light being produced.
 Changing the backlight makes showing a true fully black screen possible on a common LCD display (turning it off to 0% brightness late at night) while still allowing it to be turned back up to maximum brightness during the day.
 
-<div class="container center">
-    <img src="readme-assets/dynamic-background.gif" alt="Crossfading background of outdoor scenery throughout the day" />
-    <div class="caption">
-        <p><i>Screen capture of crossfading background from the project (video is sped up).<br/>Backlight dimming can't be seen with this.</i></p>
-    </div>
-</div>
-<div class="container center">
-    <img src="readme-assets/actual-appearance.gif" alt="Actual appearance of screen (with dimming) recorded on a phone" />
-    <div class="caption">
-        <p><i>Actual appearance of screen, with backlight dimming, recorded on a phone (video is sped up even more).
-            <br/>Dimming/brightening is reduced in the recording because of auto-exposure. Notice the screen getting dark and turning off and back on.
-        </i></p>
-    </div>
-</div>
+![Crossfading background of outdoor scenery throughout the day](readme-assets/dynamic-background.gif)
+
+_Screen capture of crossfading background from the project (video is sped up). Backlight dimming can't be seen with this._
+
+![Actual appearance of screen (with dimming) recorded on a phone](readme-assets/actual-appearance.gif)
+
+_Actual appearance of screen, with backlight dimming, recorded on a phone (video is sped up even more). Dimming/brightening is reduced in the recording because of auto-exposure. Notice the screen getting dark and turning off and back on._
 
 Original art is [Lakeside by Louis Coyle](https://dynamicwallpaper.club/wallpaper/jculsb683ok).
 
