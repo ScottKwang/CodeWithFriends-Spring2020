@@ -1,6 +1,12 @@
 
 # (ShareIT)
 
+Basically it is an application where people can share any files they want with other users (you can view it following the link to deployed app).
+
+Clients can find each other by searching for the user by his name, then they can write them a comment in private chat and ask for the id (this id allows to find the account's files), after getting the id the user can find the files and download or view them in the browser.
+
+(Essentially, this is a simplified version of Google Drive Platform)
+
 Created by TommyIQ - Vladislav Art, 
 https://github.com/TommyIQ - github
 https://www.instagram.com/vladislavartuhov/ - instagram
