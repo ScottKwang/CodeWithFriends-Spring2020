@@ -5,12 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-//STORE -> GLOBALIZED STATE
-
-//ACTION
-
-
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -22,7 +22,7 @@ code {
   text-align: center;
   font-size: 4rem;
   display: flex;
-  margin-left: 22px;
+  margin: auto;
   width: 160px;
 }
 
@@ -30,7 +30,7 @@ code {
   display: flex;
   justify-content: center;
   color:white;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .play-pause {
@@ -115,16 +115,17 @@ button.btn-primary {
   border: none;
 }
 
-button.btn-primary svg {
+a.nav-link svg {
   height: 50px;
   width: 50px;
+  color: white;
 }
 
 a.text-white {
   font-size: 36px;
 }
 
-button.underneath {
+a.underneath {
   position: absolute;
   z-index: 1;
   left: 0;
@@ -138,7 +139,7 @@ button.underneath {
 }
 
 
-button.on-top {
+a.on-top {
   position: absolute;
   z-index: 2;
   left: 0;
@@ -150,7 +151,7 @@ button.on-top {
   width: 50px;
 }
 
-button.on-top:focus, button.underneath:focus {
+a.on-top:focus, a.underneath:focus {
   outline: none;
   border: none;
 }
@@ -168,10 +169,21 @@ button:focus {
 }
 
 .audio-play-pause-container {
-  display: flex;
+  display: block;
   justify-content: center;
   color:white;
-  margin-bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 300px;
+}
+
+.audio-btn-container {
+  width: 152px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
 }
 
 .audio-play-pause {
@@ -196,4 +208,57 @@ button.audio-play-pause:focus {
 
 .audio-play-pause svg {
   font-size: 6rem;
+}
+
+span.MuiSlider-rail {
+  height: 6px;
+}
+
+span.MuiSlider-root {
+  color: white;
+}
+
+span.MuiSlider-track {
+  height: 6px;
+}
+
+span.MuiSlider-thumb {
+  height: 16px;
+  width: 16px;
+}
+
+div.MuiGrid-root svg.MuiSvgIcon-root {
+  font-size: 2rem;
+}
+
+.timer-number {
+  border-radius: 8px;
+}
+
+.timer-number:hover, .timer-number:active {
+  background-color: rgba(145, 145, 145, 0.3);
+}
+
+input.minutes {
+  height: 68px;
+  width: 100px;
+  font-size: 50px;
+}
+
+div.modal-body {
+  height: 116px;
+}
+
+label.minutes-label {
+  font-size: 50px;
+  margin-right: 16px;
+}
+
+div.edit-time {
+  margin: auto;
+  width: fit-content;
+}
+
+a.navbar-brand {
+  margin-left: 40px;
 }
