@@ -1,7 +1,7 @@
 # Meditation App! (will think of a real name later lol)
 
 Created by Jacob Pernell, https://www.jacobpernell.design/
-Source code: (Source code link)
+Source code: https://github.com/JacobPernell/MeditationApp
 
 ## Summary
 
