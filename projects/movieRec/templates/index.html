@@ -1,0 +1,164 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- # of movies rated so far tracker -->
+<div class="num_rated_tracker">
+  <h3>You've rated {{num_rated}} movie(s) so far!</h3>
+</div>
+
+<!-- tour -->
+<div class="index-content">
+  <div id="tour">
+    <h3 class="tour_text" id="instructions">rate 8 movies in total (<span class="check">✔</span>/<span
+        class="x">X</span>) and we'll recommend a few you should try watching!</h3>
+    <h3 class="tour_text" id="X">didn't like this movie? click <span class="x">X</span> and we'll suggest one unlike it.
+    </h3>
+    <h3 class="tour_text" id="unseen">never seen this movie? click 'never seen this movie' and another
+      movie will appear.</h3>
+    <h3 class="tour_text" id="check">loved this movie? click <span class="check">✔</span> and we're suggest one like it.
+    </h3>
+  </div>
+
+  <!-- movie display -->
+  <div id="movie_display">
+
+    <img id="movie_poster" src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" alt="movie poster" />
+
+  </div>
+
+  <form action='#' method="GET" name="ratingForm">
+
+    <!-- buttons -->
+    <a href="" class="rating-buttons" id="dislike">
+      <button><img src="{{url_for('static', filename='images/x_button.png')}}" /></button>
+    </a>
+
+    <a href="" class="rating-buttons" id="unseen">
+      <button><img src="{{url_for('static', filename='images/unseen_button.png')}}" /></button>
+    </a>
+
+    <a href="" class="rating-buttons" id="like">
+      <button><img src="{{url_for('static', filename='images/check_button.png')}}" /></button>
+    </a>
+
+    <!-- hidden data to submit -->
+    <input type="hidden" name="has_started_rating" id="has_started_rating" value="False" />
+    <input type="hidden" name="movie_id_rated" value="{{movie.id}}" />
+    <input type="hidden" name="rating" id="rating" value="" />
+
+  </form>
+</div>
+
+<div class="loading-extend1">
+  <div class="container">
+    <div id="load"></div>
+  </div>
+</div>
+
+<div class="loading-extend2">
+  <div class="container">
+    <div id="loading" class="endloading"><img src="{{url_for('static', filename='images/result_loading.gif')}}"
+        alt="loading gif" /></div>
+  </div>
+</div>
+
+<!-- footer -->
+<p class="footer" id="credit">movieRec created by <a href="http://www.jonnachen.com">Jonna Chen</a>.</p>
+
+
+<script type=text/javascript>
+      document.querySelector('.endloading').style.display = 'none';
+      document.querySelector('.loading-extend2').style.display = 'none';
+      document.querySelector('.loading-extend1').style.display = 'none';  
+
+      // loading screen functionality
+      if ({{num_rated}} == 0){
+        document.querySelector('.index-content').style.display = 'none';
+        document.querySelector('.num_rated_tracker').style.display = 'none';
+        document.querySelector('.logo').style.display = 'none';
+        document.querySelector('.loading-extend1').style.display = 'block';  
+        document.getElementById('load').classList.add('loader');
+
+        setTimeout(() =>{
+          document.getElementById('load').classList.remove('loader');     
+          document.querySelector('.index-content').style.display = 'block';
+          document.querySelector('.num_rated_tracker').style.display = 'block';
+          document.querySelector('.loading-extend1').style.display = 'none';  
+          document.querySelector('.logo').style.display = 'inline-block';
+        }, 2000)
+      }
+
+// button functionality
+  $(function() {
+    $('a#dislike').bind('click', function() {
+      document.getElementById('movie_poster').className = 'fade-out';
+
+      setTimeout(() =>{
+        document.querySelector('#movie_poster').style.visibility = 'hidden';
+        document.getElementById("rating").value = "dislike";
+        document.getElementById("has_started_rating").value = "True";
+        document.ratingForm.method = "POST";
+        document.ratingForm.submit();
+        document.ratingForm.method = "GET";
+        }, 750)
+
+  return false;
+});
+});
+
+ $(function() {
+    $('a#unseen').bind('click', function() {
+      document.getElementById('movie_poster').className = 'fade-out';
+
+      setTimeout(() =>{
+        document.querySelector('#movie_poster').style.visibility = 'hidden';
+        document.getElementById("rating").value = "unseen";
+        document.getElementById("has_started_rating").value = "True";
+        document.ratingForm.method = "POST";
+        document.ratingForm.submit();
+        document.ratingForm.method = "GET";
+        }, 750)
+  return false;
+});
+});
+
+$(function() {
+    $('a#like').bind('click', function() {
+      document.getElementById('movie_poster').className = 'fade-out';
+     
+      setTimeout(() =>{
+        document.querySelector('#movie_poster').style.visibility = 'hidden';
+        document.getElementById("rating").value = "like";
+        document.getElementById("has_started_rating").value = "True";
+        document.ratingForm.method = "POST";
+        document.ratingForm.submit();
+        document.ratingForm.method = "GET";
+        }, 750)
+  return false;
+});
+});
+
+//show tour only on first rating functionality
+if (document.querySelector('#tour').style.display != 'none') {
+  if ({{num_rated}} == 0) {
+    document.getElementById("tour").style.display = "block";
+  } else if ({{num_rated}} == 1){
+    $('#tour').fadeOut();
+  } else {
+    document.querySelector('#tour').style.display = 'none';
+  }
+}
+
+// fade out whole page after rating page before results page
+window.onbeforeunload = function (e) {
+  $('.index-content').fadeOut();
+  $('.logo').fadeOut();
+  $('.num_rated_tracker').fadeOut();
+  document.querySelector('.loading-extend2').style.display = 'block';
+  $('#loading').fadeIn();
+
+}
+
+</script>
+
+{% endblock content %}
