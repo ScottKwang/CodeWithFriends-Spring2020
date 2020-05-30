@@ -3,7 +3,6 @@ This is the README for my CodeWithFriends-Spring2020 Project Submission!!
 # Project Title: Mindful Shopping List App :)
 
 Created by (Sara Rwentambo), link to my Github profile: https://github.com/SaraRwentambo, Linkedin: https://ca.linkedin.com/in/sara-rwentambo-2a2860155)
-Source code: (Source code link)
 
 ## Summary
 
