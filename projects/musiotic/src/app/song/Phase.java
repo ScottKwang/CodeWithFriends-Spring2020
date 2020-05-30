@@ -22,6 +22,7 @@ public abstract class Phase {
 
     public void initialize(){};
 
+
     public enum Type {
         Style("Style", StylePhase.class),
         Key("Key &\nTempo", KeyPhase.class, Style),

@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class InstrumentationScreen extends OptionScreen {
     private final InstrumentationPhase phase;
     private final List<ChoiceBox> choices;
+    private Button playScore;
 
     private static final Map<String, Integer> INSTRUMENT_VALS = Map.of(
             "Grand Piano", JMC.PIANO,
@@ -66,16 +67,14 @@ public class InstrumentationScreen extends OptionScreen {
             groupBox.setId("inner-content");
             groups.add(groupBox);
         }
-        Button playScore = new Button();
+        playScore = new Button();
         playScore.setPadding(Insets.EMPTY);
         playScore.setMaxWidth(50);
         playScore.setMaxHeight(50);
         Image playImage = new Image(getClass().getResourceAsStream("/images/play.png"), 50, 50, true, true);
         playScore.setGraphic(new ImageView(playImage));
-        AtomicBoolean isPlaying = new AtomicBoolean(false);
         playScore.setOnMouseClicked(e -> {
-            if(isPlaying.get()) PlayFixed.stopMidi();
-            else phase.manager.play(0);
+            phase.manager.play(0);
         });
         playScore.visibleProperty().bind(phase.manager.phaseMap.get(Phase.Type.Melody1).completed);
         Tooltip tooltip = new Tooltip("Listen to what your music sounds like with these instruments.");
@@ -109,4 +108,32 @@ public class InstrumentationScreen extends OptionScreen {
         phase.completed.setValue(true);
     }
 
+    public void setPlayButton(boolean playing) {
+        if (playing) {
+            //START PLAYING
+            System.out.println("START PLAYING");
+            //phase.manager.play(0);
+
+
+            String playImage = getClass().getResource("/images/stop.png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(playImage));
+            imageView.setFitHeight(50);
+            imageView.setFitWidth(50);
+            playScore.setGraphic(imageView);
+
+        } else {
+            //STOP PLAYING
+            System.out.println("STOP PLAYING");
+//            if (!fromTimer) {
+//                phase.manager.stop();
+//            }
+
+
+            String playImage = getClass().getResource("/images/play.png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(playImage));
+            imageView.setFitHeight(50);
+            imageView.setFitWidth(50);
+            playScore.setGraphic(imageView);
+        }
+    }
 }

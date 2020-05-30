@@ -43,4 +43,8 @@ public class InstrumentationPhase extends Phase {
     public Node getScreen() {
         return screen.getScreen();
     }
+
+    public void setPlayButton(boolean playing) {
+        screen.setPlayButton(playing);
+    }
 }

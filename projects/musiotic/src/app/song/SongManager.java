@@ -155,6 +155,8 @@ public class SongManager {
             forInstrumentalPhase(phase -> {
                 phase.setPlayButton(false);
             });
+            InstrumentationPhase inst = (InstrumentationPhase) phaseMap.get(Phase.Type.Instrumentation);
+            inst.setPlayButton(false);
         } else {
             System.out.println("play in song manager");
 
@@ -184,6 +186,9 @@ public class SongManager {
             forInstrumentalPhase(phase -> {
                 phase.setPlayButton(true);
             });
+
+            InstrumentationPhase inst = (InstrumentationPhase) phaseMap.get(Phase.Type.Instrumentation);
+            inst.setPlayButton(true);
 
             double time = (double)(numMeasures - measureNum) * 4 * 60 * 1000 / this.getTempo();
             time += 200;
