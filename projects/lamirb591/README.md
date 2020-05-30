@@ -16,4 +16,7 @@ spring 2020 -----
 go to files/connect_data -----
 change first line to mysql user user_name ----
 chamge second line to mysql user_password -----
-copy files/setup.sql in your mysql terminal
+copy files/setup.sql in your mysql terminal ——-
+Either export the project to your ide or run 
+FrmLogin to test it out—-
+
