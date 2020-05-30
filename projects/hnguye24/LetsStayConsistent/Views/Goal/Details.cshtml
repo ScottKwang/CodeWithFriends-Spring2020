@@ -1,0 +1,52 @@
+﻿@model LetsStayConsistent.ViewModels.GoalDetailsViewModel
+
+<div class="mt-3">
+    <h2>@Model.Goal.Name (@Html.LabelFor(m => m.Goal.Id): @Model.Goal.Id)</h2>
+    <p class="lead">
+        The goal is to complete <b>@Model.Goal.DaysToComplete</b> days in a row<br />
+        <b>Reward:</b> @Model.Goal.Reward
+    </p>
+    <hr />
+
+    <div class="row my-2">
+        <div class="col-12">
+            <div class="progress">
+                <div class="progress-done" data-done="@Model.ProgressPercentage">
+                    <span class="font-weight-bold">You're @Model.ProgressPercentage% there!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Goal's Progress @Html.ActionLink("Log progress", "Add", "Logs", null, new { @class = "btn btn-dark" })</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.LabelFor(m => m.GoalLogs[0].Id)</th>
+                <th scope="col">@Html.LabelFor(m => m.GoalLogs[0].Date)</th>
+                <th scope="col">@Html.LabelFor(m => m.GoalLogs[0].WasCompleted)</th>
+                <th scope="col">@Html.LabelFor(m => m.GoalLogs[0].GoalId)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model.GoalLogs)
+            {
+                <tr>
+                    <td>@log.Id</td>
+                    <td>@log.Date.ToString("MM/dd/yyyy")</td>
+                    @if (@log.WasCompleted)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>@log.GoalId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.ActionLink("Return to goals list", "Index", "Goal", null, null)
+</div>

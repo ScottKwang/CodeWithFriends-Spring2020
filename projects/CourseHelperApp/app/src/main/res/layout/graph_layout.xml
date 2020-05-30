@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:orientation="horizontal">
+
+    <include layout="@layout/y_axis_layout"/>
+    <include
+        android:id="@+id/mondayCol"
+        layout="@layout/dayofweek_schedule_layout"/>
+    <include
+        android:id="@+id/tuesdayCol"
+        layout="@layout/dayofweek_schedule_layout"/>
+    <include
+        android:id="@+id/wednesdayCol"
+        layout="@layout/dayofweek_schedule_layout"/>
+    <include
+        android:id="@+id/thursdayCol"
+        layout="@layout/dayofweek_schedule_layout"/>
+    <include
+        android:id="@+id/fridayCol"
+        layout="@layout/dayofweek_schedule_layout"/>
+
+
+</LinearLayout>

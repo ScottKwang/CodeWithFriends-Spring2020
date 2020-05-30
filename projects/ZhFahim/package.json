@@ -1,0 +1,23 @@
+{
+  "name": "captioningo",
+  "version": "1.0.0",
+  "description": "Free captions directory",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Zahidul Hoque Fahim",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.9.4",
+    "mongoose-unique-validator": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1"
+  }
+}

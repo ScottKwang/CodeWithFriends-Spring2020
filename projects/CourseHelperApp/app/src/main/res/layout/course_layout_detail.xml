@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/roundedcorner"
+    android:orientation="vertical"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:elevation="1dp"
+    android:translationZ="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drawing I"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CRN: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseCRN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COMP (123412) - 21343"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Credit: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseCredit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:gravity="center|left"
+                android:text="3.0"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Faculty: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseFaculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:gravity="center|left"
+                android:text="Tomoaki Mitsuhashi"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Room: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="Wilson 300"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Time: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseTimeContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:text="TR 02:15 PM-05:00 PM\nTR 02:15 PM-05:00 PM\nHybrid (50% in class/online)"
+                android:textColor="@color/colorDialogDynamicText"
+                android:textSize="@dimen/dialog_header_textSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Cores: "
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/dialog_header_textSize" />
+
+            <TextView
+                android:id="@+id/courseCores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:gravity="center|left"
+                android:text="None"
+                android:textColor="@color/colorDialogDynamicText" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

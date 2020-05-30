@@ -1,0 +1,25 @@
+GET http://localhost:3000
+
+###
+
+POST http://localhost:3000/add
+Content-Type: application/json
+
+{
+    "title": "iii",
+    "body": "iii"
+}
+
+###
+GET http://localhost:3000/5eb1243e21a81c0711dc61e3
+
+### 
+DELETE http://localhost:3000/delete/5eb1248021a81c0711dc61e4
+
+###
+POST http://localhost:3000/edit/5eb1243e21a81c0711dc61e3
+Content-Type: application/json
+
+{
+    "title": "The Big Galaxy"
+}

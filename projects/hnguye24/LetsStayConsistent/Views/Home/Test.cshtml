@@ -1,0 +1,67 @@
+﻿@model LetsStayConsistent.ViewModels.TestViewModel
+
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Goals in Database</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">DaysToComplete</th>
+            <th scope="col">Reward</th>
+            <th scope="col">Logs Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">0</th>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>0</td>
+        </tr>
+        @foreach (var goal in Model.Goals)
+        {
+            <tr>
+                <td>@goal.Id</td>
+                <td>@goal.Name</td>
+                <td>@goal.DaysToComplete</td>
+                <td>@goal.Reward</td>
+                <td>@goal.GoalLogs.Count()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Goal Logs in Database</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">WasCompleted</th>
+            <th scope="col">GoalId</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">0</th>
+            <td>Test</td>
+            <td>Test</td>
+            <td>0</td>
+        </tr>
+        @foreach (var goalLogs in Model.GoalLogs)
+        {
+            <tr>
+                <td>@goalLogs.Id</td>
+                <td>@goalLogs.Date</td>
+                <td>@goalLogs.WasCompleted</td>
+                <td>@goalLogs.GoalId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

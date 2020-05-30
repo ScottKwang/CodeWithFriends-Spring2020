@@ -1,0 +1,11 @@
+version: '3'
+services:
+    frontend:
+        build: .
+        volumes:
+            - ./:/app:cached
+        environment:
+          - HOST=0.0.0.0
+        ports:
+            - "3001:3000"
+        command: ['yarn', 'run', 'dev']

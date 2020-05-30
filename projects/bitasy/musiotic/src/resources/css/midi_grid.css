@@ -1,0 +1,32 @@
+.grid-cell-on {
+    -fx-background-color: blue;
+}
+
+.grid-cell-off {
+    -fx-background-color: whitesmoke;
+}
+
+.grid-pane {
+    -fx-spacing: 0 0 50 0;
+}
+
+.label {
+    -fx-font-size: 20;
+    -fx-font-family: Garamond;
+    -fx-font-weight: 500;
+}
+
+#note-label {
+    -fx-padding: 0 0 0 15;
+    -fx-pref-width: 50;
+    -fx-max-width: 50;
+}
+
+#big-arrow {
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+}
+#small-arrow {
+    -fx-font-size: 20;
+    -fx-font-weight: lighter;
+}

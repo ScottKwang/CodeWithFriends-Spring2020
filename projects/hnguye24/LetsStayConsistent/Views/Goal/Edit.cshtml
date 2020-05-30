@@ -1,0 +1,50 @@
+﻿@model LetsStayConsistent.ViewModels.GoalEditViewModel
+
+<div class="mt-3">
+    <h2>Edit Goal</h2>
+    <hr />
+    @using (Html.BeginForm("Edit", "Goal", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Goal.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Goal.Name, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Goal.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Goal.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Goal.DaysToComplete, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Goal.DaysToComplete, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Goal.DaysToComplete, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Goal.Reward, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Goal.Reward, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Goal.Reward, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-dark" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Goal", new { @class = "col-md-offset-2 col-md-10" })
+</div>

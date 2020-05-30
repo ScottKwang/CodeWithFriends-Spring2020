@@ -1,0 +1,72 @@
+name: t_rex_game
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  flame: ^0.20.2
+  flare_flutter: ^2.0.3
+  shared_preferences: ^0.5.7+3
+  noise_meter: ^1.2.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/bg/ground.png
+    - assets/images/bg/grass_1.png
+    - assets/images/bg/grass_2.png
+    - assets/images/bg/grass_3.png
+    - assets/images/bg/grass_4.png
+    - assets/images/bg/grass_5.png
+    - assets/images/bg/mouth_open.png
+    - assets/images/bg/mouth_closed.png
+    - assets/images/cloud/cloud_1.png
+    - assets/images/cloud/cloud_2.png
+    - assets/images/cloud/cloud_3.png
+    - assets/images/cloud/cloud_4.png
+    - assets/images/tree/tree_1.png
+    - assets/images/tree/tree_2.png
+    - assets/images/tree/tree_3.png
+    - assets/images/tree/tree_4.png
+    - assets/images/tree/tree_5.png
+    - assets/images/tree/tree_6.png
+    - assets/images/tree/tree_7.png
+    - assets/images/tree/tree_8.png
+    - assets/images/tree/tree_9.png
+    - assets/flare_files/t_rex_game.flr
+    - assets/audio/button-press.mp3
+    - assets/audio/hit.mp3
+    - assets/audio/score-reached.mp3
+  fonts:
+    - family: pizzadudedotdk
+      fonts:
+        - asset: assets/fonts/ARCADECLASSIC.TTF
+

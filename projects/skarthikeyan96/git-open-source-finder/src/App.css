@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+
+body,
+.input::placeholder,
+option,
+button{
+  font-family: 'Titillium Web', sans-serif;
+}
+
+body{
+  padding-top: 100px;
+}
+.navbar {
+  padding: 10px;
+}
+
+.navbar-item{
+  font-size: 20px;
+  letter-spacing: 2.5px;
+}
+
+.navbar-item:hover{
+  text-decoration: none;
+  color: #4a4a4a !important;
+}
+
+.select,.select select{
+  width: 100%
+}
+
+.language{
+  text-transform: capitalize;
+}
+
+.issue-label{
+  transform: translateX(10px);
+}
+
+th{
+  font-weight: bold;
+}
+
+.tag{
+  margin-left: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+a{
+  cursor: pointer;
+}
+
+/* .issueNumber{
+  text-decoration: none;
+  color: #ffffff
+}
+
+.issueNumber:hover {
+  text-decoration: none;
+  color: #ffffff;
+} */
