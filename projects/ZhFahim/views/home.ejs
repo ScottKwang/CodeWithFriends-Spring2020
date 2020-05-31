@@ -1,0 +1,21 @@
+<%- include("./partials/header") %>
+<!-- Content -->
+<section id="caption-big">
+  <h2 class="caption-text">
+    <% if(caption) { %> <%= caption.text %> <% } else { %>
+      The great pleasure in life is doing what people say you cannot do.
+    <% } %>
+  </h2>
+  <div class="caption-buttons">
+    <button class="new-caption" onclick="window.location.reload(true);">
+      Generate New Caption
+    </button>
+    <button class="copy-btn" <% if (caption) { %>
+        data-clipboard-text="<%= caption.text %>"
+        onclick="copy('<%= caption._id %>')"
+      <% } else { %>
+        data-clipboard-text="The great pleasure in life is doing what people say you cannot do."
+      <% } %>>Copy</button>
+  </div>
+</section>
+<%- include("./partials/footer") %>

@@ -1,0 +1,2 @@
+python window.py
+pause

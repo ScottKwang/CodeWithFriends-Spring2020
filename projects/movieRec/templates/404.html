@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<img class="icon" src="{{url_for('static', filename='images/warning.png')}}" alt="" />
+
+<div class="error-text">
+  <h1 id="oops">Oops!</h1>
+  <h1>404: Page not found.</h1>
+  <h2>Get back to the main page <a href="{{ url_for('try_again') }}">here</a>.</h2>
+</div>
+
+<!-- footer -->
+<p class="footer" id="credit">movieRec created by <a href="http://www.jonnachen.com">Jonna Chen</a>.</p>
+
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="content">
+
+  <a href="{{ url_for('try_again') }}" id="try-again">
+    <button><img src="{{url_for('static', filename='images/try_again_button.png')}}" /></button>
+  </a>
+
+  <div id="result_display">
+
+    <a id="movie-link" href="https://www.themoviedb.org/movie/{{first_result.id}}" target="_blank">
+      <img id="movie_poster" src="https://image.tmdb.org/t/p/w500/{{first_result.poster_path}}" alt="movie poster" />
+      <div class="overlay">
+        click here for more information
+      </div>
+    </a>
+    <div id="result_info">
+      <div id="center">
+        <h2>it's a match!</h2>
+        <h1>{{first_result.title}}</h1>
+        <h4>{{first_result_year}}</h4>
+        <p>{{first_result.overview}}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="more-results">
+    <h1><span class="highlight">Also recommended...</span></h1>
+    {% for result in results%}
+
+    <a href="https://www.themoviedb.org/movie/{{result.id}}" target="_blank">
+      <div class="list-view-container">
+        <img src="{{url_for('static', filename='images/list-view.png')}}" />
+
+        <div class="list-view-content">
+          <!--
+          <img id="poster" src="https://image.tmdb.org/t/p/w500/{{result.poster_path}}" alt="movie poster" />
+          -->
+          <div class="list-view-text">
+            <h1>{{result.title}}</h1>
+            <h4>{{result.release_date[0:4]}}</h4>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- footer -->
+<p class="result_footer" id="credit">movieRec created by <a href="http://www.jonnachen.com">Jonna Chen</a>.</p>
+
+{% endblock content %}

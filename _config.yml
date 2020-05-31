@@ -28,6 +28,8 @@ logo: "/assets/logos/cwf2020_logo.png"
 navigation_header:
   - title: Home
     url: /
+  - title: Projects
+    url: /project_fair/
   - title: How To Enter
     url: /how_to_join/
   - title: Community

@@ -1,0 +1,7 @@
+.env
+*.pyc
+
+venv/
+
+api/data/testdata.sql
+api/data/user.db

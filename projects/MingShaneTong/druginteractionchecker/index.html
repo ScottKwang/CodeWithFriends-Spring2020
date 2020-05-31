@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Drug Interactions Checker</title>
+		<meta name="description" content="Used to check whether drugs interact.">
+
+		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+
+		<script src="js/addDrug.js"></script>
+		<script src="js/interactions.js"></script>
+
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	</head>
+	<body class="vh-100">
+		<header>
+		</header>
+		<main class="row">
+			<!-- list -->
+			<div id="drugList" class="vh-100 col-4">
+				<h2>Drug List:</h2>
+
+				<!-- Adds a drug to the list -->
+				<div class="searchBar input-group mb-3">
+					<textarea class="form-control" id="addDrug" splaceholder="Add Pharmaceutical Drugs"></textarea>
+					<div class="input-group-append">
+						<button class="btn" type="button" id="searchBtn"><img src="img/icons/search.svg"></button>
+					</div>
+				</div>
+
+				<div class="alert alert-danger alert-dismissible fade show drugError" role="alert">
+					The drug could not be found. Check you have spelt it correctly.
+					<button type="button" class="close" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
+				</div>
+
+				<!-- list of drugs to check -->
+				<table class="table table-sm search">
+					<tbody>
+						
+					</tbody>
+				</table>
+
+				<button id="interaction" class="btn btn-outline-light">Check Interaction</button>
+				<br><br>
+				<button id="clear" class="btn btn-outline-danger">Clear</button>
+			</div>
+
+
+
+
+
+			<!-- main container -->
+			<div id="mainContainer" class="vh-100 col w-100">
+				<h1>Interactions</h1>
+				<div id="interactionBox"></div>
+			</div>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>

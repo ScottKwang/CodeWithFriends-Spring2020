@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/tab_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="10">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.65"
+        android:background="#2e2e2e"
+        app:tabIndicatorColor="@android:color/holo_blue_dark"
+        app:tabTextColor="@android:color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/coursesTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Courses" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/scheduleTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule" />
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9.35"
+        app:layout_anchorGravity="top|center" />
+</LinearLayout>

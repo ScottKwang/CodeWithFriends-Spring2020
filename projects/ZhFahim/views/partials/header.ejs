@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CaptionIngo - Get Amazing Captions</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400&display=swap" rel="stylesheet">
+    <!-- ClipBoard JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/imgs/favicon.png" type="image/x-icon">
+    <!-- Meta tags -->
+    <meta name="description" content="Get perfect caption for your perfect photo.">
+    <meta name="author" content="Zahidul Hoque Fahim">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <section id="navbar">
+      <div class="navbar-logo">
+        <a href="/"><img src="/imgs/logo.png" alt="CaptionIngo"></a>
+      </div>
+      <div class="navbar-content">
+        <% if (typeof page !== "undefined" && page === "home") { %>
+        <a href="/browse" class="nav-link">Browse Captions</a>
+        <% } else { %>
+        <a href="/" class="nav-link">Home</a>
+        <% } %>
+      </div>
+    </section>

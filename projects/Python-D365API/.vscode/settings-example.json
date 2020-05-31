@@ -1,0 +1,13 @@
+{
+    "python.pythonPath": "<Python Path>",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./D365API",
+        "-p",
+        "*Test*.py"
+    ],
+    "python.testing.unittestEnabled": true
+}

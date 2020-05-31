@@ -1,0 +1,45 @@
+main {
+	margin: 0 !important;
+}
+
+#drugList {
+	width: 20rem;
+	background: #1F1f1f;
+	padding: 2rem;
+	color: #ffffff;
+}
+
+.searchBar .btn {
+	background: #ffffff;
+}
+.searchBar img {
+	margin-top: -5px;
+}
+
+
+#drugList #clear {
+	color: #ffffff;
+}
+
+.search {
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.search td {
+	color: #ffffff;
+	border-top: none !important;
+}
+
+.drugHover {
+	width: 2rem;
+}
+
+#mainContainer {
+	padding: 2rem;
+}
+
+
+.search {
+	text-transform: capitalize;
+}
