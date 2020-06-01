@@ -1,8 +1,9 @@
 # Spotify Radio
+⚠️ ` The Code in this repository is old. For the latest version follow the link below`\
 Created by [Nico](https://twitter.com/also_nico), Source code: https://github.com/NicoWasHere/SpotifyRadio
 
 ## Summary
-I created an application that allows for people host their own Spotify radio stations that other Spotify Premium members can listen to in realtime.
+I created an application that allows for people host their own Spotify radio stations that other Spotify Premium members can listen to in realtime. [Try it here](https://spotifyradio.glitch.me/)
 
 ## Inspiration
 I kept running out of music to listen to when I worked on stuff and I had gotten really tired of my old music, so I came up with the idea that other people could host their Spotify for everyone to listen to so it would be easier to find new music. Also I wanted to listen to music with my friends but that's hard to do in sync online.
@@ -18,4 +19,4 @@ I'm still working on the project after this event. It's not entirely finsihed be
 The most helpful resource in my project was the express and Spotify documentations. Who knew that they literally wrote instructions on how to use their APIs? I also found some articles on password hashing and security authentication pretty useful for designing my backend. 
 
 ## Usage
-Right now there are no servers running this code on the internet. I plan to move it over to a hosting service or buy server space soon but for now there is nothing. To try it out, you can run the node files with server.js as an entry point. 
+The application is currently running on a [Glitch server](https://spotifyradio.glitch.me/). 
