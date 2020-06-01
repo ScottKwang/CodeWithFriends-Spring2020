@@ -1,0 +1,224 @@
+<% include ./partials/header.ejs %>
+
+
+<div class="container">
+  <% include ./partials/nav.ejs %>
+</div>
+
+<div class="container">
+  <h1 class="account-title">Welcome, <%= user.name %></h1>
+  <a class="btn btn-primary" role="button" href="/users/logout">logout</a>
+  <a class="btn btn-primary" role="button" href="/direct">Your messages</a>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form class="file-form" action="/account/upload" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <p class="text-danger font-weight-bold"> <%= file_msg %> </p>
+          <p class="text-success font-weight-bold"> <%= success_file_msg %> </p>
+
+          <label for="submit-file">Select file that you want to upload:</label>
+          <input type="file" name="file" class="btn-file-upload form-control-file" id="submit-file">
+        </div>
+
+        <div class="form-group">
+          <button type="submit" name="submit" class="btn btn-primary submit-file">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="account-link-wrapper">
+        <form class="form-link" method="POST" action="/account/link">
+          <button type="submit" class="private-btn btn btn-info">Get sharing link</button>
+          <input type="text" id="private-link" class="account-span" value="<%= share_link %>">
+          <% if(share_link != '') { %>
+            <button type="button" id="copy-btn" class="btn btn-info">Copy</button>
+          <% } %>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="account-link-wrapper">
+        <form class="form-link" method="POST" action="/account/find">
+          <button type="submit" name="submit" class="btn btn-info">Find user's files</button>
+          <% if(find_msg != '') { %>
+            <p class="link-parag text-danger"><%= find_msg %></p>
+          <% } %>
+          <input type="text" name="link" class="private-btn account-span">
+          <% typeof found_files != 'undefined' ? found_files : '' %>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="account-search-wrapper">
+          <form class="form-search" method="POST" action="/account/search">
+            <button type="submit" id="search-btn" class="btn btn-info">Search for user</button>
+            <% if(search_msg_fail != '') { %>
+              <p class="link-parag text-danger"><%= search_msg_fail %></p>
+            <% } %>
+            <input type="text" name="search" id="private-search" class="account-span" placeholder="Type name">
+          </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-6 col-sm-12">
+          <div class="search-users-wrapper">
+            <% if(users.length !== 0) { %>
+              <p class="text-success">Found users:</p>
+              <% users.forEach((user) => { %>
+
+                <div class="searched-users alert alert-success">
+                  <div class="row justify-content-around align-items-center">
+                    <div class="col">
+                      <div class="search-username"><%= user.name %></div>
+                    </div>
+                    <div class="col">
+                      <a class="btn btn-success" href="/direct/<%=user._id%>">Message</a>
+                    </div>
+                  </div>
+                </div>
+
+              <% }) %>
+
+            <% } %>
+          </div>
+        </div>
+    </div>
+
+  <!-- found files -->
+  <% if(foundFiles.length !== 0) { %>
+    <div class="files-wrapper">
+      <h2 class="account-title">Found files:</h2>
+
+      <div class="row justify-content-center">
+        <% foundFiles.forEach((file) => { %>
+        <div class="col-lg-4 col-md-6 col-sm-12 file-item">
+          <div class="file-content">
+
+            <div class="file-img-wrapper">
+
+              <% if(file.file.extname == '.jpg' || file.file.extname == '.png' || file.file.extname == '.jpeg' || file.file.extname == '.gif' || file.file.extname == '.webp') { %>
+              <img class="file-img" src="..\<%=file.file.path%>" alt="image">
+              <% } else { %>
+              <i class="file-icon far fa-file-excel"></i>
+              <% } %>
+
+            </div>
+
+            <p class="file-name"><%= file.file.originalname %></p>
+            <a class="file-link" href="../<%=file.file.path%>" download="download">Download</a>
+            <a class="file-link" href="../<%=file.file.path%>">View</a>
+          </div>
+
+        </div>
+        <% }); %>
+      </div>
+
+    </div>
+
+  <% } %>
+
+
+  <!-- User's files -->
+  <div class="files-wrapper">
+    <h2 class="account-title">Your files:</h2>
+
+    <div class="row justify-content-center">
+      <div class="col">
+        <% if(error_delete_msg != '') { %>
+          <div class="text-center alert alert-danger" role="alert"><%= error_delete_msg %></div>
+        <% } %>
+
+        <% if(success_delete_msg != '') { %>
+          <div class="text-center alert alert-success" role="alert"><%= success_delete_msg %></div>
+        <% } %>
+        
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <% if(typeof files != 'undefined') { %>
+      <% files.forEach((file) => { %>
+      <div class="col-lg-4 col-md-6 col-sm-12 file-item">
+        <div class="file-content">
+
+          <div class="file-img-wrapper">
+
+            <% if(file.file.extname == '.jpg' || file.file.extname == '.png' || file.file.extname == '.jpeg' || file.file.extname == '.gif' || file.file.extname == '.webp') { %>
+            <img class="file-img" src="..\<%=file.file.path%>" alt="image">
+            <% } else { %>
+            <i class="file-icon far fa-file-excel"></i>
+            <% } %>
+
+          </div>
+
+          <p class="file-name"><%= file.file.originalname %></p>
+          <a class="file-link" href="../<%=file.file.path%>" download="download">Download</a>
+          <a class="file-link" href="../<%=file.file.path%>">View</a>
+
+          <div class="delete-wrapper">
+            <form class="form-delete" method="POST" action="/account/delete">
+              <button type="submit" name="submit" class="delete-btn btn btn-danger">Delete</button>
+              <input class="post-filename" name="filename" type="text" value="<%= file.file.filename %>">
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+      <% }); %>
+      <% } %>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+// copying text from input
+const copyText = (triggerSelector, inputSelector) => {
+  const trigger = document.querySelector(triggerSelector);
+  const input = document.querySelector(inputSelector);
+
+  if(trigger !== null) {
+  trigger.addEventListener('click', (e) => {
+    input.select();
+    document.execCommand("copy");
+  });
+  } else {
+    return;
+  }
+};
+copyText('#copy-btn', '#private-link');
+
+
+// cutting names of the files
+const cutNames = (spansSelector) => {
+  const strArr = document.querySelectorAll(spansSelector);
+
+  for(let i = 0; i < strArr.length; i++) {
+    if(strArr[i].textContent.length > 60) {
+      const newName = strArr[i].textContent.substr(0, 57) + '...';
+      strArr[i].textContent = newName;
+    }
+  }
+};
+cutNames('.file-name');
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<% include ./partials/header.ejs %>
+
+  <div class="container">
+    <% include ./partials/nav.ejs %>
+
+
+    <div class="alerts-container">
+        <% if(typeof errors != 'undefined') { %>
+          <% errors.forEach((item) => { %>
+            <div class="alert alert-danger alert-item" role="alert">
+              <%= item.msg %>
+            </div>
+          <% }); %>
+        <% } %>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col">
+
+          <form action="/users/register" method="POST" class="form-register">
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label for="email">Email</label>
+                  <input
+                  name="email" 
+                  type="email"
+                  class="form-control" 
+                  id="email" 
+                  autocomplete="off"
+                  placeholder="Email"
+                  value="<%= typeof email != 'undefined' ? email : '' %>"
+                  required>
+                </div>
+              </div>
+        
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Name</label>
+                  <input 
+                  name="name" 
+                  type="text" 
+                  class="form-control" 
+                  id="name" 
+                  autocomplete="off"
+                  placeholder="Name"
+                  value="<%= typeof name != 'undefined' ? name : '' %>" 
+                  required>
+                </div>
+              </div>
+        
+        
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="password1">Password</label>
+                  <input 
+                  name="password1" 
+                  type="password" 
+                  class="form-control" 
+                  id="password1" 
+                  autocomplete="off"
+                  placeholder="Password"
+                  value="<%= typeof password1 != 'undefined' ? password1 : '' %>" 
+                  required>
+                </div>
+              </div>
+        
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="password2">Enter password again:</label>
+                  <input 
+                  name="password2" 
+                  type="password" 
+                  class="form-control" 
+                  id="password2"
+                  autocomplete="off"
+                  placeholder="Password"
+                  value="<%= typeof password2 != 'undefined' ? password2 : '' %>" 
+                  required>
+                </div>
+              </div>
+        
+              <button type="submit" class="btn btn-primary submit-btn" id="btn-register">Sign up</button>
+            </form>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
