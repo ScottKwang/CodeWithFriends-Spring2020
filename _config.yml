@@ -30,12 +30,12 @@ navigation_header:
     url: /
   - title: Projects
     url: /project_fair/
-  - title: How To Enter
-    url: /how_to_join/
-  - title: Community
-    url: /community/
-  - title: Resources
-    url: /resources/
+  # - title: How To Enter
+  #   url: /how_to_join/
+  # - title: Community
+  #   url: /community/
+  # - title: Resources
+  #   url: /resources/
 
 navigation_footer:
   - title: Created by Mayuko Inoue and Scott Kwang
