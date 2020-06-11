@@ -6,6 +6,8 @@
 
 View my entire build process on my [instagram story highlights](https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTk2NDY5NDMzMjkyMTA1?igshid=8l28luqee49v&story_media_id=2311287821446555175) or at my [profile](https://instagram.com/mikaelacaron)
 
+Download now from the [**App Store**](https://apps.apple.com/us/app/job-application-tracker/id1515625276)!
+
 ## FEATURES
 * **Add** a new job application
 * **Edit** a job application
@@ -21,7 +23,7 @@ View my entire build process on my [instagram story highlights](https://www.inst
     * Salary
     * Listing URL
     * Date Applied
-    * Follwed Up
+    * Followed Up
     * Notes
 
 ## DEMO
